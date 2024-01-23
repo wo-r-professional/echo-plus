@@ -1,0 +1,30 @@
+{
+    "manifest_version": 3,
+    "version": "0.0.1",
+    "author": "wo-r",
+    "name": "proview for echo",
+    "description": "An extension for ECHO that implements fixes, features, and redesigns, all aimed at enhancing the overall experience of using ECHO.",
+
+    "icons": {
+        "16": "resource/icons/16x16.png",
+        "48": "resource/icons/48x48.png",
+        "128": "resource/icons/128x128.png"
+    },
+
+    "web_accessible_resources": [{
+        "resources": ["resource/stylesheet/main.css", "config.json"],
+        "matches": ["https://*.echo-ntn.org/*"]
+    }],
+
+    "permissions": ["activeTab", "tabs", "storage"],
+    "action": {
+        "default_popup": "popup/popup.html",
+        "default_title": "proview for echo"
+    },
+
+    "content_scripts": [{
+        "js": ["thirdparty/jquery.js", "script.js"],
+        "run_at": "document_end",
+        "matches": ["https://*.echo-ntn.org/*"]
+    }]
+}
