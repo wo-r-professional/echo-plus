@@ -1,6 +1,42 @@
-/** 
+/**
 
- copyright wo-r 2024
- stylesheets affect *.echo-ntn.org
+    This affects all sub domains of "echo-ntn.org", it's prepended to <head> for priority as to
+    prevent the need for "!important", being used everywhere.
 
+    Formatting rules:
+      -  Always use `"` with strings.
+      -  Always put `;` at the end of variables.
+      -  Never uppercase words in classes or strings.
+      -  Comment on variables, and classes.
+
+    
+    This stylings comments get removed at inject, it means this will be heavily documented for
+    your use, if you need some use out of the styling here.
+
+    Copyright Wo-r 2024
+    
 **/
+
+/* font-face */
+@import url("https://fonts.googleapis.com/css2?family=Dosis&display=swap");
+@import url("echo/font.css");
+
+/* base stuff before we get into the complex stuff */
+* {
+    /* TODO: do lol */
+}
+
+/* variable themes */
+@import url("echo/theme.css");
+
+/* overlays */
+@import url("echo/overlay.css");
+
+/* tabs, extra menus, navbars, modals */
+@import url("echo/intractables.css");
+
+/* large list of styling for direct pages of the site */
+@import url("echo/login.css");
+@import url("echo/home/course.css");
+@import url("echo/home/todo.css");
+@import url("echo/home/stream.css");

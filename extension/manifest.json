@@ -1,5 +1,5 @@
 {
-    "manifest_version": 3,
+    "manifest_version": 2,
     "version": "0.0.1",
     "author": "wo-r",
     "name": "proview for echo",
@@ -11,13 +11,25 @@
         "128": "resource/icons/128x128.png"
     },
 
-    "web_accessible_resources": [{
-        "resources": ["resource/stylesheet/main.css", "config.json"],
-        "matches": ["https://*.echo-ntn.org/*"]
-    }],
+    "applications": {
+        "gecko": {
+            "id": "proview-for-echo@echo-ntn.org",
+            "strict_min_version": "48.0"
+        }
+    },
+
+    "web_accessible_resources": [
+        "resource/stylesheet/main.css",
+        "base.json"
+    ],
 
     "permissions": ["activeTab", "tabs", "storage"],
-    "action": {
+    "browser_action": {
+        "default_icon": {
+            "16": "resource/icons/16x16.png",
+            "48": "resource/icons/48x48.png",
+            "128": "resource/icons/128x128.png"
+        },
         "default_popup": "popup/popup.html",
         "default_title": "proview for echo"
     },
