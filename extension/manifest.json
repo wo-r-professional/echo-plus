@@ -19,23 +19,13 @@
     },
 
     "web_accessible_resources": [
-        "resource/stylesheet/main.css",
-        "base.json"
+        "resource/stylesheet/main.css"
     ],
 
     "permissions": ["activeTab", "tabs", "storage"],
-    "browser_action": {
-        "default_icon": {
-            "16": "resource/icons/16x16.png",
-            "48": "resource/icons/48x48.png",
-            "128": "resource/icons/128x128.png"
-        },
-        "default_popup": "popup/popup.html",
-        "default_title": "proview for echo"
-    },
 
     "content_scripts": [{
-        "js": ["thirdparty/jquery.js", "script.js"],
+        "js": ["thirdparty/jquery.js", "script.js", "settings.js"],
         "run_at": "document_end",
         "matches": ["https://*.echo-ntn.org/*"]
     }]
