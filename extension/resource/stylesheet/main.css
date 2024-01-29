@@ -18,7 +18,7 @@
 **/
 
 /* font-face */
-@import url("https://fonts.googleapis.com/css2?family=Dosis&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Dosis&display=swap"); /* TODO: change to more readable and wider font */
 @import url("echo/font.css");
 
 /* base stuff before we get into the complex stuff */

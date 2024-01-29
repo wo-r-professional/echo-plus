@@ -22,10 +22,10 @@
         "resource/stylesheet/main.css"
     ],
 
-    "permissions": ["activeTab", "tabs", "storage"],
+    "permissions": ["activeTab", "tabs", "storage", "https://api.agilixbuzz.com/*"],
 
     "content_scripts": [{
-        "js": ["thirdparty/jquery.js", "script.js", "settings.js"],
+        "js": ["thirdparty/jquery.js", "updater.js", "script.js", "settings.js"],
         "run_at": "document_end",
         "matches": ["https://*.echo-ntn.org/*"]
     }]
