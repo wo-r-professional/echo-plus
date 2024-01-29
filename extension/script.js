@@ -92,8 +92,13 @@
                         $(`app-gradebook-home mat-row:has(mat-cell a:contains("${this}"))`).remove();
 
                     if ($(`.cdk-overlay-container .cdk-overlay-pane mat-dialog-content .enrollment-list li:has(.course-title:contains(${this})) .course-title`).text().trim() == this)
-                        $(`.cdk-overlay-container .cdk-overlay-pane mat-dialog-content .enrollment-list li:has(.course-title:contains(${this}))`).remove(
-                    );
+                        $(`.cdk-overlay-container .cdk-overlay-pane mat-dialog-content .enrollment-list li:has(.course-title:contains(${this}))`).remove();
+
+                    if ($(`app-order-courses .cdk-drag:has(h3:contains(${this})) h3`).text().trim() == this)
+                        $(`app-order-courses .cdk-drag:has(h3:contains(${this}))`).remove();
+
+                    if ($(`app-student-nav .course-menu .mat-mdc-list-item:has(.course-title:contains(${this})) .course-title`).text().trim() == this)
+                        $(`app-student-nav .course-menu .mat-mdc-list-item:has(.course-title:contains(${this}))`).remove();
                 })
             });
         })
@@ -137,17 +142,66 @@
         observer.observe($("body app-root")[0], { childList: true });
     }
 
-    // Removes all changes to see the "Please log back in" modal that pops up after not using
+    // Removes all changes to see the "Unable to keep session alive" modal that pops up after not using
     // ECHO for a period of time.
     if (JSON.parse(localStorage.getItem("config")).$schema.settings.automatically_login.$value) {
-        // If auto login does not get rid of the login modal, then remove it.
-        setInterval(function () {
-            if ($(".cdk-overlay-container .cdk-overlay-pane app-session-lost").length)
-                $(".cdk-overlay-container").remove();
-            else
-                return;
-        });
+        // Get user details if auto login is enabled.
+        let observer = new MutationObserver(function (mutations) {
+            mutations.forEach(function () {
+                if (localStorage.getItem("auto_login") != undefined) {
+                    // Thank you GPT-3.5, this would not have happened without you <3.  
+                    function keypress(element, text) {
+                        for (var i = 0; i < text.length; i++) {
+                            var keyCode = text.charCodeAt(i);
+                            element.trigger({ type: 'keypress', which: keyCode, keyCode: keyCode });
+                        }
+                    }
 
-        // TODO: get the login modal to show up to get important elements for this to work
+                    // Login page
+                    if (window.location.href.includes("login")) {
+                        keypress($(".login-fields mat-form-field input[type=\"text\"]"), JSON.parse(localStorage.getItem("auto_login"))[0])
+                        keypress($(".login-fields mat-form-field input[type=\"password\"]"), JSON.parse(localStorage.getItem("auto_login"))[1])
+                        $("mat-toolbar button[type=\"submit\"] .mat-mdc-button-touch-target").trigger("click");
+                    }
+
+                    // Login popup timeout
+                    if ($(".cdk-overlay-container app-session-lost input[type=\"password\"]").length) {
+                        keypress($(".cdk-overlay-container app-session-lost input[type=\"password\"]"), JSON.parse(localStorage.getItem("auto_login"))[1]);
+                        $(".cdk-overlay-container app-session-lost mat-dialog-actions button:last-child .mat-mdc-button-touch-target").trigger("click")
+                    
+                        // If auto login does not get rid of the login modal, then remove it anyways b/c
+                        // Echo is werid, and doesn't actually require this to be used.
+                        if ($(".cdk-overlay-container .cdk-overlay-pane app-session-lost").length)
+                            $(".cdk-overlay-container").remove();
+                        else
+                            return;
+                    }
+                }
+                
+                // Return after other stuff if we are not in login.
+                if (!window.location.href.includes("login"))
+                    return;
+                
+                $("mat-toolbar button[type=\"submit\"]").off();
+                $("mat-toolbar button[type=\"submit\"]").on("mousedown", function () {
+                    let details = [];
+                    $.each($(".login-fields mat-form-field input"), function () {
+                        if (details.length == 2)
+                            return
+
+                        if ($(this).val() != "")
+                            details.push($(this).val());
+                    })
+
+                    if (details.length == 2 && localStorage.getItem("auto_login") == undefined)
+                        localStorage.setItem("auto_login", JSON.stringify(details));
+                });
+            })
+        })
+        observer.observe($("body app-root")[0], { childList: true });
+    } else {
+        // Saftey is first, so if it is disabled we remove the 
+        // localstorage variable that keeps there password.
+        localStorage.removeItem("auto_login");
     }
 })();
