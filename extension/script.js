@@ -156,32 +156,20 @@
                             element.trigger({ type: 'keypress', which: keyCode, keyCode: keyCode });
                         }
                     }
-
+                    
                     // Login page
-                    if (window.location.href.includes("login")) {
+                    // TODO: probably better to just check for the element
+                    if (window.location.href.includes("login") || !window.location.href.includes("/student")) {
                         keypress($(".login-fields mat-form-field input[type=\"text\"]"), JSON.parse(localStorage.getItem("auto_login"))[0])
                         keypress($(".login-fields mat-form-field input[type=\"password\"]"), JSON.parse(localStorage.getItem("auto_login"))[1])
                         $("mat-toolbar button[type=\"submit\"] .mat-mdc-button-touch-target").trigger("click");
                     }
-
-                    // Login popup timeout
-                    if ($(".cdk-overlay-container app-session-lost input[type=\"password\"]").length) {
-                        keypress($(".cdk-overlay-container app-session-lost input[type=\"password\"]"), JSON.parse(localStorage.getItem("auto_login"))[1]);
-                        $(".cdk-overlay-container app-session-lost mat-dialog-actions button:last-child .mat-mdc-button-touch-target").trigger("click")
-                    
-                        // If auto login does not get rid of the login modal, then remove it anyways b/c
-                        // Echo is werid, and doesn't actually require this to be used.
-                        if ($(".cdk-overlay-container .cdk-overlay-pane app-session-lost").length)
-                            $(".cdk-overlay-container").remove();
-                        else
-                            return;
-                    }
                 }
-                
+
                 // Return after other stuff if we are not in login.
                 if (!window.location.href.includes("login"))
                     return;
-                
+
                 $("mat-toolbar button[type=\"submit\"]").off();
                 $("mat-toolbar button[type=\"submit\"]").on("mousedown", function () {
                     let details = [];
@@ -199,6 +187,21 @@
             })
         })
         observer.observe($("body app-root")[0], { childList: true });
+
+        // Login popup timeout (its trivial that they even have this)
+        setInterval(function () {
+            if ($(".cdk-overlay-container app-session-lost input[type=\"password\"]").length) {
+                keypress($(".cdk-overlay-container app-session-lost input[type=\"password\"]"), JSON.parse(localStorage.getItem("auto_login"))[1]);
+                $(".cdk-overlay-container app-session-lost mat-dialog-actions button:last-child .mat-mdc-button-touch-target").trigger("click")
+            
+                // If auto login does not get rid of the login modal, then remove it anyways b/c
+                // Echo is werid, and doesn't actually require this to be used.
+                if ($(".cdk-overlay-container .cdk-overlay-pane app-session-lost").length)
+                    $(".cdk-overlay-container").remove();
+                else
+                    return;
+            }
+        });
     } else {
         // Saftey is first, so if it is disabled we remove the 
         // localstorage variable that keeps there password.
