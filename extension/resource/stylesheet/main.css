@@ -22,9 +22,7 @@
 @import url("echo/font.css");
 
 /* base stuff before we get into the complex stuff */
-* {
-    /* TODO: do lol */
-}
+
 
 /* variable themes */
 @import url("echo/theme.css");
