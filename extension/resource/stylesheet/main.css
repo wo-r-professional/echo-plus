@@ -18,16 +18,39 @@
 **/
 
 /* font-face */
-@import url("https://fonts.googleapis.com/css2?family=Dosis&display=swap"); /* TODO: change to more readable and wider font */
-@import url("echo/font.css");
-
-/* base stuff before we get into the complex stuff */
-* {
-    /* TODO: do lol */
-}
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu&display=swap');
 
 /* variable themes */
 @import url("echo/theme.css");
+
+* {
+  font-family: 'Ubuntu', sans-serif;
+  scroll-behavior: smooth;
+  font-style: normal;
+  font-variant: normal;
+}
+
+html, body {
+  overflow: hidden;
+  overflow-y: overlay;
+  overscroll-behavior: none;
+}
+
+::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: transparent;
+}
+
+/* text changes */
+@import url("echo/text.css");
 
 /* overlays */
 @import url("echo/overlay.css");

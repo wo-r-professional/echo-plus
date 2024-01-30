@@ -24,24 +24,28 @@
             method: "get",
             dataType: "text",
             success: async function(text) {
-                if ($("head #proview-css").length)
-                    return;
+                let no_edit_text = text;
+                if (!$("head #proview-css").length)
+                    await $("head").prepend("<style id=\"proview-css\"></style>");
 
-                await $.each(text.match(/@import\s+(?!url\(\s*['"]?https:\/\/[^'"\)]+['"]?\)\s*;)\s*(?:url\()?\s*['"]?([^'"\)]+)['"]?\)?[^;]*;/g), async function () {
+                text = text.replace(/@import\s+url\("((?!https?:\/\/).+)"\);/g, "");
+                text = text.replace(/\/\*[\s\S]*?\*\/|\/\*\*[\s\S]*?\*\//g, "");
+
+                await $("head #proview-css").text(text);                
+                await $.each(no_edit_text.match(/@import\s+(?!url\(\s*['"]?https:\/\/[^'"\)]+['"]?\)\s*;)\s*(?:url\()?\s*['"]?([^'"\)]+)['"]?\)?[^;]*;/g), function () {
                     $.ajax({
                         url: browser.extension.getURL(`resource/stylesheet/${this.match(/@import\s+url\("([^"]+)"\);/, "")[1]}`),
                         method: 'get',
                         dataType: 'text',
                         success: function (text) {
-                            $("head #proview-css").append(text.replace(/\/\*[\s\S]*?\*\/|\/\*\*[\s\S]*?\*\//g, ""));
+                            text = text.replace(/@import\s+url\("((?!https?:\/\/).+)"\);/g, "");
+                            text = text.replace(/\/\*[\s\S]*?\*\/|\/\*\*[\s\S]*?\*\//g, "");
+
+                            let primary_text = $("head #proview-css").text();
+                            $("head #proview-css").text(primary_text += text);
                         }
                     });
                 })
-
-                text = text.replace(/@import\s+url\("((?!https?:\/\/).+)"\);/g, "");
-                text = text.replace(/\/\*[\s\S]*?\*\/|\/\*\*[\s\S]*?\*\//g, "");
-
-                $("head").prepend(`<style id="proview-css">${text}</style>`);
             }
         });
 
@@ -145,18 +149,18 @@
     // Removes all changes to see the "Unable to keep session alive" modal that pops up after not using
     // ECHO for a period of time.
     if (JSON.parse(localStorage.getItem("config")).$schema.settings.automatically_login.$value) {
+        // Thank you GPT-3.5, this would not have happened without you <3.  
+        function keypress(element, text) {
+            for (var i = 0; i < text.length; i++) {
+                var keyCode = text.charCodeAt(i);
+                element.trigger({ type: 'keypress', which: keyCode, keyCode: keyCode });
+            }
+        }
+        
         // Get user details if auto login is enabled.
         let observer = new MutationObserver(function (mutations) {
             mutations.forEach(function () {
-                if (localStorage.getItem("auto_login") != undefined) {
-                    // Thank you GPT-3.5, this would not have happened without you <3.  
-                    function keypress(element, text) {
-                        for (var i = 0; i < text.length; i++) {
-                            var keyCode = text.charCodeAt(i);
-                            element.trigger({ type: 'keypress', which: keyCode, keyCode: keyCode });
-                        }
-                    }
-                    
+                if (localStorage.getItem("auto_login") != undefined) {    
                     // Login page
                     // TODO: probably better to just check for the element
                     if (window.location.href.includes("login") || !window.location.href.includes("/student")) {
