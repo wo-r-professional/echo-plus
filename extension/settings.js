@@ -236,7 +236,7 @@
                     <p>
                         <a href="https://github.com/wo-r/proview-for-echo" target="_blank" rel="noopener">Extension Project</a>
                         <span>·</span>
-                        <a href="https://github.com/wo-r/proview/wiki" target="_blank" rel="noopener">Documentation</a>
+                        <a href="https://github.com/wo-r/proview-for-echo/wiki" target="_blank" rel="noopener">Documentation</a>
                         <span>·</span>
                         <a href="https://wo-r.github.io/proview/" target="_blank" rel="noopener">Proview Website</a>
                         <span>·</span>
