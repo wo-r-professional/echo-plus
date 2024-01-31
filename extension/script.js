@@ -42,7 +42,7 @@
                             text = text.replace(/\/\*[\s\S]*?\*\/|\/\*\*[\s\S]*?\*\//g, "");
 
                             let primary_text = $("head #proview-css").text();
-                            $("head #proview-css").text(primary_text += text);
+                            $("head #proview-css").text(primary_text + text);
                         }
                     });
                 })
