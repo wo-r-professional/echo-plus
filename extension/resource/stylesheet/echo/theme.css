@@ -1,0 +1,32 @@
+/** Theme styling variables for the css **/
+
+/** User custom background **/
+body {
+    --custom-background: ;
+}
+
+/** Are we Dark Mode? **/
+body :is(.app-dark-theme) {
+    --theme-default: dark;
+    --text-color: white;
+    --border-color: white;
+    --opposite-color: black;
+
+    /** background sets **/
+    --background: black;
+    --background-opacity-e0: #000000e0;
+    --background-opactiy-ba: #000000ba;
+}
+
+/** Are we Light Mode? **/
+body :is(.app-light-theme) {
+    --theme-default: light;
+    --text-color: black;
+    --border-color: black;
+    --opposite-color: white;
+
+    /** background sets **/
+    --background: white;
+    --background-opacity-e0: #ffffffe0;
+    --background-opacity-ba: #ffffffba;
+}

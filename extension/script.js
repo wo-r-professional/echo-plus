@@ -19,35 +19,37 @@
     // Checks main.css for imports with a PATH, then appends everything to a <style>
     // element that is prepended to the top of <head>.
     if (JSON.parse(localStorage.getItem("config")).$schema.preferences.stylesheet_preferences.enable_stylesheets.$value) {
-        $.ajax({
-            url: browser.extension.getURL("resource/stylesheet/main.css"),
-            method: "get",
-            dataType: "text",
-            success: async function(text) {
-                let no_edit_text = text;
-                if (!$("head #proview-css").length)
-                    await $("head").prepend("<style id=\"proview-css\"></style>");
+        setInterval(function () {
+            $.ajax({
+                url: browser.extension.getURL("resource/stylesheet/main.css"),
+                method: "get",
+                dataType: "text",
+                success: async function(text) {
+                    if (!$("head #proview-css").length)
+                        await $("head").prepend("<style id=\"proview-css\"></style>");
 
-                text = text.replace(/@import\s+url\("((?!https?:\/\/).+)"\);/g, "");
-                text = text.replace(/\/\*[\s\S]*?\*\/|\/\*\*[\s\S]*?\*\//g, "");
+                    await $.each(text.match(/@import\s+(?!url\(\s*['"]?https:\/\/[^'"\)]+['"]?\)\s*;)\s*(?:url\()?\s*['"]?([^'"\)]+)['"]?\)?[^;]*;/g), (index, object) => {
+                        $.ajax({
+                            url: browser.extension.getURL(`resource/stylesheet/${object.match(/@import\s+url\("([^"]+)"\);/, "")[1]}`),
+                            method: 'get',
+                            dataType: 'text',
+                            success: (rooted_text) => {
+                                text = text.replace(/@import\s+url\("((?!https?:\/\/).+)"\);/g, "");
+                                text = text.replace(/\/\*[\s\S]*?\*\/|\/\*\*[\s\S]*?\*\//g, "");
+                                rooted_text = rooted_text.replace(/@import\s+url\("((?!https?:\/\/).+)"\);/g, "");
+                                rooted_text = rooted_text.replace(/\/\*[\s\S]*?\*\/|\/\*\*[\s\S]*?\*\//g, "");
+                                text = `${text.trim()} ${rooted_text.trim()}`;
 
-                await $("head #proview-css").text(text);                
-                await $.each(no_edit_text.match(/@import\s+(?!url\(\s*['"]?https:\/\/[^'"\)]+['"]?\)\s*;)\s*(?:url\()?\s*['"]?([^'"\)]+)['"]?\)?[^;]*;/g), function () {
-                    $.ajax({
-                        url: browser.extension.getURL(`resource/stylesheet/${this.match(/@import\s+url\("([^"]+)"\);/, "")[1]}`),
-                        method: 'get',
-                        dataType: 'text',
-                        success: function (text) {
-                            text = text.replace(/@import\s+url\("((?!https?:\/\/).+)"\);/g, "");
-                            text = text.replace(/\/\*[\s\S]*?\*\/|\/\*\*[\s\S]*?\*\//g, "");
+                                if (text == $("head #proview-css").text())
+                                    return;
 
-                            let primary_text = $("head #proview-css").text();
-                            $("head #proview-css").text(primary_text + text);
-                        }
+                                $("head #proview-css").text(text);
+                            }
+                        });
                     });
-                })
-            }
-        });
+                }
+            });
+        })
 
         // If the user also wanted a custom background, then apply it here.
         if (JSON.parse(localStorage.getItem("config")).$schema.preferences.stylesheet_preferences.custom_background.$value != "") {

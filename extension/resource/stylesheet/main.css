@@ -1,7 +1,6 @@
 /**
 
-    This affects all sub domains of "echo-ntn.org", it's prepended to <head> for priority as to
-    prevent the need for "!important", being used everywhere.
+    This affects all sub domains of "echo-ntn.org", it's prepended to <head> for maximum editabliltiy
 
     Formatting rules:
       -  Always use `"` with strings.

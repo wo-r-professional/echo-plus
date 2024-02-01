@@ -2,4 +2,5 @@
 
 a:not(:has(mat-icon)) {
     text-decoration: none !important;
+    /*color: red !important;*/
 }
