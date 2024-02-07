@@ -25,6 +25,7 @@
 * {
   font-family: 'Ubuntu', sans-serif;
   scroll-behavior: smooth;
+  overscroll-behavior: none !important;
   font-style: normal;
   font-variant: normal;
 }
@@ -32,7 +33,6 @@
 html, body {
   overflow: hidden !important;
   overflow-y: overlay !important;
-  overscroll-behavior: none !important;
   background: var(--background) !important;
   color: var(--text-color) !important;
 }

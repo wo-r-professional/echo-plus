@@ -40,7 +40,7 @@
 }
 
 /* subset home navbar */
-:root app-after-login :has(.main-toolbar) mat-tab-header {
+:root app-after-login:not(:has(app-course-home)) :has(.main-toolbar) mat-tab-header {
     background: var(--foreground) !important;
     color: var(--foreground) !important;
 }
@@ -71,5 +71,5 @@
 
 /* change mat cards (base mat cards) to follow the most transparent versions of foreground */
 mat-card {
-    background: var(--foreground-opacity-e0) !important;
+    background: var(--foreground-opacity-ba) !important;
 }

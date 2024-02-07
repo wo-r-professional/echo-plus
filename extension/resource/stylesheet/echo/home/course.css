@@ -8,7 +8,8 @@ body {
 app-student-courses mat-card .course-card-image {
     margin: unset !important;
     width: unset !important;
-    background-position: 100% 100% !important;
+    background-position: 50% 100% !important;
+    background-size: 100% 100%;
     display: var(--remove-thumbnails);
 }
 
@@ -37,3 +38,79 @@ app-student-courses mat-card .color-band {
     display: none !important;
 }
 
+/** Course page styling CSS **/
+app-course-home mat-card .course-progress,
+app-course-home mat-card mat-divider,
+app-course-home mat-card button[mattooltip="Hide scores"],
+app-course-home mat-card lib-profile-picture,
+app-course-home mat-card .course-thumbnail,
+app-course-home mat-card .color-band {
+    display: none !important;
+}
+
+app-course-home mat-card .title-teachers mat-list-item {
+    padding: 0px !important;
+}
+
+app-course-home mat-card {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 1rem;
+    width: 100%;
+    margin: unset !important;
+    max-width: 100% !important;
+    border-radius: 0px !important;
+}
+
+app-course-home mat-card .top-header {
+    margin: unset !important;
+    padding-bottom: 0px !important;
+}
+
+app-course-home mat-card .top-buttons .first-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+app-course-home mat-card .top-buttons .first-row button {
+    margin: unset !important;
+}
+
+app-course-home mat-card .top-buttons .first-row mat-icon {
+    vertical-align: revert !important;
+    line-height: unset !important;
+    height: unset;
+}
+
+
+/** course agenda & description **/
+app-course-home mat-card lib-managed-html .fr-view *:is(span, div, p, li, ul, table) {
+    color: var(--text-color) !important;
+    background: transparent;
+}
+
+app-course-home mat-card lib-managed-html .fr-view :is(table, td, tr, tbody) {
+    border-color: var(--border-color);
+}
+
+/** course description **/
+app-course-home mat-card div[aria-label="Course home content"] lib-managed-html {
+    padding-bottom: 0px !important;
+}
+
+/** course agenda **/
+app-course-home mat-card lib-managed-html .fr-view,
+app-course-home mat-card lib-managed-html .fr-view table {
+    width: 100% !important;
+}
+
+app-course-home mat-card lib-managed-html .fr-view *:is(table, tbody, tr, td) {
+    border-color: var(--border-color) !important;
+    background: transparent !important;
+}
+
+/** unset navbar **/
+:root app-course-home mat-card mat-tab-header {
+    background: transparent !important;
+}

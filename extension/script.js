@@ -159,7 +159,8 @@
                                 // Why do you make me do this echo...
                                 $(`app-student-grades .main mat-card h4:has(span:contains(standards)) .field-label`).text("Score");
                                 $(`app-student-grades .main mat-card h4:has(span:contains(standards)) span:contains(standards)`).remove();
-                                $(`app-student-grades .main mat-card h4 lib-score-proficiency span`).attr("style", `color: var(--${isNaN(actual_score) == false  ? actual_score < 60 ? "fail-color" : "pass-color" : "no-color"});`).text(`${isNaN(actual_score) ? "--" : actual_score + "%"}`);
+                                if (window.location.href.includes(this.id))
+                                    $(`app-student-grades .main mat-card h4 lib-score-proficiency span`).attr("style", `color: var(--${isNaN(actual_score) == false  ? actual_score < 60 ? "fail-color" : "pass-color" : "no-color"});`).text(`${isNaN(actual_score) ? "--" : actual_score + "%"}`);
                             });
                             $("app-student-home-tabs app-student-courses .grid-ct").attr("id", "proview-replace-standards");
                         }
