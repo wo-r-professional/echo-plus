@@ -30,9 +30,11 @@
 }
 
 html, body {
-  overflow: hidden;
-  overflow-y: overlay;
-  overscroll-behavior: none;
+  overflow: hidden !important;
+  overflow-y: overlay !important;
+  overscroll-behavior: none !important;
+  background: var(--background) !important;
+  color: var(--text-color) !important;
 }
 
 ::-webkit-scrollbar {
@@ -48,14 +50,36 @@ html, body {
   background: transparent;
 }
 
+/** setup the backgrounds **/
+:is(
+  .app-background,
+  app-login .app-primary-default-background, 
+  app-student-courses, 
+  app-student-to-do, 
+  app-student-stream, 
+  app-activity .mat-drawer-container, 
+  app-activity-item .mat-drawer-container,
+  app-order-courses .main,
+  app-student-grades .main,
+  app-badges
+){
+  background: var(--background) !important;
+
+  /* if the user wants a custom background, then overwrite it */
+  background-image: var(--custom-background) !important;
+  background-size: 100% 100% !important;
+  background-repeat: no-repeat !important;
+}
+
+
 /* text changes */
 @import url("echo/text.css");
 
 /* overlays */
 @import url("echo/overlay.css");
 
-/* tabs, extra menus, navbars, modals */
-@import url("echo/intractables.css");
+/* tabs, extra menus, cards, navbars, modals, buttons, inputs, checkmarks, ect */
+@import url("echo/interactables.css");
 
 /* large list of styling for direct pages of the site */
 @import url("echo/login.css");

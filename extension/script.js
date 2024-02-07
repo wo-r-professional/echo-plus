@@ -16,50 +16,64 @@
         window.alert("Hey, thanks for using Proview.\n\nThis extension brings a lot of changes to ECHO. We recommend that you view the documentation for this extension, the link is available on the settings page of ECHO.");
     }
 
+    /*$.ajax({
+        url: `https://api.agilixbuzz.com/cmd/updateusers?_token=${JSON.parse(localStorage.getItem("session")).token}`,
+        type: "post",
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify({"requests": {
+            "user": [{
+                "userid": JSON.parse(localStorage.getItem("session")).user.id,
+                "firstname": "",
+                "lastname": "",
+                "data": {
+                    "profilepicture": {
+                        "$value": "https://media.tenor.com/HBlC8-4R0N0AAAAj/cat-orange-cat.gif"
+                    }
+                }
+            }]
+        }})
+    })*/
+
     // Checks main.css for imports with a PATH, then appends everything to a <style>
     // element that is prepended to the top of <head>.
     if (JSON.parse(localStorage.getItem("config")).$schema.preferences.stylesheet_preferences.enable_stylesheets.$value) {
-        setInterval(function () {
-            $.ajax({
-                url: browser.extension.getURL("resource/stylesheet/main.css"),
-                method: "get",
-                dataType: "text",
-                success: async function(text) {
-                    if (!$("head #proview-css").length)
-                        await $("head").prepend("<style id=\"proview-css\"></style>");
+        $.ajax({
+            url: browser.extension.getURL("resource/stylesheet/main.css"),
+            method: "get",
+            dataType: "text",
+            success: async function(text) {
+                if (!$("head #proview-css").length)
+                    await $("head").prepend("<style id=\"proview-css\"></style>");
 
-                    await $.each(text.match(/@import\s+(?!url\(\s*['"]?https:\/\/[^'"\)]+['"]?\)\s*;)\s*(?:url\()?\s*['"]?([^'"\)]+)['"]?\)?[^;]*;/g), (index, object) => {
-                        $.ajax({
-                            url: browser.extension.getURL(`resource/stylesheet/${object.match(/@import\s+url\("([^"]+)"\);/, "")[1]}`),
-                            method: 'get',
-                            dataType: 'text',
-                            success: (rooted_text) => {
-                                text = text.replace(/@import\s+url\("((?!https?:\/\/).+)"\);/g, "");
-                                text = text.replace(/\/\*[\s\S]*?\*\/|\/\*\*[\s\S]*?\*\//g, "");
-                                rooted_text = rooted_text.replace(/@import\s+url\("((?!https?:\/\/).+)"\);/g, "");
-                                rooted_text = rooted_text.replace(/\/\*[\s\S]*?\*\/|\/\*\*[\s\S]*?\*\//g, "");
-                                text = `${text.trim()} ${rooted_text.trim()}`;
+                await $.each(text.match(/@import\s+(?!url\(\s*['"]?https:\/\/[^'"\)]+['"]?\)\s*;)\s*(?:url\()?\s*['"]?([^'"\)]+)['"]?\)?[^;]*;/g), (index, object) => {
+                    $.ajax({
+                        url: browser.extension.getURL(`resource/stylesheet/${object.match(/@import\s+url\("([^"]+)"\);/, "")[1]}`),
+                        method: 'get',
+                        dataType: 'text',
+                        success: (rooted_text) => {
+                            text = text.replace(/@import\s+url\("((?!https?:\/\/).+)"\);/g, "");
+                            text = text.replace(/\/\*[\s\S]*?\*\/|\/\*\*[\s\S]*?\*\//g, "");
+                            rooted_text = rooted_text.replace(/@import\s+url\("((?!https?:\/\/).+)"\);/g, "");
+                            rooted_text = rooted_text.replace(/\/\*[\s\S]*?\*\/|\/\*\*[\s\S]*?\*\//g, "");
+                            text = `${text.trim()} ${rooted_text.trim()}`;
 
-                                if (text == $("head #proview-css").text())
-                                    return;
+                            if (text == $("head #proview-css").text())
+                                return;
 
-                                $("head #proview-css").text(text);
-                            }
-                        });
+                            $("head #proview-css").text(text);
+                        }
                     });
-                }
-            });
-        })
-
+                });
+            }
+        });
+        
         // If the user also wanted a custom background, then apply it here.
-        if (JSON.parse(localStorage.getItem("config")).$schema.preferences.stylesheet_preferences.custom_background.$value != "") {
-            // TODO: once CSS is done implement the variable change here
-        }
+        if (JSON.parse(localStorage.getItem("config")).$schema.preferences.stylesheet_preferences.custom_background.$value != "")
+            $("body").css("--custom-background", `url("${JSON.parse(localStorage.getItem("config")).$schema.preferences.stylesheet_preferences.custom_background.$value}")`);
 
         // Remove the course thumbnails
-        if (JSON.parse(localStorage.getItem("config")).$schema.preferences.stylesheet_preferences.remove_course_thumbnails.$value != "") {
-            // TODO: once CSS is done implement the variable change here
-        }
+        if (JSON.parse(localStorage.getItem("config")).$schema.preferences.stylesheet_preferences.remove_course_thumbnails.$value != "")
+            $("body").css("--remove-thumbnails", "none");
     }
 
     // Quality of life features that I thought didn't really need an option for.
@@ -72,6 +86,14 @@
             $("head base").remove();
             $("head").append(`<base id="proview-base-change" href="/" target="_blank">`);
         })
+
+        // Re-enable all disabled buttons, inputs, and checkboxes.
+        let observer = new MutationObserver(function (mutations) {
+            mutations.forEach(function () {
+                $("button[disabled], input[disabled], div:has(input[disabled]).mdc-text-field--disabled").removeAttr("disabled").removeClass("mdc-text-field--disabled");
+            })
+        })
+        observer.observe($("body app-root")[0], { childList: true });
 
         // Instantly go back to echo if you end up on the 404 page.
         if (window.location.href.includes("404"))

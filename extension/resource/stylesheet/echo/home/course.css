@@ -1,0 +1,39 @@
+/** Course styling CSS **/
+
+body {
+    --remove-thumbnails: block;
+}
+
+/** remove the course thumbnails if you want them gone **/
+app-student-courses mat-card .course-card-image {
+    margin: unset !important;
+    width: unset !important;
+    background-position: 100% 100% !important;
+    display: var(--remove-thumbnails);
+}
+
+app-student-courses mat-card .card-click {
+    padding: unset !important;
+}
+
+app-student-courses mat-card .nav-card {
+    display: flex;
+    align-items: center;
+}
+
+app-student-courses mat-card mat-card-title-group {
+    padding: 10px 20px !important;
+}
+
+app-student-courses mat-card .card-click .detail-ct {
+    margin: unset !important;
+    padding: 5px 20px !important;
+}
+
+app-student-courses mat-card mat-divider,
+app-student-courses mat-card .detail-ct .progress-ct,
+app-student-courses mat-card .detail-ct .score-ct div:first-child,
+app-student-courses mat-card .color-band {
+    display: none !important;
+}
+
