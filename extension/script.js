@@ -12,7 +12,7 @@
     "use strict";
 
     // Welcome message for first time users.
-    if (localStorage.getItem("config") == undefined) {
+    if (localStorage.getItem("config_update") == undefined) {
         window.alert("Hey, thanks for using Proview.\n\nThis extension brings a lot of changes to ECHO. We recommend that you view the documentation for this extension, the link is available on the settings page of ECHO.");
     }
 
