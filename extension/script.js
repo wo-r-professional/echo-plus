@@ -10,33 +10,39 @@
  */
 (async function () {
     "use strict";
+    
+    // Write the data to a config key, then easily get that key from it
+    function config(type = "get", key, value = "") {
+        if (type == "get") {
+            return localStorage.getItem(key);
+        } else {
+            if (localStorage.getItem(key) == undefined)
+                localStorage.setItem(key, value);
 
-    // Welcome message for first time users.
-    if (localStorage.getItem("config_update") == undefined) {
-        window.alert("Hey, thanks for using Proview.\n\nThis extension brings a lot of changes to ECHO. We recommend that you view the documentation for this extension, the link is available on the settings page of ECHO.");
+            localStorage.setItem(key, value);
+        }
     }
 
-    /*$.ajax({
-        url: `https://api.agilixbuzz.com/cmd/updateusers?_token=${JSON.parse(localStorage.getItem("session")).token}`,
-        type: "post",
-        contentType: "application/json; charset=utf-8",
-        data: JSON.stringify({"requests": {
-            "user": [{
-                "userid": JSON.parse(localStorage.getItem("session")).user.id,
-                "firstname": "",
-                "lastname": "",
-                "data": {
-                    "profilepicture": {
-                        "$value": "https://media.tenor.com/HBlC8-4R0N0AAAAj/cat-orange-cat.gif"
-                    }
-                }
-            }]
-        }})
-    })*/
+    // Welcome message for first time users.
+    if (localStorage.getItem("config_firstuse") == undefined) {
+        window.alert("Hey, thanks for using Proview.\n\nThis extension brings a lot of changes to ECHO. We recommend that you view the documentation for this extension, the link is available on the settings page of ECHO.");
+        config("set", "config_firstuse", true);
+        
+        // Set defaults
+        config("set", "config_pfp", "");
+        config("set", "config_update", true);
+        config("set", "config_auto_login", false);
+        config("set", "config_custom_styles", false);
+        config("set", "config_remove_thumbnails", false);
+        config("set", "config_replace_standards", true);
+        config("set", "config_quality_features", true);
+        config("set", "config_custom_background", "");
+        config("set", "config_hide_courses", "");
+    }
 
     // Checks main.css for imports with a PATH, then appends everything to a <style>
     // element that is prepended to the top of <head>.
-    if (JSON.parse(localStorage.getItem("config")).$schema.preferences.stylesheet_preferences.enable_stylesheets.$value) {
+    if (config("get", "config_custom_styles") === "true") {
         $.ajax({
             url: browser.extension.getURL("resource/stylesheet/main.css"),
             method: "get",
@@ -68,16 +74,16 @@
         });
         
         // If the user also wanted a custom background, then apply it here.
-        if (JSON.parse(localStorage.getItem("config")).$schema.preferences.stylesheet_preferences.custom_background.$value != "")
-            $("body").css("--custom-background", `url("${JSON.parse(localStorage.getItem("config")).$schema.preferences.stylesheet_preferences.custom_background.$value}")`);
+        if (config("get", "config_custom_background") != "")
+            $("body").css("--custom-background", `url("${config("get", "config_custom_background")}")`);
 
         // Remove the course thumbnails
-        if (JSON.parse(localStorage.getItem("config")).$schema.preferences.stylesheet_preferences.remove_course_thumbnails.$value != "")
+        if (config("get", "config_remove_thumbnails") === "true")
             $("body").css("--remove-thumbnails", "none");
     }
 
     // Quality of life features that I thought didn't really need an option for.
-    if (JSON.parse(localStorage.getItem("config")).$schema.settings.quality_of_life_features.$value) {
+    if (config("get", "config_quality_features") === "true") {
         // Change <base> to have href="/" and target="_blank" to open links in new tabs.
         $(window).on("click keydown mousedown", function () {
             if ($("head #proview-base-change").length)
@@ -101,13 +107,13 @@
     }
 
     // Hides any courses that match to the text provided by $value.
-    if (JSON.parse(localStorage.getItem("config")).$schema.settings.hide_courses.$value.length != 0) {
+    if (JSON.parse(config("get", "config_hide_courses")).length != 0) {
         let observer = new MutationObserver(function (mutations) {
             mutations.forEach(function () {
                 let index = 0;
-                $.each(JSON.parse(localStorage.getItem("config")).$schema.settings.hide_courses.$value, function () {
+                $.each(JSON.parse(config("get", "config_hide_courses")), function () {
                     // If index is greater than the list, then disconnect the observer.
-                    if (index >= JSON.parse(localStorage.getItem("config")).$schema.settings.hide_courses.$value.length)
+                    if (index >= JSON.parse(config("get", "config_hide_courses")).length)
                         observer.disconnect();
 
                     // Bump index up.
@@ -134,8 +140,8 @@
     }
 
     // Fetchs all courses, matches the courses, determines the score, then changes all the courses scores to match.
-    // TODO: this is a mess, and should be cleaned soon
-    if (JSON.parse(localStorage.getItem("config")).$schema.settings.replace_standards_with_percents.$value) {
+    // OPTIMIZE: this is a mess, and should be cleaned soon
+    if (config("get", "config_replace_standards") === "true") {
         let observer = new MutationObserver(function (mutations) {
             mutations.forEach(function () {
                 if (window.location.href.includes("home/courses") || window.location.href.includes("gradebook") || window.location.href.includes("activity")) {
@@ -173,7 +179,7 @@
 
     // Removes all changes to see the "Unable to keep session alive" modal that pops up after not using
     // ECHO for a period of time.
-    if (JSON.parse(localStorage.getItem("config")).$schema.settings.automatically_login.$value) {
+    if (config("get", "config_auto_login") === "true") {
         // Thank you GPT-3.5, this would not have happened without you <3.  
         function keypress(element, text) {
             for (var i = 0; i < text.length; i++) {

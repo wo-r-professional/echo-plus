@@ -12,13 +12,15 @@
     "use strict";
 
     // Write the data to a config key, then easily get that key from it
-    function config(key, value = "") {
-        if (localStorage.getItem(key) == undefined)
-            localStorage.setItem(key, "");
-        if (localStorage.getItem(key) != undefined && value != "")
-            localStorage.setItem(key, value)
-        if (value == "")
+    function config(type = "get", key, value = "") {
+        if (type == "get") {
             return localStorage.getItem(key);
+        } else {
+            if (localStorage.getItem(key) == undefined)
+                localStorage.setItem(key, value);
+
+            localStorage.setItem(key, value);
+        }
     }
 
     // Checks when elements load, get clicked, so we can easily append and add these
@@ -27,15 +29,6 @@
         $(this).off("click")
         if (!window.location.href.includes("setting") || $("#proview-settings").length)
             return;
-
-        // Find first card, replace all input ids to our since they tend to be disabled
-        // so we will just use the api to handle these
-        if ($("app-settings form .outer .grid .mdc-card:first-child()").length) {
-            $("app-settings form .grid mat-card:first-child mat-card-content mat-form-field:nth-child(1) input").attr("id", "firstname");
-            $("app-settings form .grid mat-card:first-child mat-card-content mat-form-field:nth-child(2) input").attr("id", "lastname");
-            $("app-settings form .grid mat-card:first-child mat-card-content mat-form-field:nth-child(3) input").attr("id", "username");
-            $("app-settings form .grid mat-card:first-child mat-card-content mat-form-field:nth-child(4) input").attr("id", "email");
-        }
 
         if ($("app-settings form .outer .grid .mdc-card:has(.profile-image)").length) {
             $("app-settings form .outer .grid .mdc-card:has(.profile-image) mat-card-content").append(`
@@ -266,12 +259,9 @@
                         padding: 1rem 0 0 !important;
                     }
 
-                    #proview-settings mat-form-field input {
-                        caret-color: inherit;
-                    }
-
-                    #proview-settings mat-checkbox label {
-                        cursor: help;
+                    mat-checkbox label {
+                        cursor: default;
+                        pointer-events: none;
                     }
 
                     #proview-settings #custom_background {
@@ -289,57 +279,33 @@
                 </style>
             `)
 
-            // Defaults (only runs once). Also since config writes if a thing never existed, it means
-            // even if a new version is downloaded it will add it; the only downside is the default setting
-            // for it will not carry over.
-            if (config("config_firstname") == "") {
-                config("config_firstname", JSON.parse(config("session")).user.firstname);
-                config("config_lastname", JSON.parse(config("session")).user.lastname);
-                config("config_username", JSON.parse(config("session")).user.username);
-                config("config_email", JSON.parse(config("session")).user.email);
-                config("config_update", true);
-                config("config_auto_login", false);
-                config("config_custom_styles", false);
-                config("config_remove_thumbnails", false);
-                config("config_replace_standards", true);
-                config("config_quality_features", true);
-            }
+            // Make that config data readable
+            $("#custom_pfp").prop("value", config("get", "config_pfp"));
+            $("#update_extension").prop("checked", config("get", "config_update") === "true");
+            $("#auto_login").prop("checked", config("get", "config_auto_login") === "true");
+            $("#custom_styles").prop("checked", config("get", "config_custom_styles") === "true");
+            $("#remove_thumbnails").prop("checked", config("get", "config_remove_thumbnails") === "true");
+            $("#replace_standards").prop("checked", config("get", "config_replace_standards") === "true");
+            $("#quality_features").prop("checked", config("get", "config_quality_features")) === "true";
+            $("#custom_background").prop("value", config("get", "config_custom_background"));
+            $("#hide_courses").prop("value", JSON.parse(config("get", "config_hide_courses")).join(", "));
 
-            // Heavily inefficient but who cares, it still does the thing I want
-            $("#firstname").prop("value", config("config_firstname"));
-            $("#lastname").prop("value", config("config_lastname"));
-            $("#username").prop("value", config("config_username"));
-            $("#email").prop("value", config("config_email"));
-            $("#custom_pfp").prop("value", config("config_pfp"));
-            $("#update_extension").prop("checked", config("config_update"));
-            $("#auto_login").prop("checked", config("config_auto_login"));
-            $("#custom_styles").prop("checked", config("config_custom_styles"));
-            $("#remove_thumbnails").prop("checked", config("config_remove_thumbnails"));
-            $("#replace_standards").prop("checked", config("config_replace_standards"));
-            $("#quality_features").prop("checked", config("config_quality_features"));
-            $("#custom_background").prop("value", config("config_custom_background"));
-            $("#hide_courses").prop("value", config("config_hide_courses"));
-            
             // Save details by using the save button
-            $("app-settings mat-toolbar button:has(.mdc-button__label:contains(Save))").on("click", function (event) {
+            $("app-settings mat-toolbar button:last-child").on("mousedown", function (event) {
                 event.preventDefault();
 
-                config("config_firstname", $("#firstname").val());
-                config("config_lastname", $("#lastname").val());
-                config("config_username", $("#username").val());
-                config("config_email", $("#email").val());
-                config("config_pfp", $("#custom_pfp").val());
-                config("config_update", $("#update_extension").prop("checked"));
-                config("config_auto_login", $("#auto_login").prop("checked"));
-                config("config_custom_styles", $("#custom_styles").prop("checked"));
-                config("config_remove_thumbnails", $("#remove_thumbnails").prop("checked"));
-                config("config_replace_standards", $("#replace_standards").prop("checked"));
-                config("config_quality_features", $("#quality_features").prop("checked"));
-                config("config_custom_background", $("#custom_background").val());
-                config("config_hide_courses", $("#hide_courses").val());
+                config("set", "config_pfp", $("#custom_pfp").val());
+                config("set", "config_update", $("#update_extension").prop("checked"));
+                config("set", "config_auto_login", $("#auto_login").prop("checked"));
+                config("set", "config_custom_styles", $("#custom_styles").prop("checked"));
+                config("set", "config_remove_thumbnails", $("#remove_thumbnails").prop("checked"));
+                config("set", "config_replace_standards", $("#replace_standards").prop("checked"));
+                config("set", "config_quality_features", $("#quality_features").prop("checked"));
+                config("set", "config_custom_background", $("#custom_background").val());
+                config("set", "config_hide_courses", JSON.stringify($("#hide_courses").val().split(",").map(item => item.trim())));
 
-                $("app-settings mat-toolbar button:has(.mdc-button__label:contains(Save))").off("click");
-                $("app-settings mat-toolbar button:has(.mdc-button__label:contains(Save))").trigger("click");
+                window.location.reload();
+                window.location.href = "student/home/courses";
             })
         }
     });
