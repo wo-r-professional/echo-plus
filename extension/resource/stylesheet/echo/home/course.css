@@ -41,9 +41,16 @@ app-student-courses mat-card .color-band {
 /** Course page styling CSS **/
 app-course-home mat-card .course-progress,
 app-course-home mat-card mat-divider,
+app-course-home mat-card .top-buttons a,
 app-course-home mat-card button[mattooltip="Hide scores"],
 app-course-home mat-card lib-profile-picture,
 app-course-home mat-card .course-thumbnail,
+:root app-course-home mat-card mat-tab-header .mat-mdc-tab-header-pagination,
+app-course-home mat-tab-group mat-tab-body lib-activity-thumbnail,
+app-course-home mat-tab-group mat-tab-body lib-activity-tree mat-tree mat-tree-node mat-icon:last-child,
+app-course-home mat-tab-group mat-tab-body lib-activity-tree mat-tree mat-tree-node .play-icon,
+app-course-home mat-tab-group mat-nav-list .mat-mdc-list-item-icon,
+app-course-home mat-tab-group mat-tab-body .app-no-data-image,
 app-course-home mat-card .color-band {
     display: none !important;
 }
@@ -56,10 +63,6 @@ app-course-home mat-card {
     display: flex !important;
     flex-direction: column !important;
     gap: 1rem;
-    width: 100%;
-    margin: unset !important;
-    max-width: 100% !important;
-    border-radius: 0px !important;
 }
 
 app-course-home mat-card .top-header {
@@ -69,8 +72,8 @@ app-course-home mat-card .top-header {
 
 app-course-home mat-card .top-buttons .first-row {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 1rem;
 }
 
 app-course-home mat-card .top-buttons .first-row button {
@@ -87,7 +90,7 @@ app-course-home mat-card .top-buttons .first-row mat-icon {
 /** course agenda & description **/
 app-course-home mat-card lib-managed-html .fr-view *:is(span, div, p, li, ul, table) {
     color: var(--text-color) !important;
-    background: transparent;
+    background: transparent !important;
 }
 
 app-course-home mat-card lib-managed-html .fr-view :is(table, td, tr, tbody) {
@@ -110,7 +113,103 @@ app-course-home mat-card lib-managed-html .fr-view *:is(table, tbody, tr, td) {
     background: transparent !important;
 }
 
+app-course-home mat-card .no-agenda {
+    margin: 15px 0 !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-style: normal !important;
+}
+
 /** unset navbar **/
 :root app-course-home mat-card mat-tab-header {
     background: transparent !important;
+    margin: 15px 0 10px !important;
+}
+
+:root app-course-home mat-card mat-tab-header .mat-mdc-tab-labels {
+    display: flex;
+    flex-direction: row !important;
+    flex: unset !important;
+    justify-content: unset !important;
+}
+
+:root app-course-home mat-card mat-tab-header .mat-mdc-tab-labels .mdc-tab {
+    width: 50%;
+}
+
+/** extend agendas to 100% **/
+app-course-home mat-card .agendas {
+    display: flex !important;
+    gap: .5rem !important;
+    margin: 20px 0 30px !important;
+}
+
+app-course-home mat-card .agendas mat-form-field {
+    width: 100% !important;
+    margin-bottom: -20px !important;
+}
+
+app-course-home mat-card .agendas .agenda-buttons {
+    width: 10rem !important;
+    margin-left: 20px !important;
+}
+
+/** tree list **/
+app-course-home mat-tab-group mat-tab-body mat-nav-list a {
+    padding: 0 16px !important;
+}
+
+app-course-home mat-tab-group app-filter-box {
+    padding: 10px 0 !important;
+}
+
+app-course-home mat-tab-group mat-tab-body lib-activity-tree :is(form, mat-form-field),
+app-course-home mat-tab-group :is(form, mat-form-field) {
+    margin: unset !important;
+    width: 100% !important;
+}
+
+app-course-home mat-tab-group mat-tab-body lib-activity-tree form {
+    margin-top: 30px !important;
+}
+
+app-course-home mat-tab-group mat-tab-body lib-activity-tree mat-tree {
+    background: transparent !important;
+}
+
+app-course-home mat-tab-group mat-tab-body lib-activity-tree mat-tree mat-tree-node:hover {
+    background: var(--primary-500) !important;
+}
+
+app-course-home mat-tab-group mat-tab-body lib-activity-tree mat-tree mat-tree-node:not(:has(button[mat-ripple-loader-disabled=""])):hover {
+    background: transparent !important;;
+}
+
+app-course-home mat-tab-group mat-tab-body lib-activity-tree mat-tree mat-tree-node a {
+    padding: 0 !important;;
+}
+
+app-course-home mat-tab-group mat-tab-body lib-activity-tree mat-tree mat-tree-node button[mat-ripple-loader-disabled=""] {
+    display: none;
+}
+
+app-course-home mat-tab-group mat-tab-body lib-activity-tree mat-tree mat-tree-node:has(button[mat-ripple-loader-disabled=""]) a {
+    padding-left: 7px !important;
+}
+
+app-course-home mat-tab-group mat-tab-body lib-activity-tree mat-tree mat-tree-node:not(:has(button[mat-ripple-loader-disabled=""])) a {
+    pointer-events: none !important;
+}
+
+app-course-home mat-tab-group mat-tab-body lib-activity-tree .search-results {
+    min-height: 50px !important;
+}
+
+app-course-home mat-tab-group mat-tab-body lib-activity-tree .no-matches,
+app-course-home mat-tab-group mat-tab-body .message {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-style: normal !important;
 }

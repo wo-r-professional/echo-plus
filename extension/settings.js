@@ -280,6 +280,7 @@
             `)
 
             // Make that config data readable
+            try {
             $("#custom_pfp").prop("value", config("get", "config_pfp"));
             $("#update_extension").prop("checked", config("get", "config_update") === "true");
             $("#auto_login").prop("checked", config("get", "config_auto_login") === "true");
@@ -289,11 +290,13 @@
             $("#quality_features").prop("checked", config("get", "config_quality_features")) === "true";
             $("#custom_background").prop("value", config("get", "config_custom_background"));
             $("#hide_courses").prop("value", JSON.parse(config("get", "config_hide_courses")).join(", "));
+            } catch (e) {}
 
             // Save details by using the save button
             $("app-settings mat-toolbar button:last-child").on("mousedown", function (event) {
                 event.preventDefault();
 
+                try {
                 config("set", "config_pfp", $("#custom_pfp").val());
                 config("set", "config_update", $("#update_extension").prop("checked"));
                 config("set", "config_auto_login", $("#auto_login").prop("checked"));
@@ -303,6 +306,7 @@
                 config("set", "config_quality_features", $("#quality_features").prop("checked"));
                 config("set", "config_custom_background", $("#custom_background").val());
                 config("set", "config_hide_courses", JSON.stringify($("#hide_courses").val().split(",").map(item => item.trim())));
+                } catch(e) {}
 
                 window.location.reload();
                 window.location.href = "student/home/courses";

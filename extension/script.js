@@ -23,7 +23,7 @@
         }
     }
 
-    // Welcome message for first time users.
+    // First time use.
     if (localStorage.getItem("config_firstuse") == undefined) {
         window.alert("Hey, thanks for using Proview.\n\nThis extension brings a lot of changes to ECHO. We recommend that you view the documentation for this extension, the link is available on the settings page of ECHO.");
         config("set", "config_firstuse", true);
