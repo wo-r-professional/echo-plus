@@ -30,6 +30,20 @@
         if (!window.location.href.includes("setting") || $("#proview-settings").length)
             return;
 
+        if ($("app-settings form .outer .grid .mdc-card:first-child()").length) {
+            $("app-settings form .grid mat-card:first-child mat-card-content mat-form-field input[formcontrolname=\"firstname\"]").attr("id", "firstname");
+            $("app-settings form .grid mat-card:first-child mat-card-content mat-form-field input[formcontrolname=\"lastname\"]").attr("id", "lastname");
+            $("app-settings form .grid mat-card:first-child mat-card-content mat-form-field input[formcontrolname=\"username\"]").attr("id", "username");
+            $("app-settings form .grid mat-card:first-child mat-card-content mat-form-field input[formcontrolname=\"email\"]").attr("id", "email");
+        }
+        
+        $("#firstname, #lastname, #username, #email").on("keydown input", function () {
+            if (localStorage.getItem("config_has_warned_for_self") == undefined) {
+                window.alert("I see you want to edit your account details. I must warn you that changing these details can get you in trouble, depending on what you change them to.\n\nFor example, changing your name to lowercase or altering your email may be okay. However, if you change your username or make your name unrecognizable to others, you may get in trouble.\n\nPlease take these options seriously. I mean it.");
+                localStorage.setItem("config_has_warned_for_self", true);
+            }
+        })
+
         if ($("app-settings form .outer .grid .mdc-card:has(.profile-image)").length) {
             $("app-settings form .outer .grid .mdc-card:has(.profile-image) mat-card-content").append(`
                 <span>Instead of uploading an image, simply link it here and it will use it instead (this allows the use of animated pfps).</span>
@@ -293,7 +307,7 @@
             } catch (e) {}
 
             // Save details by using the save button
-            $("app-settings mat-toolbar button:last-child").on("mousedown", function (event) {
+            $("app-settings mat-toolbar button:last-child").on("mousedown", async function (event) {
                 event.preventDefault();
 
                 try {
@@ -308,7 +322,32 @@
                 config("set", "config_hide_courses", JSON.stringify($("#hide_courses").val().split(",").map(item => item.trim())));
                 } catch(e) {}
 
-                window.location.reload();
+                // Change the account details
+                if ($("#username").length && $("#firstname").length && $("#lastname").length && $("#email").length) {
+                    $.ajax({
+                        url: `https://api.agilixbuzz.com/cmd/updateusers?_token=${JSON.parse(localStorage.getItem("session")).token}`,
+                        type: "post",
+                        contentType: "application/json; charset=utf-8",
+                        data: JSON.stringify({"requests": {
+                            "user": [{
+                                "userid": JSON.parse(localStorage.getItem("session")).user.id,
+                                "firstname": $("#firstname").val(),
+                                "lastname": $("#lastname").val(),
+                                "username": $("#username").val(),
+                                "email": $("#email").val(),
+                                "data": {
+                                    "profilepicture": {
+                                        "$value": $("#custom_pfp").val()
+                                    }
+                                }
+                            }]
+                        }})
+                    })
+                    
+                    // save this since it does not save automatically.
+                    config("set", "config_pfp", $("#custom_pfp").val())
+                }
+
                 window.location.href = "student/home/courses";
             })
         }

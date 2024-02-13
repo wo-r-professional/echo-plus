@@ -71,5 +71,5 @@
 
 /* change mat cards (base mat cards) to follow the most transparent versions of foreground */
 mat-card {
-    background: var(--foreground-opacity-ba) !important;
+    background: var(--foreground-opacity-e0) !important;
 }
