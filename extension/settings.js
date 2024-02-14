@@ -37,6 +37,7 @@
             $("app-settings form .grid mat-card:first-child mat-card-content mat-form-field input[formcontrolname=\"email\"]").attr("id", "email");
         }
         
+        // Warn before even attempting to type a word
         $("#firstname, #lastname, #username, #email").on("keydown input", function () {
             if (localStorage.getItem("config_has_warned_for_self") == undefined) {
                 window.alert("I see you want to edit your account details. I must warn you that changing these details can get you in trouble, depending on what you change them to.\n\nFor example, changing your name to lowercase or altering your email may be okay. However, if you change your username or make your name unrecognizable to others, you may get in trouble.\n\nPlease take these options seriously. I mean it.");
@@ -323,29 +324,37 @@
                 } catch(e) {}
 
                 // Change the account details
+                // XXX: there is a chance this is gonna get me in trouble, but I'm gonna take the risk.
                 if ($("#username").length && $("#firstname").length && $("#lastname").length && $("#email").length) {
-                    $.ajax({
+                    var userData = {
+                        "userid": JSON.parse(localStorage.getItem("session")).user.id,
+                        "data": {}
+                    };
+                
+                    // If localstorage and the value inside the input do not match then we should add them
+                    if ($("#firstname").val() && JSON.parse(localStorage.getItem("session")).user.firstname !== $("#firstname").val()) 
+                        userData.firstname = $("#firstname").val();
+                    if ($("#lastname").val() && JSON.parse(localStorage.getItem("session")).user.lastname !== $("#lastname").val()) 
+                        userData.lastname = $("#lastname").val();
+                    if ($("#username").val() && JSON.parse(localStorage.getItem("session")).user.username !== $("#username").val()) 
+                        userData.username = $("#username").val();
+                    if ($("#email").val() && JSON.parse(localStorage.getItem("session")).user.email !== $("#email").val()) 
+                        userData.email = $("#email").val();
+
+                    // Set pfp to custom one
+                    if ($("#custom_pfp").val()) {
+                        userData.data.profilepicture = { "$value": $("#custom_pfp").val() };
+                        config("set", "config_pfp", $("#custom_pfp").val())
+                    }
+
+                    await $.ajax({
                         url: `https://api.agilixbuzz.com/cmd/updateusers?_token=${JSON.parse(localStorage.getItem("session")).token}`,
                         type: "post",
                         contentType: "application/json; charset=utf-8",
                         data: JSON.stringify({"requests": {
-                            "user": [{
-                                "userid": JSON.parse(localStorage.getItem("session")).user.id,
-                                "firstname": $("#firstname").val(),
-                                "lastname": $("#lastname").val(),
-                                "username": $("#username").val(),
-                                "email": $("#email").val(),
-                                "data": {
-                                    "profilepicture": {
-                                        "$value": $("#custom_pfp").val()
-                                    }
-                                }
-                            }]
+                            "user": [userData]
                         }})
-                    })
-                    
-                    // save this since it does not save automatically.
-                    config("set", "config_pfp", $("#custom_pfp").val())
+                    });
                 }
 
                 window.location.href = "student/home/courses";
