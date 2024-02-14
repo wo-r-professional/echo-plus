@@ -1,0 +1,47 @@
+/** Theme styling variables for the css **/
+
+/** Variable configurations **/
+body {
+    --custom-background: ;
+    --remove-thumbnails: ;
+    --box-shadow: 0 1px 1px hsl(0deg 0% 0% / 0.075),
+                  0 2px 2px hsl(0deg 0% 0% / 0.075),
+                  0 4px 4px hsl(0deg 0% 0% / 0.075),
+                  0 8px 8px hsl(0deg 0% 0% / 0.075),
+                  0 16px 16px hsl(0deg 0% 0% / 0.075);
+}
+
+/** Are we Dark Mode? **/
+body.app-dark-theme {
+    --theme-default: dark;
+    --text-color: white;
+    --border-color: white;
+    --opposite-color: black;
+
+    /* background */
+    --background: #141414;
+
+    /* foreground sets */
+    --foreground: black;
+    --foreground-opacity-e0: #000000e0;
+    --foreground-opacity-ba: #000000ba;
+}
+
+/** Are we Light Mode? **/
+body.app-light-theme {
+    --theme-default: light;
+    --text-color: black;
+    --border-color: black;
+    --opposite-color: white;
+
+    /* background */
+    --background: #e2e0e0;
+
+    /* foreground sets */
+    --foreground: white;
+    --foreground-opacity-e0: #ffffffe0;
+    --foreground-opacity-ba: #ffffffba;
+}
+
+/** Determine the color sets based off the users current theme **/
+/** TODO: do this soon **/
