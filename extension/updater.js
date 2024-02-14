@@ -8,13 +8,19 @@
  *  
  * Copright Wo-r 2024
  */
-/*(async function () {
-    // TODO: when this goes public, fetch manifest.json for the latest version.
+(async function () {
     if (localStorage.getItem("config") != undefined && JSON.parse(localStorage.getItem("config")).$schema.preferences.automatically_update_extension.$value) {
-        if (browser.runtime.getManifest().version < "0.0.2") {
-            if (confirm("Extension is out of date.\n\nPlease click ok to go to the download page to get the latest version.")) {
-                window.open(`https://github.com/wo-r/proview-for-echo/releases/tag/0.0.2`, "_blank").focus();
+        $.ajax({
+            url: "https://raw.githubusercontent.com/wo-r/proview-for-echo/main/extension/manifest.json",
+            method: "get",
+            dataType: "json",
+            success: function (manifest) {
+                if (browser.runtime.getManifest().version < manifest.version) {
+                    if (confirm("Extension is out of date.\n\nPlease click OK to go to the download page to get the latest version.")) {
+                        window.open(`https://github.com/wo-r/proview-for-echo/releases/tag/0.0.2`, "_blank").focus();
+                    }
+                }
             }
-        }
+        })
     }
-})();*/
+})();
