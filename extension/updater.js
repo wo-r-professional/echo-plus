@@ -21,7 +21,7 @@
 
     if (!isEmpty(config("get", "proview_allow_extension_updates"))) {
         $.ajax({
-            url: "https://raw.githubusercontent.com/wo-r/proview-for-echo/main/extension/manifest.json",
+            url: "https://raw.githubusercontent.com/wo-r/proview-for-echo/chrome/extension/manifest.json",
             method: "GET",
             dataType: "json",
             contentType: "application/json; charset=utf-8",
