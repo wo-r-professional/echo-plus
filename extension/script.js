@@ -146,26 +146,45 @@
                 dataType: "json",
                 contentType: "application/json; charset=utf-8",
                 success: function(json) {
-                    if (is_page("home/courses") || is_page("gradebook") || is_page("activity")) {
+                    if (is_page("home/courses") || is_page("gradebook") || is_page("activity") || is_page("dashboard")) {
                         $.each(json.response.enrollments.enrollment, function () {
                             let true_score = Math.round((this.enrollmentmetrics.achieved / this.enrollmentmetrics.possible) * 100),
                                 score_color;
                             
-                            score_color = isNaN(true_score) == false ? true_score < 60 ? "fail-color" : "pass-color" : "no-color";
+                            if (isNaN(true_score))
+                                score_color = "no-color";
+                            else if (true_score >= 80)
+                                score_color = "pass-color";
+                            else if (true_score < 80) {
+                                $("body").css("--warn-color", "#ffd34d");
+                                score_color = "warn-color";
+                            }
+                            else
+                                score_color = "fail-color";
+
                             true_score = isNaN(true_score) ? "--" : true_score;
                             
                             // Find every instance where this new score needs to be placed
                             $(`app-student-courses .grid-ct mat-card:has(h2:contains("${this.course.title}")) .score-ct div:contains("standards")`).css("color", `var(--${score_color})`).text(`${true_score}%`);
                             $(`app-student-courses .grid-ct mat-card:has(h2:contains("${this.course.title}")) .score-ct div:first-child`).text("Current score");
                             $(`app-student-courses .grid-ct mat-card:has(h2:contains("${this.course.title}")) .score span:contains("%")`).css("color", `var(--${score_color})`).text(`${true_score}%`);
-                            $(`app-course-home .card-ct mat-card .top-buttons .first-row span:contains("standards")`).css("color", `var(--${score_color})`).text(`${true_score}%`);
-                            $(`app-course-home .card-ct mat-card .top-buttons .first-row .score span:contains("%")`).css("color", `var(--${score_color})`).text(`${true_score}%`);
+                            $(`app-student-courses .grid-ct mat-card:has(h2:contains("${this.course.title}")) .fail-ada`).remove();
+                            $(`app-course-home .card-ct mat-card .top-header:has(.title-teachers h2:contains("${this.course.title}")) .top-buttons .first-row span:contains("standards")`).css("color", `var(--${score_color})`).text(`${true_score}%`);
+                            $(`app-course-home .card-ct mat-card .top-header:has(.title-teachers h2:contains("${this.course.title}")) .top-buttons .first-row .score span:contains("%")`).css("color", `var(--${score_color})`).text(`${true_score}%`);
+                            $(`app-course-home .card-ct mat-card .top-header .fail-ada`).remove();
                             $(`app-gradebook-home mat-row:has(mat-cell a:contains("${this.course.title}")) mat-cell lib-score-proficiency span`).css("color", `var(--${score_color})`).text(`${true_score}%`);
                             $(`app-gradebook-home mat-row:has(mat-cell a:contains("${this.course.title}")) mat-cell lib-score .percent`).css("color", `var(--${score_color})`).text(`${true_score}%`);
+                            $(`app-gradebook-home mat-row:has(mat-cell a:contains("${this.course.title}")) mat-cell .fail-ada`).remove();
                             $(`app-student-grades .main mat-card h4:has(span:contains(standards)) .field-label`).text("Score");
                             $(`app-student-grades .main mat-card h4:has(span:contains(standards)) span:contains(standards)`).remove();
-                            if (is_page(this.id))
-                                $(`app-student-grades .main mat-card h4 lib-score-proficiency span`).css("color", `var(--${score_color})`).text(`${true_score}%`);
+                            if (is_page(this.id)) {
+                                $(`app-gradebook-dashboard .main mat-card h4 .score .percent`).css("color", `var(--${score_color})`).text(` ${true_score}%`);
+                                $(`app-gradebook-dashboard .main mat-card h4 lib-score-proficiency span`).css("color", `var(--${score_color})`).text(`${true_score}%`);
+                                $(`app-student-grades .main mat-card h4 .score .percent`).css("color", `var(--${score_color})`).text(` ${true_score}%`);
+                                $(`app-student-grades .main mat-card h4 lib-score-proficiency span`).css("color", `var(--${score_color})`).text(`${true_score}%`);                                
+                                $(`app-student-grades .main mat-card .fail-ada`).remove();
+                                $(`app-gradebook-dashboard .main mat-card .fail-ada`).remove();
+                            }
                         });
                     }
                 }
