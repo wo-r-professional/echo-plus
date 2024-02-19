@@ -87,7 +87,7 @@
                     <mat-card-subtitle class="mat-mdc-card-subtitle">
                         <div style="display: flex; justify-content: space-between;">
                             <span>Proview settings</span>
-                            <span>v${browser.runtime.getManifest().version}</span>
+                            <span>v${chrome.runtime.getManifest().version}</span>
                         </div>
                     </mat-card-subtitle>
                     <!---->

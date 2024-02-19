@@ -26,7 +26,7 @@
             dataType: "json",
             contentType: "application/json; charset=utf-8",
             success: function (manifest) {
-                if (browser.runtime.getManifest().version < manifest.version) {
+                if (chrome.runtime.getManifest().version < manifest.version) {
                     debug_logger("Extension needs to update", 4)
                     if (confirm("Extension is out of date.\n\nPlease click OK to go to the download page to get the latest version.")) {
                         window.open(`https://github.com/wo-r/proview-for-echo/releases/tag/${manifest.version}`, "_blank").focus();

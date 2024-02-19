@@ -1,5 +1,5 @@
 {
-    "manifest_version": 2,
+    "manifest_version": 3,
     "version": "0.2.5",
     "author": "wo-r",
     "name": "proview for echo",
@@ -11,18 +11,20 @@
         "128": "resource/icons/128x128.png"
     },
 
-    "applications": {
-        "gecko": {
-            "id": "proview-for-echo@echo-ntn.org",
-            "strict_min_version": "48.0"
-        }
-    },
-
     "web_accessible_resources": [
-        "resource/stylesheet/main.css"
+        {
+            "resources": ["resource/stylesheet/*.css"],
+            "matches": ["*://*.echo-ntn.org/*"]
+        }
     ],
 
-    "permissions": ["activeTab", "tabs", "storage", "https://api.agilixbuzz.com/*", "https://raw.githubusercontent.com/*", "https://*/*"],
+    "permissions": ["activeTab", "tabs", "storage"],
+
+    "host_permissions": [
+        "https://api.agilixbuzz.com/*",
+        "https://raw.githubusercontent.com/*",
+        "https://*/*"
+    ],
 
     "content_scripts": [{
         "js": ["thirdparty/jquery.js", "helpers.js", "updater.js", "settings.js", "script.js"],
