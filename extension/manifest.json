@@ -1,6 +1,6 @@
 {
     "manifest_version": 2,
-    "version": "0.0.1",
+    "version": "0.2.5",
     "author": "wo-r",
     "name": "proview for echo",
     "description": "An extension for ECHO that implements fixes, features, and redesigns, all aimed at enhancing the overall experience of using ECHO.",
@@ -22,10 +22,10 @@
         "resource/stylesheet/main.css"
     ],
 
-    "permissions": ["activeTab", "tabs", "storage", "https://api.agilixbuzz.com/*", "https://raw.githubusercontent.com/*"],
+    "permissions": ["activeTab", "tabs", "storage", "https://api.agilixbuzz.com/*", "https://raw.githubusercontent.com/*", "https://*/*"],
 
     "content_scripts": [{
-        "js": ["thirdparty/jquery.js", "updater.js", "script.js", "settings.js"],
+        "js": ["thirdparty/jquery.js", "helpers.js", "updater.js", "settings.js", "script.js"],
         "run_at": "document_end",
         "matches": ["https://*.echo-ntn.org/*"]
     }]

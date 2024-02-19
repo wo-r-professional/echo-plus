@@ -1,52 +1,53 @@
 /**
- * This affects all sub domains of "echo-ntn.org", it adds features, and
- * modifications to ECHO.
+ * Proview for Echo by Wo-r
+ * A simple yet helpful extension that changes many features and adds new ones to make
+ * your experience using Echo the best it could possibly be.
+ *
+ * Copyright (c) 2024. All rights reserved.
  * 
- * Thirdparty resources
- *  -  Jquery v3.7.1
- *  -  UI-Jquery v1.12.1
- *  
- * Copright Wo-r 2024
+ * License: This code is licensed under the MIT License. The MIT License is a permissive free software license 
+ * originating at the Massachusetts Institute of Technology (MIT). It allows users to do anything they want with 
+ * the code as long as they provide attribution back to the author and don’t hold the author liable. This encourages 
+ * use and reuse in both commercial and open-source software.
+ *
+ * Repository: https://github.com/wo-r/proview-for-echo/
+ * Documentation: https://github.com/wo-r/proview-for-echo/wiki
+ * 
+ * Dependencies: jQuery (v3.7.1), helper.js
  */
 (async function () {
+    // Enforces stricter parsing and error handling in JavaScript, preventing common mistakes like using undeclared variables.
     "use strict";
 
-    // Write the data to a config key, then easily get that key from it
-    function config(type = "get", key, value = "") {
-        if (type == "get") {
-            return localStorage.getItem(key);
-        } else {
-            if (localStorage.getItem(key) == undefined)
-                localStorage.setItem(key, value);
-
-            localStorage.setItem(key, value);
-        }
-    }
-
-    // Checks when elements load, get clicked, so we can easily append and add these
-    // to the settings page.
     setInterval(async function () {
-        $(this).off("click")
-        if (!window.location.href.includes("setting") || $("#proview-settings").length)
+        if (!is_page("setting") || !isEmpty($("#proview-settings")))
             return;
 
-        if ($("app-settings form .outer .grid .mdc-card:first-child()").length) {
-            $("app-settings form .grid mat-card:first-child mat-card-content mat-form-field input[formcontrolname=\"firstname\"]").attr("id", "firstname");
-            $("app-settings form .grid mat-card:first-child mat-card-content mat-form-field input[formcontrolname=\"lastname\"]").attr("id", "lastname");
-            $("app-settings form .grid mat-card:first-child mat-card-content mat-form-field input[formcontrolname=\"username\"]").attr("id", "username");
-            $("app-settings form .grid mat-card:first-child mat-card-content mat-form-field input[formcontrolname=\"email\"]").attr("id", "email");
-        }
-        
-        // Warn before even attempting to type a word
-        $("#firstname, #lastname, #username, #email").on("keydown input", function () {
-            if (localStorage.getItem("config_has_warned_for_self") == undefined) {
-                window.alert("I see you want to edit your account details. I must warn you that changing these details can get you in trouble, depending on what you change them to.\n\nFor example, changing your name to lowercase or altering your email may be okay. However, if you change your username or make your name unrecognizable to others, you may get in trouble.\n\nPlease take these options seriously. I mean it.");
-                localStorage.setItem("config_has_warned_for_self", true);
-            }
-        })
+        // Change the ids of the inputs that exist in the first card
+        if (!isEmpty($("app-settings form .outer .grid .mdc-card:first-child()"))) {
+            await $("app-settings form .grid mat-card:first-child mat-card-content mat-form-field input").removeAttr("disabled");
+            await $("app-settings form .grid mat-card:first-child mat-card-content mat-form-field .mdc-text-field--disabled").removeClass("mdc-text-field--disabled");
 
-        if ($("app-settings form .outer .grid .mdc-card:has(.profile-image)").length) {
-            $("app-settings form .outer .grid .mdc-card:has(.profile-image) mat-card-content").append(`
+            await $("app-settings form .grid mat-card:first-child mat-card-content mat-form-field input[formcontrolname=\"firstname\"]").attr("id", "firstname");
+            await $("app-settings form .grid mat-card:first-child mat-card-content mat-form-field input[formcontrolname=\"lastname\"]").attr("id", "lastname");
+            await $("app-settings form .grid mat-card:first-child mat-card-content mat-form-field input[formcontrolname=\"username\"]").attr("id", "username");
+            await $("app-settings form .grid mat-card:first-child mat-card-content mat-form-field input[formcontrolname=\"email\"]").attr("id", "email");
+
+            debug_logger("Changed input ids to our ids", 1);
+
+            // XXX: This is a scary part of the extension, which is why I am warning that I'm not at fault for
+            //      someone elses foolish mistakes of using this incorrectly.
+            $("#firstname, #lastname, #username, #email").on("keydown input", function () {
+                if (isEmpty(config("get", "proview_has_warned_for_self"))) {
+                    window.alert("I see you want to edit your account details. I must warn you that changing these details can get you in trouble, depending on what you change them to.\n\nFor example, changing your name to lowercase or altering your email may be okay. However, if you change your username or make your name unrecognizable to others, you may get in trouble.\n\nPlease take these options seriously. I mean it.");
+                    config("set", "proview_has_warned_for_self", true);
+                }
+            })
+        }
+
+        // Append custom profile input to the profile card
+        if (!isEmpty($("app-settings form .outer .grid .mdc-card:has(.profile-image)"))) {
+            await $("app-settings form .outer .grid .mdc-card:has(.profile-image) mat-card-content").append(`
                 <span>Instead of uploading an image, simply link it here and it will use it instead (this allows the use of animated pfps).</span>
                 <mat-form-field class="mat-mdc-form-field mat-mdc-form-field-type-mat-input mat-form-field-appearance-outline mat-primary ng-pristine ng-valid ng-star-inserted mat-form-field-hide-placeholder ng-touched">
                     <div class="mat-mdc-text-field-wrapper mdc-text-field mdc-text-field--outlined">
@@ -71,10 +72,13 @@
                         width: 100%;
                     }
                 </style>
-            `)
+            `);
+
+            debug_logger("Appended profile input to profile card", 1)
         }
-        
-        if ($("app-settings form .outer .grid .mdc-card:last-child()").length) {
+
+        // Append the rest of the settings to the last card
+        if (!isEmpty($("app-settings form .outer .grid .mdc-card:last-child()"))) {
             await $("app-settings form .outer .grid .mdc-card:last-child() mat-card-content").append(`
                 <div id="proview-settings">
                     <p>
@@ -292,73 +296,81 @@
                         flex-wrap: wrap;
                     }
                 </style>
-            `)
+            `);
 
-            // Make that config data readable
-            try {
-            $("#custom_pfp").prop("value", config("get", "config_pfp"));
-            $("#update_extension").prop("checked", config("get", "config_update") === "true");
-            $("#auto_login").prop("checked", config("get", "config_auto_login") === "true");
-            $("#custom_styles").prop("checked", config("get", "config_custom_styles") === "true");
-            $("#remove_thumbnails").prop("checked", config("get", "config_remove_thumbnails") === "true");
-            $("#replace_standards").prop("checked", config("get", "config_replace_standards") === "true");
-            $("#quality_features").prop("checked", config("get", "config_quality_features")) === "true";
-            $("#custom_background").prop("value", config("get", "config_custom_background"));
-            $("#hide_courses").prop("value", JSON.parse(config("get", "config_hide_courses")).join(", "));
-            } catch (e) {}
-
-            // Save details by using the save button
-            $("app-settings mat-toolbar button:last-child").on("mousedown", async function (event) {
-                event.preventDefault();
-
-                try {
-                config("set", "config_pfp", $("#custom_pfp").val());
-                config("set", "config_update", $("#update_extension").prop("checked"));
-                config("set", "config_auto_login", $("#auto_login").prop("checked"));
-                config("set", "config_custom_styles", $("#custom_styles").prop("checked"));
-                config("set", "config_remove_thumbnails", $("#remove_thumbnails").prop("checked"));
-                config("set", "config_replace_standards", $("#replace_standards").prop("checked"));
-                config("set", "config_quality_features", $("#quality_features").prop("checked"));
-                config("set", "config_custom_background", $("#custom_background").val());
-                config("set", "config_hide_courses", JSON.stringify($("#hide_courses").val().split(",").map(item => item.trim())));
-                } catch(e) {}
-
-                // Change the account details
-                // XXX: there is a chance this is gonna get me in trouble, but I'm gonna take the risk.
-                if ($("#username").length && $("#firstname").length && $("#lastname").length && $("#email").length) {
-                    var userData = {
-                        "userid": JSON.parse(localStorage.getItem("session")).user.id,
-                        "data": {}
-                    };
-                
-                    // If localstorage and the value inside the input do not match then we should add them
-                    if ($("#firstname").val() && JSON.parse(localStorage.getItem("session")).user.firstname !== $("#firstname").val()) 
-                        userData.firstname = $("#firstname").val();
-                    if ($("#lastname").val() && JSON.parse(localStorage.getItem("session")).user.lastname !== $("#lastname").val()) 
-                        userData.lastname = $("#lastname").val();
-                    if ($("#username").val() && JSON.parse(localStorage.getItem("session")).user.username !== $("#username").val()) 
-                        userData.username = $("#username").val();
-                    if ($("#email").val() && JSON.parse(localStorage.getItem("session")).user.email !== $("#email").val()) 
-                        userData.email = $("#email").val();
-
-                    // Set pfp to custom one
-                    if ($("#custom_pfp").val()) {
-                        userData.data.profilepicture = { "$value": $("#custom_pfp").val() };
-                        config("set", "config_pfp", $("#custom_pfp").val())
-                    }
-
-                    await $.ajax({
-                        url: `https://api.agilixbuzz.com/cmd/updateusers?_token=${JSON.parse(localStorage.getItem("session")).token}`,
-                        type: "post",
-                        contentType: "application/json; charset=utf-8",
-                        data: JSON.stringify({"requests": {
-                            "user": [userData]
-                        }})
-                    });
-                }
-
-                window.location.href = "student/home/courses";
-            })
+            debug_logger("Appended settings to the last card", 1);
         }
-    });
-})()
+
+        // Prop the settings, so they match what has been set in config
+        if (!isEmpty($("#firstname")) && !isEmpty($("#custom_pfp")) && !isEmpty($("#update_extension"))) {
+            $("#custom_pfp").prop("value", config("get", "proview_custom_profile_picture"));
+            $("#update_extension").prop("checked", config("get", "proview_allow_extension_updates") === "true");
+            $("#auto_login").prop("checked", config("get", "proview_automatic_logins") === "true");
+            $("#custom_styles").prop("checked", config("get", "proview_stylesheets") === "true");
+            $("#remove_thumbnails").prop("checked", config("get", "proview_remove_thumbnails") === "true");
+            $("#replace_standards").prop("checked", config("get", "proview_replace_standards") === "true");
+            $("#quality_features").prop("checked", config("get", "proview_quality_features")) === "true";
+            $("#custom_background").prop("value", config("get", "proview_custom_background"));
+            if (!isEmpty(config("get", "proview_hide_courses")))
+                $("#hide_courses").prop("value", JSON.parse(config("get", "proview_hide_courses")).join(", "));
+
+            debug_logger("Propped inputs/checkboxes to current configuration", 1);
+        }
+
+        // Once "Save" is clicked, save all changes done to settings.
+        $("app-settings mat-toolbar button:last-child").on("mousedown", async function (event) {
+            config("set", "proview_allow_extension_updates", $("#update_extension").prop("checked"));
+            config("set", "proview_automatic_logins", $("#auto_login").prop("checked"));
+            config("set", "proview_stylesheets", $("#custom_styles").prop("checked"));
+            config("set", "proview_remove_thumbnails", $("#remove_thumbnails").prop("checked"));
+            config("set", "proview_replace_standards", $("#replace_standards").prop("checked"));
+            config("set", "proview_quality_features", $("#quality_features").prop("checked"));
+            config("set", "proview_custom_background", $("#custom_background").val());
+            config("set", "proview_hide_courses", JSON.stringify($("#hide_courses").val().split(",").map(item => item.trim())));
+
+            var self = {
+                "userid": get_details.id,
+                "data": {}
+            }
+
+            if (!isEmpty($("#custom_pfp").val())) {
+                if (config("get", "proview_custom_profile_picture") != $("#custom_pfp").val()) {
+                    self.data.profilepicture = {"$value": $("#custom_pfp").val()};
+                    config("set", "proview_custom_profile_picture", $("#custom_pfp").val());
+                }
+            }
+
+            if (!isEmpty($("#firstname")) && !isEmpty($("#lastname")) && !isEmpty($("#username")) && !isEmpty($("#email"))) {
+                // What items are the same and what are different?
+                if (!isEmpty($("#firstname").val()) && get_details.firstname !== $("#firstname").val())
+                    self.firstname = $("#firstname").val();
+                if (!isEmpty($("#lastname").val()) && get_details.lastname !== $("#lastname").val())
+                    self.lastname = $("#lastname").val();
+                if (!isEmpty($("#username").val()) && get_details.username !== $("#username").val())
+                    self.username = $("#username").val();
+                if (!isEmpty($("#email").val()) && get_details.email !== $("#email").val())
+                    self.email = $("#email").val();
+            }
+
+            if (!isEmpty(self.data) || !isEmpty(self.firstname) || !isEmpty(self.lastname) || !isEmpty(self.username) || !isEmpty(self.email)) {
+                await $.ajax({
+                    url: api(`/cmd/updateusers?_token=${get_details.token}`),
+                    method: "POST",
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify({"requests": {
+                        "user": [self]
+                    }}),
+                    success: function () {
+                        debug_logger("Applied user settings", 1);
+                    }
+                });
+            }
+            else
+                debug_logger("No changes were found for user settings", 2);
+
+            debug_logger("Applied changes to settings", 1);
+            window.location.href = "student/home/courses";
+        })
+    })
+})();
