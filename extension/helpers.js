@@ -1,7 +1,7 @@
 /**
  * Used when debugging things
  */
-let debugging = true;
+let debugging = false;
 
 /**
  * Debugging logger
@@ -18,7 +18,7 @@ function debug_logger(message, type, using = "") {
                 console.log(prefix + ' %c[ERROR]', 'color: #d056fc;', 'color: #fc5656;', message);
                 break;
             case 4:
-                console.log(prefix + ' %c[NOTE]', 'color: #d056fc;', 'color: #5672fc;', message);
+                console.log(prefix + ' %c[INFO]', 'color: #d056fc;', 'color: #5672fc;', message);
                 break;
             case 1:
                 console.log(prefix + ' %c[SUCCESS]', 'color: #d056fc;', 'color: #72fc56;', message);
@@ -101,26 +101,6 @@ function is_true_by_string(value) {
     if (value === "true")
         return true;
     return false;
-}
-
-/**
- * Simplified MutationsObserver so we don't waste too much space
- */
-function mutations(targetSelector, callback, options = { childList: true }) {
-    const target = typeof targetSelector === 'string' ? $(targetSelector)[0] : targetSelector;
-
-    if (!target) {
-        console.error('Target element not found.');
-        return;
-    }
-
-    const observerCallback = (mutations, observer) => {
-        callback(mutations, observer);
-    };
-
-    const observer = new MutationObserver(observerCallback);
-    observer.observe(target, options);
-    return observer;
 }
 
 /**
