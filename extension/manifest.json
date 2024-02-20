@@ -14,7 +14,8 @@
     "applications": {
         "gecko": {
             "id": "proview-for-echo@echo-ntn.org",
-            "strict_min_version": "48.0"
+            "strict_min_version": "48.0",
+            "update_url": "https://raw.githubusercontent.com/wo-r/proview-for-echo/firefox/update.json"
         }
     },
 
