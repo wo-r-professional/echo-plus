@@ -1,6 +1,6 @@
 {
     "manifest_version": 2,
-    "version": "0.2.9",
+    "version": "0.3.0",
     "author": "wo-r",
     "name": "proview for echo",
     "description": "An extension for ECHO that implements fixes, features, and redesigns, all aimed at enhancing the overall experience of using ECHO.",
@@ -11,11 +11,10 @@
         "128": "resource/icons/128x128.png"
     },
 
-    "applications": {
+    "browser_specific_settings": {
         "gecko": {
             "id": "proview-for-echo@echo-ntn.org",
-            "strict_min_version": "48.0",
-            "update_url": "https://raw.githubusercontent.com/wo-r/proview-for-echo/firefox/update.json"
+            "strict_min_version": "48.0"
         }
     },
 
