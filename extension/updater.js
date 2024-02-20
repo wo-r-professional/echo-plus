@@ -10,8 +10,8 @@
  * the code as long as they provide attribution back to the author and don’t hold the author liable. This encourages 
  * use and reuse in both commercial and open-source software.
  *
- * Repository: https://github.com/wo-r/proview-for-echo/
- * Documentation: https://github.com/wo-r/proview-for-echo/wiki
+ * Repository: https://github.com/wo-r-professional/proview-for-echo/
+ * Documentation: https://github.com/wo-r-professional/proview-for-echo/wiki
  * 
  * Dependencies: jQuery (v3.7.1), helper.js
  */
@@ -21,7 +21,7 @@
 
     if (!isEmpty(config("get", "proview_allow_extension_updates"))) {
         $.ajax({
-            url: "https://raw.githubusercontent.com/wo-r/proview-for-echo/main/extension/manifest.json",
+            url: "https://raw.githubusercontent.com/wo-r-professional/proview-for-echo/main/extension/manifest.json",
             method: "GET",
             dataType: "json",
             contentType: "application/json; charset=utf-8",
@@ -29,7 +29,7 @@
                 if (browser.runtime.getManifest().version < manifest.version) {
                     debug_logger("Extension needs to update", 4)
                     if (confirm("Extension is out of date.\n\nPlease click OK to go to the download page to get the latest version.")) {
-                        window.open(`https://github.com/wo-r/proview-for-echo/releases/tag/${manifest.version}`, "_blank").focus();
+                        window.open(`https://github.com/wo-r-professional/proview-for-echo/releases/tag/${manifest.version}`, "_blank").focus();
                     }
                 }
                 else

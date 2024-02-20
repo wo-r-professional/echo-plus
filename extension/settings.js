@@ -10,8 +10,8 @@
  * the code as long as they provide attribution back to the author and don’t hold the author liable. This encourages 
  * use and reuse in both commercial and open-source software.
  *
- * Repository: https://github.com/wo-r/proview-for-echo/
- * Documentation: https://github.com/wo-r/proview-for-echo/wiki
+ * Repository: https://github.com/wo-r-professional/proview-for-echo/
+ * Documentation: https://github.com/wo-r-professional/proview-for-echo/wiki
  * 
  * Dependencies: jQuery (v3.7.1), helper.js
  */
@@ -247,11 +247,11 @@
                         <span>Links</span>
                     </mat-card-subtitle>
                     <p>
-                        <a href="https://github.com/wo-r/proview-for-echo" target="_blank" rel="noopener">Extension Project</a>
+                        <a href="https://github.com/wo-r-professional/proview-for-echo" target="_blank" rel="noopener">Extension Project</a>
                         <span>·</span>
-                        <a href="https://github.com/wo-r/proview-for-echo/wiki" target="_blank" rel="noopener">Documentation</a>
+                        <a href="https://github.com/wo-r-professional/proview-for-echo/wiki" target="_blank" rel="noopener">Documentation</a>
                         <span>·</span>
-                        <a href="https://wo-r.github.io/proview/" target="_blank" rel="noopener">Proview Website</a>
+                        <a href="https://wo-r-professional.github.io/proview/" target="_blank" rel="noopener">Proview Website</a>
                         <span>·</span>
                         <a href="https://github.com/wo-r" target="_blank" rel="noopener">Github</a>
                     </p>
