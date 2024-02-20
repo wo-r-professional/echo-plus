@@ -3,7 +3,7 @@
 <br>
 
 # Proview for Echo
-Welcome to the best extension for Echo by Agilix, Inc.! It offers a range of fixes, features, and redesigns, all focused on significantly enhancing the user experience. This tool is especially valuable for improving the interface of what is often seen as a poorly designed website. The site's limitations were my main motivation for developing this extension.
+Welcome to the best extension for Echo! It offers a range of fixes, features, and redesigns, all focused on significantly enhancing the user experience. This tool is especially valuable for improving the interface of what is often seen as a poorly designed website. The site's limitations were my main motivation for developing this extension.
 
 ## Installing
 If you have experience with manually installing extensions, you'll find the process straightforward. However, for first-time users, it might seem a bit challenging. To assist, I've created a comprehensive documentation section with all the necessary information.
