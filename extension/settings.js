@@ -23,7 +23,7 @@
         if (!is_page("setting") || !isEmpty($("#proview-settings")))
             return;
 
-        // Change the ids of the inputs that exist in the first card
+        // Change the ids of the inputs that exist in the first card.
         if (!isEmpty($("app-settings form .outer .grid .mdc-card:first-child()"))) {
             await $("app-settings form .grid mat-card:first-child mat-card-content mat-form-field input").removeAttr("disabled");
             await $("app-settings form .grid mat-card:first-child mat-card-content mat-form-field .mdc-text-field--disabled").removeClass("mdc-text-field--disabled");
@@ -45,7 +45,7 @@
             })
         }
 
-        // Append custom profile input to the profile card
+        // Append custom profile input to the profile card.
         if (!isEmpty($("app-settings form .outer .grid .mdc-card:has(.profile-image)"))) {
             await $("app-settings form .outer .grid .mdc-card:has(.profile-image) mat-card-content").append(`
                 <span>Instead of uploading an image, simply link it here and it will use it instead (this allows the use of animated pfps).</span>
@@ -77,7 +77,7 @@
             debug_logger("Appended profile input to profile card", 1)
         }
 
-        // Append the rest of the settings to the last card
+        // Append the rest of the settings to the last card.
         if (!isEmpty($("app-settings form .outer .grid .mdc-card:last-child()"))) {
             await $("app-settings form .outer .grid .mdc-card:last-child() mat-card-content").append(`
                 <div id="proview-settings">
@@ -299,78 +299,78 @@
             `);
 
             debug_logger("Appended settings to the last card", 1);
-        }
+                  
+            // Prop the settings, so they match what has been set in config.
+            if (!isEmpty($("#firstname")) && !isEmpty($("#custom_pfp")) && !isEmpty($("#update_extension"))) {
+                $("#custom_pfp").prop("value", config("get", "proview_custom_profile_picture"));
+                $("#update_extension").prop("checked", config("get", "proview_allow_extension_updates") === "true");
+                $("#auto_login").prop("checked", config("get", "proview_automatic_logins") === "true");
+                $("#custom_styles").prop("checked", config("get", "proview_stylesheets") === "true");
+                $("#remove_thumbnails").prop("checked", config("get", "proview_remove_thumbnails") === "true");
+                $("#replace_standards").prop("checked", config("get", "proview_replace_standards") === "true");
+                $("#quality_features").prop("checked", config("get", "proview_quality_features")) === "true";
+                $("#custom_background").prop("value", config("get", "proview_custom_background"));
+                if (!isEmpty(config("get", "proview_hide_courses")))
+                    $("#hide_courses").prop("value", JSON.parse(config("get", "proview_hide_courses")).join(", "));
 
-        // Prop the settings, so they match what has been set in config
-        if (!isEmpty($("#firstname")) && !isEmpty($("#custom_pfp")) && !isEmpty($("#update_extension"))) {
-            $("#custom_pfp").prop("value", config("get", "proview_custom_profile_picture"));
-            $("#update_extension").prop("checked", config("get", "proview_allow_extension_updates") === "true");
-            $("#auto_login").prop("checked", config("get", "proview_automatic_logins") === "true");
-            $("#custom_styles").prop("checked", config("get", "proview_stylesheets") === "true");
-            $("#remove_thumbnails").prop("checked", config("get", "proview_remove_thumbnails") === "true");
-            $("#replace_standards").prop("checked", config("get", "proview_replace_standards") === "true");
-            $("#quality_features").prop("checked", config("get", "proview_quality_features")) === "true";
-            $("#custom_background").prop("value", config("get", "proview_custom_background"));
-            if (!isEmpty(config("get", "proview_hide_courses")))
-                $("#hide_courses").prop("value", JSON.parse(config("get", "proview_hide_courses")).join(", "));
-
-            debug_logger("Propped inputs/checkboxes to current configuration", 1);
-        }
-
-        // Once "Save" is clicked, save all changes done to settings.
-        $("app-settings mat-toolbar button:last-child").on("mousedown", async function (event) {
-            config("set", "proview_allow_extension_updates", $("#update_extension").prop("checked"));
-            config("set", "proview_automatic_logins", $("#auto_login").prop("checked"));
-            config("set", "proview_stylesheets", $("#custom_styles").prop("checked"));
-            config("set", "proview_remove_thumbnails", $("#remove_thumbnails").prop("checked"));
-            config("set", "proview_replace_standards", $("#replace_standards").prop("checked"));
-            config("set", "proview_quality_features", $("#quality_features").prop("checked"));
-            config("set", "proview_custom_background", $("#custom_background").val());
-            config("set", "proview_hide_courses", JSON.stringify($("#hide_courses").val().split(",").map(item => item.trim())));
-
-            var self = {
-                "userid": get_details.id,
-                "data": {}
+                debug_logger("Propped inputs/checkboxes to current configuration", 1);
             }
 
-            if (!isEmpty($("#custom_pfp").val())) {
-                if (config("get", "proview_custom_profile_picture") != $("#custom_pfp").val()) {
-                    self.data.profilepicture = {"$value": $("#custom_pfp").val()};
-                    config("set", "proview_custom_profile_picture", $("#custom_pfp").val());
+            // Once "Save" is clicked, save all changes done to settings.
+            $("app-settings mat-toolbar button:last-child").on("mousedown", async function (event) {
+                config("set", "proview_allow_extension_updates", $("#update_extension").prop("checked"));
+                config("set", "proview_automatic_logins", $("#auto_login").prop("checked"));
+                config("set", "proview_stylesheets", $("#custom_styles").prop("checked"));
+                config("set", "proview_remove_thumbnails", $("#remove_thumbnails").prop("checked"));
+                config("set", "proview_replace_standards", $("#replace_standards").prop("checked"));
+                config("set", "proview_quality_features", $("#quality_features").prop("checked"));
+                config("set", "proview_custom_background", $("#custom_background").val());
+                config("set", "proview_hide_courses", JSON.stringify($("#hide_courses").val().split(",").map(item => item.trim())));
+
+                var self = {
+                    "userid": get_details.id,
+                    "data": {}
                 }
-            }
 
-            if (!isEmpty($("#firstname")) && !isEmpty($("#lastname")) && !isEmpty($("#username")) && !isEmpty($("#email"))) {
-                // What items are the same and what are different?
-                if (!isEmpty($("#firstname").val()) && get_details.firstname !== $("#firstname").val())
-                    self.firstname = $("#firstname").val();
-                if (!isEmpty($("#lastname").val()) && get_details.lastname !== $("#lastname").val())
-                    self.lastname = $("#lastname").val();
-                if (!isEmpty($("#username").val()) && get_details.username !== $("#username").val())
-                    self.username = $("#username").val();
-                if (!isEmpty($("#email").val()) && get_details.email !== $("#email").val())
-                    self.email = $("#email").val();
-            }
-
-            if (!isEmpty(self.data) || !isEmpty(self.firstname) || !isEmpty(self.lastname) || !isEmpty(self.username) || !isEmpty(self.email)) {
-                await $.ajax({
-                    url: api(`/cmd/updateusers?_token=${get_details.token}`),
-                    method: "POST",
-                    dataType: "json",
-                    contentType: "application/json; charset=utf-8",
-                    data: JSON.stringify({"requests": {
-                        "user": [self]
-                    }}),
-                    success: function () {
-                        debug_logger("Applied user settings", 1);
+                if (!isEmpty($("#custom_pfp").val())) {
+                    if (config("get", "proview_custom_profile_picture") != $("#custom_pfp").val()) {
+                        self.data.profilepicture = {"$value": $("#custom_pfp").val()};
+                        config("set", "proview_custom_profile_picture", $("#custom_pfp").val());
                     }
-                });
-            }
-            else
-                debug_logger("No changes were found for user settings", 2);
+                }
 
-            debug_logger("Applied changes to settings", 1);
-            window.location.href = "student/home/courses";
-        })
+                if (!isEmpty($("#firstname")) && !isEmpty($("#lastname")) && !isEmpty($("#username")) && !isEmpty($("#email"))) {
+                    // What items are the same and what are different?
+                    if (!isEmpty($("#firstname").val()) && get_details.firstname !== $("#firstname").val())
+                        self.firstname = $("#firstname").val();
+                    if (!isEmpty($("#lastname").val()) && get_details.lastname !== $("#lastname").val())
+                        self.lastname = $("#lastname").val();
+                    if (!isEmpty($("#username").val()) && get_details.username !== $("#username").val())
+                        self.username = $("#username").val();
+                    if (!isEmpty($("#email").val()) && get_details.email !== $("#email").val())
+                        self.email = $("#email").val();
+                }
+
+                if (!isEmpty(self.data) || !isEmpty(self.firstname) || !isEmpty(self.lastname) || !isEmpty(self.username) || !isEmpty(self.email)) {
+                    await $.ajax({
+                        url: api(`/cmd/updateusers?_token=${get_details.token}`),
+                        method: "POST",
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+                        data: JSON.stringify({"requests": {
+                            "user": [self]
+                        }}),
+                        success: function () {
+                            debug_logger("Applied user settings", 1);
+                        }
+                    });
+                }
+                else
+                    debug_logger("No changes were found for user settings", 2);
+
+                debug_logger("Applied changes to settings", 1);
+                window.location.href = "student/home/courses";
+            })
+        }
     })
 })();

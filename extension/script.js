@@ -150,7 +150,7 @@
                         $.each(json.response.enrollments.enrollment, function () {
                             let true_score = Math.round((this.enrollmentmetrics.achieved / this.enrollmentmetrics.possible) * 100),
                                 score_color;
-
+                            
                             if (isNaN(true_score))
                                 score_color = "no-color";
                             else if (true_score >= 80)
@@ -169,8 +169,9 @@
                             $(`app-student-courses .grid-ct mat-card:has(h2:contains("${this.course.title}")) .score-ct div:first-child`).text("Current score");
                             $(`app-student-courses .grid-ct mat-card:has(h2:contains("${this.course.title}")) .score span:contains("%")`).css("color", `var(--${score_color})`).text(`${true_score}%`);
                             $(`app-student-courses .grid-ct mat-card:has(h2:contains("${this.course.title}")) .fail-ada`).remove();
-                            $(`app-course-home .card-ct mat-card .top-buttons .first-row span:contains("standards")`).css("color", `var(--${score_color})`).text(`${true_score}%`);
-                            $(`app-course-home .card-ct mat-card .top-buttons .first-row .score span:contains("%")`).css("color", `var(--${score_color})`).text(`${true_score}%`);
+                            $(`app-course-home .card-ct mat-card .top-header:has(.title-teachers h2:contains("${this.course.title}")) .top-buttons .first-row span:contains("standards")`).css("color", `var(--${score_color})`).text(`${true_score}%`);
+                            $(`app-course-home .card-ct mat-card .top-header:has(.title-teachers h2:contains("${this.course.title}")) .top-buttons .first-row .score span:contains("%")`).css("color", `var(--${score_color})`).text(`${true_score}%`);
+                            $(`app-course-home .card-ct mat-card .top-header .fail-ada`).remove();
                             $(`app-gradebook-home mat-row:has(mat-cell a:contains("${this.course.title}")) mat-cell lib-score-proficiency span`).css("color", `var(--${score_color})`).text(`${true_score}%`);
                             $(`app-gradebook-home mat-row:has(mat-cell a:contains("${this.course.title}")) mat-cell lib-score .percent`).css("color", `var(--${score_color})`).text(`${true_score}%`);
                             $(`app-gradebook-home mat-row:has(mat-cell a:contains("${this.course.title}")) mat-cell .fail-ada`).remove();
@@ -190,7 +191,7 @@
             });
         })}).observe($("body app-root")[0], { childList: true });
         debug_logger(`Actively looking for scores`, 4); // no spam plz
-    }    
+    }
 
     // Checks for logins. If one exists it will try to login, if that fails it will remove it. (ignoring main-screen login)
     if (is_true_by_string(config("get", "proview_automatic_logins"))) {
