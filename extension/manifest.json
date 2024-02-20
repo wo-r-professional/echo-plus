@@ -3,7 +3,7 @@
     "version": "0.3.0",
     "author": "wo-r",
     "name": "proview for echo",
-    "description": "An extension for ECHO that implements fixes, features, and redesigns, all aimed at enhancing the overall experience of using ECHO.",
+    "description": "An extension for Echo that implements fixes, features, and redesigns, all aimed at enhancing the overall experience of using Echo.",
 
     "icons": {
         "16": "resource/icons/16x16.png",
@@ -13,7 +13,7 @@
 
     "browser_specific_settings": {
         "gecko": {
-            "id": "proview-for-echo@echo-ntn.org",
+            "id": "proview@echo-ntn.org",
             "strict_min_version": "48.0"
         }
     },
