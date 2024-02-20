@@ -34,5 +34,5 @@ def manifest_version():
         manifest_data = json.load(manifest_file)
         return manifest_data.get('version')
 
-zip_dir("extension", "build", f"firefox_v{manifest_version()}")
-tar_dir("extension", "build", f"firefox_v{manifest_version()}")
+zip_dir("extension", "build", f"chrome_v{manifest_version()}")
+tar_dir("extension", "build", f"chrome_v{manifest_version()}")
