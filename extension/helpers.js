@@ -1,7 +1,7 @@
 /**
  * Used when debugging things
  */
-let debugging = false;
+let debugging = true;
 
 /**
  * Debugging logger

@@ -1,6 +1,6 @@
 /** Login styling CSS **/
 
-app-before-login :is(.logo-ct, .buzz-login-logo, .buzz-login-content) {
+app-before-login :is(.logo-ct, .buzz-login-logo, .buzz-login-content, .toolbar-fill) {
     display: none !important;
 }
 
@@ -9,12 +9,7 @@ app-before-login app-login {
     margin: 0px;
 }
 
-app-before-login mat-toolbar {
-    width: 0px !important;
-    height: 0px !important;
-}
-
-app-before-login mat-toolbar form {
+app-before-login app-login mat-toolbar {
     display: flex;
     justify-content: center;
     flex-direction: row;
@@ -24,22 +19,31 @@ app-before-login mat-toolbar form {
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    padding: 50px 10px 50px 10px;
-    width: 45rem;
-    box-shadow: var(--box-shadow);
-    background: var(--foreground-opacity-e0) !important;
     display: flex;
     flex-direction: row;
+    width: fit-content !important;
+    height: unset !important;
     gap: 1rem;
+    display: flex;
+    flex-direction: column !important;
 }
 
-app-before-login app-login mat-toolbar form:before {
-    padding: 20px 0px 40px 0px;
-    font-family: inherit;
-    font-size: 50px;
-    text-align: left !important;
-    content: "Echo by Agilix Labs";
-    color: var(--text-color) !important;
+app-before-login app-login mat-toolbar:before {
+    padding: 50px 0px 10px 0px;
+    content: "Echo by Agilix, Inc";
+    font-size: 40px;
+}
+
+.mat-toolbar.main-toolbar.mat-elevation-z4.app-primary-dark-background.app-primary-dark-contrast-color.buzz-main-header.mat-primary.mat-toolbar-single-row {
+    box-shadow: var(--box-shadow);
+    background: var(--foreground-opacity-e0) !important;
+}
+
+app-before-login app-login mat-toolbar form {
+    padding: 30px 30px 50px 30px !important;
+    display: flex;
+    gap: 1rem;
+    justify-content: right;
 }
 
 app-before-login app-login .login-fields {

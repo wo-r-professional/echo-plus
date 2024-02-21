@@ -118,9 +118,8 @@
             </style>
         `)
     }
-
     // Remove thumbnails if stylesheets is not on
-    if (!is_true_by_string(config("get", "proview_stylesheets")) && config("get", "proview_remove_thumbnails")) {
+    if (!is_true_by_string(config("get", "proview_stylesheets")) && is_true_by_string(config("get", "proview_remove_thumbnails"))) {
         $("head").append(`
             <style>
                 app-student-courses mat-card .course-card-image {
@@ -193,7 +192,7 @@
                                 score_color = "no-color";
                             else if (true_score >= 80)
                                 score_color = "pass-color";
-                            else if (true_score < 80) {
+                            else if (true_score < 80 && true_score > 60) {
                                 $("body").css("--warn-color", "#ffd34d");
                                 score_color = "warn-color";
                             }

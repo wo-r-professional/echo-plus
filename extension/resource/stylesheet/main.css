@@ -50,10 +50,11 @@ html, body {
   background: transparent;
 }
 
+
 /** setup the backgrounds **/
 :is(
+  app-login .buzz-login-page-bottom,
   .app-background,
-  app-login .app-primary-default-background, 
   app-student-courses, 
   app-student-to-do, 
   app-student-stream, 
