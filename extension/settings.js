@@ -282,20 +282,17 @@
             debug_logger("Appended settings to the last card", 1);
                   
             // Prop the settings, so they match what has been set in config.
-            if (!isEmpty($("#firstname")) && !isEmpty($("#custom_pfp")) && !isEmpty($("#update_extension"))) {
-                $("#custom_pfp").prop("value", config("get", "proview_custom_profile_picture"));
-                $("#update_extension").prop("checked", config("get", "proview_allow_extension_updates") === "true");
-                $("#auto_login").prop("checked", config("get", "proview_automatic_logins") === "true");
-                $("#custom_styles").prop("checked", config("get", "proview_stylesheets") === "true");
-                $("#remove_thumbnails").prop("checked", config("get", "proview_remove_thumbnails") === "true");
-                $("#replace_standards").prop("checked", config("get", "proview_replace_standards") === "true");
-                $("#quality_features").prop("checked", config("get", "proview_quality_features")) === "true";
-                $("#custom_background").prop("value", config("get", "proview_custom_background"));
-                if (!isEmpty(config("get", "proview_hide_courses")))
-                    $("#hide_courses").prop("value", JSON.parse(config("get", "proview_hide_courses")).join(", "));
+            $("#custom_pfp").prop("value", config("get", "proview_custom_profile_picture"));
+            $("#auto_login").prop("checked", config("get", "proview_automatic_logins") === "true");
+            $("#custom_styles").prop("checked", config("get", "proview_stylesheets") === "true");
+            $("#remove_thumbnails").prop("checked", config("get", "proview_remove_thumbnails") === "true");
+            $("#replace_standards").prop("checked", config("get", "proview_replace_standards") === "true");
+            $("#quality_features").prop("checked", config("get", "proview_quality_features")) === "true";
+            $("#custom_background").prop("value", config("get", "proview_custom_background"));
+            if (!isEmpty(config("get", "proview_hide_courses")))
+                $("#hide_courses").prop("value", JSON.parse(config("get", "proview_hide_courses")).join(", "));
 
-                debug_logger("Propped inputs/checkboxes to current configuration", 1);
-            }
+            debug_logger("Propped inputs/checkboxes to current configuration", 1);
 
             // Once "Save" is clicked, save all changes done to settings.
             $("app-settings mat-toolbar button:last-child").on("mousedown", async function (event) {
