@@ -96,6 +96,45 @@
             $("body").css("--remove-thumbnails", "none");
     }
 
+    // Add custom background if stylesheets is not on
+    if (!is_true_by_string(config("get", "proview_stylesheets")) && config("get", "proview_custom_background") != "") {
+        $("head").append(`
+            <style>
+                :is(
+                    app-settings .app-background,
+                    app-login .app-primary-default-background, 
+                    app-student-courses, 
+                    app-student-to-do, 
+                    app-student-stream, 
+                    app-activity .mat-drawer-container, 
+                    app-activity-item .mat-drawer-container,
+                    app-order-courses .main,
+                    app-student-grades .main,
+                    app-badges
+                ){                
+                    background-image: url("${config("get", "proview_custom_background")}") !important;
+                    background-size: 100% 100% !important;
+                    background-repeat: no-repeat !important;
+                }
+            </style>
+        `)
+    }
+
+    // Remove thumbnails if stylesheets is not on
+    if (!is_true_by_string(config("get", "proview_stylesheets")) && config("get", "proview_remove_thumbnails")) {
+        $("head").append(`
+            <style>
+                app-student-courses mat-card .course-card-image {
+                    margin: unset !important;
+                    width: unset !important;
+                    background-position: 50% 100% !important;
+                    background-size: 100% 100%;
+                    display: none;
+                }       
+            </style>
+        `)
+    }
+
     // Hides courses from the course page if the value from config matches it
     if (!isEmpty(JSON.parse(config("get", "proview_hide_courses"))[0])) {
         new MutationObserver(function (mutations) {mutations.forEach(function () {
