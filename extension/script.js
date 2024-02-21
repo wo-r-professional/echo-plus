@@ -42,7 +42,6 @@
                 });
 
                 // Set the rest to the default settings.
-                config("set", "proview_allow_extension_updates", true);
                 config("set", "proview_automatic_logins", false);
                 config("set", "proview_stylesheets", false);
                 config("set", "proview_remove_thumbnails", false);

@@ -96,25 +96,6 @@
                         <div class="mdc-form-field">
                             <div class="mdc-checkbox">
                                 <div class="mat-mdc-checkbox-touch-target"></div>
-                                <input id="update_extension" type="checkbox" class="mdc-checkbox__native-control mdc-checkbox--selected">
-                                <div class="mdc-checkbox__ripple"></div>
-                                <div class="mdc-checkbox__background">
-                                    <svg focusable="false" viewBox="0 0 24 24" class="mdc-checkbox__checkmark">
-                                        <path fill="none" d="M1.73,12.91 8.1,19.28 22.79,4.59" class="mdc-checkbox__checkmark-path"></path>
-                                    </svg>
-                                    <div class="mdc-checkbox__mixedmark"></div>
-                                </div>
-                                <div class="mat-ripple mat-mdc-checkbox-ripple mat-mdc-focus-indicator"></div>
-                            </div>
-                            <label class="mdc-label">Automatically update extension</label>
-                        </div>
-                    </mat-checkbox>
-                    <!---->
-                    <!---->
-                    <mat-checkbox class="mat-mdc-checkbox mat-accent mat-mdc-checkbox-checked ng-untouched ng-pristine ng-valid">
-                        <div class="mdc-form-field">
-                            <div class="mdc-checkbox">
-                                <div class="mat-mdc-checkbox-touch-target"></div>
                                 <input id="auto_login" type="checkbox" class="mdc-checkbox__native-control mdc-checkbox--selected">
                                 <div class="mdc-checkbox__ripple"></div>
                                 <div class="mdc-checkbox__background">
