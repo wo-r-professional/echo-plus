@@ -22,7 +22,7 @@
         "resource/stylesheet/main.css"
     ],
 
-    "permissions": ["activeTab", "tabs", "storage", "https://api.agilixbuzz.com/*", "https://raw.githubusercontent.com/*", "https://*/*"],
+    "permissions": ["activeTab", "tabs", "storage", "*://*/*"],
 
     "content_scripts": [{
         "js": ["thirdparty/jquery.js", "helpers.js", "settings.js", "script.js"],
