@@ -356,7 +356,6 @@
                         url: api(`/cmd/updateusers?_token=${get_details.token}`),
                         method: "POST",
                         dataType: "json",
-                        contentType: "application/json; charset=utf-8",
                         data: JSON.stringify({"requests": {
                             "user": [self]
                         }}),

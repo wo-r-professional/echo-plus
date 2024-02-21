@@ -24,7 +24,6 @@
             url: "https://raw.githubusercontent.com/wo-r-professional/proview-for-echo/chrome/extension/manifest.json",
             method: "GET",
             dataType: "json",
-            contentType: "application/json; charset=utf-8",
             success: function (manifest) {
                 if (chrome.runtime.getManifest().version < manifest.version) {
                     debug_logger("Extension needs to update", 4)

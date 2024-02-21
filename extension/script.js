@@ -183,7 +183,6 @@
                 url: api(`/cmd/listuserenrollments?_token=${get_details.token}&userid=${get_details.id}&privileges=1&select=data,course,course.data,course.teachers,metrics`),
                 method: "GET",
                 dataType: "json",
-                contentType: "application/json; charset=utf-8",
                 success: function(json) {
                     if (is_page("home/courses") || is_page("gradebook") || is_page("activity") || is_page("dashboard")) {
                         $.each(json.response.enrollments.enrollment, function () {
