@@ -1,8 +1,0 @@
-/** Text styling CSS **/
-
-:root a:not(:has(mat-icon))[href] *,
-:root a:not(:has(mat-icon)) * {
-    text-decoration: none !important;
-    background: transparent !important;
-    /*color: red !important;*/
-}
