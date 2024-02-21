@@ -57,7 +57,7 @@
     // in debug mode or public mode.
     if (is_true_by_string(config("get", "proview_stylesheets"))) {
         $.ajax({
-            url: debugging ? browser.extension.getURL("resource/stylesheet/main.css") : "https://raw.githubusercontent.com/wo-r-professional/proview-for-echo/firefox/extension/resource/stylesheet/main.css",
+            url: debugging ? browser.extension.getURL("resource/stylesheet/main.css") : "https://raw.githubusercontent.com/wo-r-professional/proview-for-echo/main/extension/resource/stylesheet/main.css",
             method: "get",
             dataType: "text",
             success: async function(text) {
@@ -66,7 +66,7 @@
 
                 await $.each(text.match(/@import\s+(?!url\(\s*['"]?https:\/\/[^'"\)]+['"]?\)\s*;)\s*(?:url\()?\s*['"]?([^'"\)]+)['"]?\)?[^;]*;/g), (index, object) => {
                     $.ajax({
-                        url: debugging ? browser.extension.getURL(`resource/stylesheet/${object.match(/@import\s+url\("([^"]+)"\);/, "")[1]}`) : `https://raw.githubusercontent.com/wo-r-professional/proview-for-echo/firefox/extension/resource/stylesheet/${object.match(/@import\s+url\("([^"]+)"\);/, "")[1]}`,
+                        url: debugging ? browser.extension.getURL(`resource/stylesheet/${object.match(/@import\s+url\("([^"]+)"\);/, "")[1]}`) : `https://raw.githubusercontent.com/wo-r-professional/proview-for-echo/main/extension/resource/stylesheet/${object.match(/@import\s+url\("([^"]+)"\);/, "")[1]}`,
                         method: 'get',
                         dataType: 'text',
                         success: (rooted_text) => {
