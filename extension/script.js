@@ -233,16 +233,27 @@
 
     // Checks for logins. If one exists it will try to login, if that fails it will remove it. (ignoring main-screen login)
     if (is_true_by_string(config("get", "proview_automatic_logins"))) {
-        new MutationObserver((mutations) => {mutations.forEach(() => {
+        new MutationObserver((mutations) => {mutations.forEach(async () => {
             if (!is_page("login"))
                 return;
-
+            
             if (!isEmpty(config("get", "proview_automatic_logins_details"))) {
                 if (is_page("login")) {
-                    simulateKeypress($(".login-fields mat-form-field input[type=\"text\"]"), JSON.parse(config("get", "proview_automatic_logins_details"))[0])
-                    simulateKeypress($(".login-fields mat-form-field input[type=\"password\"]"), JSON.parse(config("get", "proview_automatic_logins_details"))[1])
-                    $("mat-toolbar button[type=\"submit\"] .mat-mdc-button-touch-target").trigger("click");
-                    debug_logger("Automatically logging in", 4);
+                    await $.ajax({
+                        url: api("/cmd"),
+                        method: "POST",
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+                        data: JSON.stringify({"request": {
+                            cmd: "login3",
+                            expireseconds: "-1",
+                            password: JSON.parse(config("get", "proview_automatic_logins_details"))[1],
+                            username: `${window.location.href.split("//")[1].split(".")[0]}/${JSON.parse(config("get", "proview_automatic_logins_details"))[0]}`,
+                        }}),
+                        success: (json) => {
+                            console.log(json)
+                        }
+                    })
                 }
                 return;
             }
