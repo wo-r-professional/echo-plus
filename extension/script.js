@@ -119,9 +119,9 @@
             </style>
         `)
     }
-
+    
     // Remove thumbnails if stylesheets is not on
-    if (!is_true_by_string(config("get", "proview_stylesheets")) && config("get", "proview_remove_thumbnails")) {
+    if (!is_true_by_string(config("get", "proview_stylesheets")) && is_true_by_string(config("get", "proview_remove_thumbnails"))) {
         $("head").append(`
             <style>
                 app-student-courses mat-card .course-card-image {
