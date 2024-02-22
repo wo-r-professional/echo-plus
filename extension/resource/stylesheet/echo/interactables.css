@@ -76,9 +76,138 @@
     color: var(--text-color) !important;
 }
 
-/** Change all cards to match and follow the set theme **/
+/* TODO:
+.mdc-tab__content .mdc-tab__text-label {
+    color: var(--cktheme-text) !important;
+    user-select: none !important;
+}
+
+.mat-ripple-element {
+    background: var(--cktheme-setcolor) !important;
+    color: var(--cktheme-text) !important;
+    opacity: 0.2;
+}
+
+.mat-ripple .mat-ripple-element {
+    background: var(--cktheme-setcolor) !important;
+    color: var(--cktheme-text) !important;
+    opacity: 0.2;
+}
+*/
+.submit-disabled { display: none !important; }
+
+button.mdc-fab--mini .mat-mdc-button-persistent-ripple {
+    background: var(--cktheme-setcolor) !important;
+}
+
+.mdc-text-field--outlined .mdc-text-field--focused .mdc-notched-outline__leading, 
+.mdc-text-field--outlined .mdc-text-field--focused .mdc-notched-outline__notch, 
+.mdc-text-field--outlined .mdc-text-field--focused .mdc-notched-outline__trailing,
+.mdc-text-field--outlined .mdc-notched-outline__leading,
+.mdc-text-field--outlined .mdc-notched-outline__notch,
+.mdc-text-field--outlined .mdc-notched-outline__trailing {
+    border-top-width: .5px !important;
+    border-bottom-width: .5px !important;
+}
+.mdc-text-field--outlined .mdc-text-field--focused .mdc-notched-outline__leading, 
+.mdc-text-field--outlined .mdc-text-field--focused .mdc-notched-outline__trailing,
+.mdc-text-field--outlined .mdc-notched-outline__leading,
+.mdc-text-field--outlined .mdc-notched-outline__trailing {
+    border-left-width: .5px !important;
+    border-right-width: .5px !important;
+}
+
+.mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__leading, 
+.mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__notch, 
+.mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__trailing {
+    border-color: var(--border-color) !important;
+}
+
+
+.ng-star-inserted .mat-badge-content,
+.ng-star-inserted .app-large-button-badge {
+    background: var(--cktheme-setcolor) !important;
+    color: var(--cktheme-colortext) !important;
+    border-radius: 100px !important;
+}
+
+.app-large-button-badge {
+    line-height: 15px !important;
+}
+
+.mdc-text-field input {
+    caret-color: var(--cktheme-text) !important;
+}
+
+button.mdc-fab--mini mat-icon {
+    color: var(--cktheme-colortext) !important;
+}
+
+.cdk-overlay-container .mat-mdc-dialog-container .mat-mdc-dialog-surface {
+    border-radius: 0px !important;
+    background: var(--cktheme-color1) !important;;
+}
+
+.mdc-checkbox__ripple {
+    display: none !important;
+}
+
+.mdc-checkbox__background {
+    background: var(--cktheme-setcolor) !important;
+    border: 2px solid var(--cktheme-setcolor) !important;
+    border-radius: 0px !important;
+}
+
+.mdc-switch__ripple .mat-ripple:active,
+.mdc-switch__ripple .mat-ripple:hover,
+.mdc-switch__ripple .mat-ripple:focus {
+    background: var(--primary-400) !important;
+}
+
+.mdc-switch__handle .mdc-switch__icon path {
+    stroke: var(--cktheme-colortext) !important;
+    fill: var(--cktheme-colortext) !important;
+}
+
+.mdc-switch--unselected .mdc-switch__ripple::after {
+    background: transparent !important;
+    border: none !important;
+}
+
+.mdc-switch__track::after {
+    background: var(--cktheme-setcolor) !important;
+}
+
+.mat-mdc-slide-toggle .mdc-switch.mdc-switch--selected:enabled .mdc-switch__handle::after {
+    background: var(--cktheme-setcolor) !important;
+}
+
+.mdc-tab__ripple::before {
+    background: var(--cktheme-setcolor) !important;
+}
+
+.mat-icon {
+    color: var(---text-color) !important;
+}
+
+.mdc-tab-indicator .mdc-tab-indicator__content {
+    border-color: var(--cktheme-setcolor) !important;
+}
+
+.mdc-checkbox__checkmark-path {
+	stroke: var(--cktheme-colortext) !important;
+}
+
+.mdc-button:not(:has(mat-icon)) {
+    box-shadow: var(--box-shadow) !important;
+    border: 0px !important;
+    color: var(--theme-default-text-color) !important;
+    background: var(--theme-default-color) !important;
+    user-select: none !important;
+}
 
 /* change mat cards (base mat cards) to follow the most transparent versions of foreground */
 mat-card {
     background: var(--foreground-opacity-e0) !important;
 }
+
