@@ -46,12 +46,32 @@ app-before-login app-login mat-toolbar form {
     justify-content: right;
 }
 
+@media screen and (max-width: 710px) {
+    app-before-login app-login mat-toolbar form {
+        display: grid !important;
+        grid-template-columns: 1fr;
+    }
+
+    app-before-login app-login mat-toolbar form button.mdc-icon-button {
+        grid-area: 2 / 1;
+        justify-self: right;
+        margin-right: 5.5rem;
+    }
+
+    app-before-login app-login mat-toolbar form button.mdc-button {
+        width: 20% !important;
+        grid-area: 2 / 1;
+        justify-self: right;
+    }
+}
+
 app-before-login app-login .login-fields {
     display: flex !important;
     flex-direction: row;
     align-items: center;
     margin: unset !important;
     height: unset !important;
+    width: 100% !important;
 }
 
 app-before-login app-login .mat-mdc-form-field-label mat-label {
@@ -85,7 +105,7 @@ app-before-login app-login input {
 }
 
 app-before-login app-login .mat-mdc-text-field-wrapper .mat-mdc-form-field-infix {
-    padding: 10px !important;
+    padding: 10px 0 10px 10px !important;
     display: flex;
 }
 app-before-login app-login input {
@@ -93,10 +113,6 @@ app-before-login app-login input {
     vertical-align: unset !important;
     caret-color: var(--text-color) !important;
     border-bottom: 2.5px solid var(--primary-500) !important;
-}
-
-app-before-login app-login input:-webkit-autofill {
-    padding: 0px 5px 0px 5px !important;
 }
 
 app-before-login app-login mat-form-field .mat-mdc-text-field-wrapper {
