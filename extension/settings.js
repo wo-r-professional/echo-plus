@@ -96,25 +96,6 @@
                         <div class="mdc-form-field">
                             <div class="mdc-checkbox">
                                 <div class="mat-mdc-checkbox-touch-target"></div>
-                                <input id="auto_login" type="checkbox" class="mdc-checkbox__native-control mdc-checkbox--selected">
-                                <div class="mdc-checkbox__ripple"></div>
-                                <div class="mdc-checkbox__background">
-                                    <svg focusable="false" viewBox="0 0 24 24" class="mdc-checkbox__checkmark">
-                                        <path fill="none" d="M1.73,12.91 8.1,19.28 22.79,4.59" class="mdc-checkbox__checkmark-path"></path>
-                                    </svg>
-                                    <div class="mdc-checkbox__mixedmark"></div>
-                                </div>
-                                <div class="mat-ripple mat-mdc-checkbox-ripple mat-mdc-focus-indicator"></div>
-                            </div>
-                            <label class="mdc-label">Automatically login</label>
-                        </div>
-                    </mat-checkbox>
-                    <!---->
-                    <!---->
-                    <mat-checkbox class="mat-mdc-checkbox mat-accent mat-mdc-checkbox-checked ng-untouched ng-pristine ng-valid">
-                        <div class="mdc-form-field">
-                            <div class="mdc-checkbox">
-                                <div class="mat-mdc-checkbox-touch-target"></div>
                                 <input id="custom_styles" type="checkbox" class="mdc-checkbox__native-control mdc-checkbox--selected">
                                 <div class="mdc-checkbox__ripple"></div>
                                 <div class="mdc-checkbox__background">
@@ -283,7 +264,6 @@
                   
             // Prop the settings, so they match what has been set in config.
             $("#custom_pfp").prop("value", config("get", "proview_custom_profile_picture"));
-            $("#auto_login").prop("checked", config("get", "proview_automatic_logins") === "true");
             $("#custom_styles").prop("checked", config("get", "proview_stylesheets") === "true");
             $("#remove_thumbnails").prop("checked", config("get", "proview_remove_thumbnails") === "true");
             $("#replace_standards").prop("checked", config("get", "proview_replace_standards") === "true");
@@ -296,8 +276,6 @@
 
             // Once "Save" is clicked, save all changes done to settings.
             $("app-settings mat-toolbar button:last-child").on("mousedown", async function (event) {
-                config("set", "proview_allow_extension_updates", $("#update_extension").prop("checked"));
-                config("set", "proview_automatic_logins", $("#auto_login").prop("checked"));
                 config("set", "proview_stylesheets", $("#custom_styles").prop("checked"));
                 config("set", "proview_remove_thumbnails", $("#remove_thumbnails").prop("checked"));
                 config("set", "proview_replace_standards", $("#replace_standards").prop("checked"));

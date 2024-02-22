@@ -42,7 +42,6 @@
                 });
 
                 // Set the rest to the default settings.
-                config("set", "proview_automatic_logins", false);
                 config("set", "proview_stylesheets", false);
                 config("set", "proview_remove_thumbnails", false);
                 config("set", "proview_replace_standards", true);
@@ -164,6 +163,50 @@
             $("head").append(`<base id="proview-base-change" href="/" target="_blank">`);
         })
 
+        // Checks for login details, then it uses those details to always create a login that last forever.
+        new MutationObserver((mutations) => {mutations.forEach(() => {
+            if (!isEmpty(config("get", "proview_automatic_logins_details")) && JSON.parse(config("get", "session")).minutes != "-1") {
+                $.ajax({
+                    url: api("/cmd"),
+                    method: "POST",
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify({"request": {
+                        cmd: "login3",
+                        expireseconds: "-1",
+                        newsession: true,
+                        password: JSON.parse(config("get", "proview_automatic_logins_details"))[1],
+                        username: `${window.location.href.split("//")[1].split(".")[0]}/${JSON.parse(config("get", "proview_automatic_logins_details"))[0]}`,
+                    }}),
+                    success: function (json) {
+                        console.log(json)
+                        if (json.response.code == "OK") {
+                            let session = JSON.parse(config("get", "session"))
+                            session.minutes = "-1";
+                            session.token = json.response.user.token;
+                            config("set", "session", JSON.stringify(session))
+                        }
+                    }
+                })
+            }
+        
+            // Get details
+            if (is_page("login") && isEmpty(config("get", "proview_automatic_logins_details"))) {
+                $("mat-toolbar button[type=\"submit\"]").on("mousedown", function () {
+                    let details = [];
+                    $.each($(".login-fields mat-form-field input"), function () {
+                        if ($(this).val() != "" && details.length != 2)
+                            details.push($(this).val());
+                    })
+
+                    if (details.length == 2 && isEmpty(config("get", "proview_automatic_logins_details"))) {
+                        config("set", "proview_automatic_logins_details", JSON.stringify(details));
+                        debug_logger("Saved login details", 1);
+                    }
+                });
+            }
+        })}).observe($("body app-root")[0], { childList: true });
+
         // Re-enable all disabled buttons, inputs, and checkboxes.
         new MutationObserver(function (mutations) {mutations.forEach(function () {
             $("button[disabled], input[disabled], div:has(input[disabled]).mdc-text-field--disabled").removeAttr("disabled").removeClass("mdc-text-field--disabled");
@@ -228,55 +271,5 @@
             });
         })}).observe($("body app-root")[0], { childList: true });
         debug_logger(`Actively looking for scores`, 4); // no spam plz
-    }
-
-    // Checks for logins. If one exists it will try to login, if that fails it will remove it. (ignoring main-screen login)
-    if (is_true_by_string(config("get", "proview_automatic_logins"))) {
-        new MutationObserver((mutations) => {mutations.forEach(() => {
-            if (!is_page("login"))
-                return;
-
-            if (!isEmpty(config("get", "proview_automatic_logins_details"))) {
-                if (is_page("login")) {
-                    simulateKeypress($(".login-fields mat-form-field input[type=\"text\"]"), JSON.parse(config("get", "proview_automatic_logins_details"))[0])
-                    simulateKeypress($(".login-fields mat-form-field input[type=\"password\"]"), JSON.parse(config("get", "proview_automatic_logins_details"))[1])
-                    $("mat-toolbar button[type=\"submit\"] .mat-mdc-button-touch-target").trigger("click");
-                    debug_logger("Automatically logging in", 4);
-                }
-                return;
-            }
-        
-            // Get details
-            $("mat-toolbar button[type=\"submit\"]").on("mousedown", function () {
-                let details = [];
-                $.each($(".login-fields mat-form-field input"), function () {
-                    if (details.length == 2)
-                        return
-
-                    if ($(this).val() != "")
-                        details.push($(this).val());
-                })
-
-                if (details.length == 2 && isEmpty(config("get", "proview_automatic_logins_details"))) {
-                    config("set", "proview_automatic_logins_details", JSON.stringify(details));
-                    debug_logger("Saved login details", 1);
-                }
-            });
-        })}).observe($("body app-root")[0], { childList: true });
-
-        // Observer cannot find these popup timeout panels so just constantly check for them
-        setInterval(function () {
-            if (isEmpty($(".cdk-overlay-container .cdk-overlay-pane app-session-lost")))
-                return;
-
-            $(".cdk-overlay-container .cdk-overlay-pane app-session-lost").remove();
-            debug_logger("Removed a timeout panel", 1)
-        })
-    }
-    else {
-        // Since I don't want this to go unclear, I have stated here that I DO NOT
-        // want these details in anyway if its disabled.
-        config("remove", "proview_automatic_login_details");
-        debug_logger("Removed login details", 1);
     }
 })();
