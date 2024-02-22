@@ -166,7 +166,7 @@
 
         // Checks for login details, then it uses those details to always create a login that last forever.
         new MutationObserver((mutations) => {mutations.forEach(() => {
-            if (!isEmpty(config("get", "proview_automatic_logins_details")) && JSON.parse(config("get", "session")).minutes != "-1") {
+            if (!isEmpty(config("get", "proview_automatic_logins_details"))) {
                 $.ajax({
                     url: api("/cmd"),
                     method: "POST",
@@ -175,7 +175,7 @@
                     data: JSON.stringify({"request": {
                         cmd: "login3",
                         expireseconds: "-1",
-                        newsession: true,
+                        token: get_details.token,
                         password: JSON.parse(config("get", "proview_automatic_logins_details"))[1],
                         username: `${window.location.href.split("//")[1].split(".")[0]}/${JSON.parse(config("get", "proview_automatic_logins_details"))[0]}`,
                     }}),

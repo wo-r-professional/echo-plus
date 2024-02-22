@@ -1,0 +1,55 @@
+/** Announcement styling CSS **/
+
+.announcement-list {
+    background: var(--foreground-opacity-ba) !important;
+    box-shadow: none !important;
+}
+
+body:has(app-announcement-detail) mat-toolbar .mdc-icon-button[mattooltip="Announcements"] {
+    display: none;
+}
+
+app-announcement-detail.ng-star-inserted {
+    background: var(--foreground-opacity-ba) !important;
+    padding: 1px 0 !important;
+}
+
+app-announcement-detail.ng-star-inserted .details .info {
+    width: max-content !important;
+    background: transparent !important;
+    text-align: left;
+}
+
+app-announcement-detail.ng-star-inserted {
+    font-weight: 100 !important;
+}
+
+app-inbox.ng-star-inserted .list-ct mat-nav-list .selected {
+    background: var(--theme-default-color) !important;
+}
+
+app-inbox.ng-star-inserted .list-ct mat-nav-list .selected .mat-mdc-list-item-title,
+app-inbox.ng-star-inserted .list-ct mat-nav-list .selected .mat-mdc-list-item-line,
+app-inbox.ng-star-inserted .list-ct mat-nav-list .selected span {
+    color: var(--theme-default-text-color) !important;
+}
+
+.app-theme-high-contrast app-inbox.ng-star-inserted .list-ct .selected:hover .mat-mdc-list-item-title,
+.app-theme-high-contrast app-inbox.ng-star-inserted .list-ct .selected:hover .mat-mdc-list-item-line {
+    color: var(--cktheme-oppcolor) !important;
+}
+
+app-announcement-detail.ng-star-inserted lib-managed-html * {
+    background: transparent !important;
+    color: var(--cktheme-text) !important;
+}
+
+app-announcement-detail.ng-star-inserted .header lib-profile-picture { display: none; }
+
+app-announcement-detail.ng-star-inserted h3 {
+    margin: 10px 20px;
+}
+
+app-announcement-detail.ng-star-inserted lib-managed-html {
+    margin: 20px 20px;
+}

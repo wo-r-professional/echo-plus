@@ -45,3 +45,236 @@ body.app-light-theme {
 
 /** Determine the color sets based off the users current theme **/
 /** TODO: do this soon **/
+body.app-theme-red {
+    --theme-default-color: #e73643;
+    --theme-default-color-rgba: 231, 54, 67;
+    --theme-default-text-color: white;
+}
+
+body.app-theme-pink {
+    --theme-default-color: #ff8fab;
+    --theme-default-color-rgba: 255, 143, 171;
+    --theme-default-text-color: white;
+} 
+
+body.app-theme-purple {
+    --theme-default-color: #8E6EDA;
+    --theme-default-color-rgba: 142, 110, 218;
+    --theme-default-text-color: white;
+} 
+
+body.app-theme-deep-purple {
+    --theme-default-color: #460EC9;
+    --theme-default-color-rgba: 70, 14, 201;
+    --theme-default-text-color: white;
+} 
+
+body.app-theme-indigo {
+    --theme-default-color: #6F00FF;
+    --theme-default-color-rgba: 111, 0, 255;
+    --theme-default-text-color: white;
+} 
+
+body.app-theme-blue {
+    --theme-default-color: #00569D;
+    --theme-default-color-rgba: 0, 86, 157;
+    --theme-default-text-color: white;
+} 
+
+body.app-theme-light-blue {
+    --theme-default-color: #7BB4E3;
+    --theme-default-color-rgba: 123, 180, 227;
+    --theme-default-text-color: white;
+} 
+
+body.app-theme-cyan {
+    --theme-default-color: #e0f7fa;
+    --theme-default-color-rgba: 224, 247, 250;
+    --theme-default-text-color: black;
+} 
+
+body.app-theme-teal {
+    --theme-default-color: #e0f2f1;
+    --theme-default-color-rgba: 224, 242, 241;
+    --theme-default-text-color: black;
+} 
+
+body.app-theme-green {
+    --theme-default-color: #4cc758;
+    --theme-default-color-rgba: 76, 199, 88;
+    --theme-default-text-color: black;
+} 
+
+body.app-theme-light-green {
+    --theme-default-color: #98de7e;
+    --theme-default-color-rgba: 152, 222, 126;
+    --theme-default-text-color: black;
+} 
+
+body.app-theme-lime {
+    --theme-default-color: #69FF30;
+    --theme-default-color-rgba: 105, 255, 48;
+    --theme-default-text-color: black;
+} 
+
+body.app-theme-amber {
+    --theme-default-color: #ffa528;
+    --theme-default-color-rgba: 255, 165, 40;
+    --theme-default-text-color: black;
+} 
+
+body.app-theme-orange {
+    --theme-default-color: #FF8B28;
+    --theme-default-color-rgba: 255, 139, 40;
+    --theme-default-text-color: white;
+} 
+
+body.app-theme-deep-orange {
+    --theme-default-color: #ef7800;
+    --theme-default-color-rgba: 239, 120, 0;
+    --theme-default-text-color: white;
+} 
+
+body.app-theme-brown {
+    --theme-default-color: #824F11;
+    --theme-default-color-rgba: 130, 79, 17;
+    --theme-default-text-color: white;
+} 
+
+body.app-theme-grey {
+    --theme-default-color: #3e3e41;
+    --theme-default-color-rgba: 62, 62, 65;
+    --theme-default-text-color: white;
+} 
+
+body.app-theme-blue-grey {
+    --theme-default-color: #414779;
+    --theme-default-color-rgba: 65, 71, 121;
+    --theme-default-text-color: white;
+}
+
+/** Theme styling CSS **/
+app-choose-theme .top-content mat-card:last-child { display: none; }
+app-choose-theme .top-content mat-card:first-child {
+    width: 70%;
+    max-width: unset !important;
+}
+
+app-choose-theme #choose-hdr { display: none; }
+
+app-choose-theme div:has(.color-button) {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    align-items: flex-start;
+}
+
+@media (max-width: 710px) {
+    app-choose-theme .top-content {
+        position: relative;
+        padding: 0px !important;
+    }
+    
+    app-choose-theme .top-content mat-card:first-child {
+        width: 100%;
+    }
+}
+
+app-choose-theme .color-button :is(.theme-color div, .theme-color span) {
+    opacity: 1 !important;
+}
+
+app-choose-theme .color-button {
+    flex: 1 auto !important;
+}
+
+/* manage button colors */
+app-choose-theme .color-button .app-theme-red :is(.theme-color div, .theme-color span) {
+    --primary-default: #e73643;
+    --primary-900: #e73643;
+}
+
+app-choose-theme .color-button .app-theme-pink :is(.theme-color div, .theme-color span) {
+    --primary-default: #ff8fab;
+    --primary-900: #ff8fab;
+}
+
+app-choose-theme .color-button .app-theme-purple :is(.theme-color div, .theme-color span) {
+    --primary-default: #8E6EDA;
+    --primary-900: #8E6EDA;
+}
+
+app-choose-theme .color-button .app-theme-deep-purple :is(.theme-color div, .theme-color span) {
+    --primary-default: #460EC9;
+    --primary-900: #460EC9;
+}
+
+app-choose-theme .color-button .app-theme-indigo :is(.theme-color div, .theme-color span) {
+    --primary-default: #6F00FF;
+    --primary-900: #6F00FF;
+}
+
+app-choose-theme .color-button .app-theme-blue :is(.theme-color div, .theme-color span) {
+    --primary-default: #00569D;
+    --primary-900: #00569D;
+}
+
+app-choose-theme .color-button .app-theme-light-blue :is(.theme-color div, .theme-color span) {
+    --primary-default: #7BB4E3;
+    --primary-900: #7BB4E3;
+}
+
+app-choose-theme .color-button .app-theme-cyan :is(.theme-color div, .theme-color span) {
+    --primary-default: #e0f7fa;
+    --primary-900: #e0f7fa;
+}
+
+app-choose-theme .color-button .app-theme-teal :is(.theme-color div, .theme-color span) {
+    --primary-default: #e0f2f1;
+    --primary-900: #e0f2f1;
+}
+
+app-choose-theme .color-button .app-theme-green :is(.theme-color div, .theme-color span) {
+    --primary-default: #4cc758;
+    --primary-900: #4cc758;
+}
+
+app-choose-theme .color-button .app-theme-light-green :is(.theme-color div, .theme-color span) {
+    --primary-default: #98de7e;
+    --primary-900: #98de7e;
+}
+
+app-choose-theme .color-button .app-theme-lime :is(.theme-color div, .theme-color span) {
+    --primary-default: #69FF30;
+    --primary-900: #69FF30;
+}
+
+app-choose-theme .color-button .app-theme-amber :is(.theme-color div, .theme-color span) {
+    --primary-default: #ffa528;
+    --primary-900: #ffa528;
+}
+
+app-choose-theme .color-button .app-theme-orange :is(.theme-color div, .theme-color span) {
+    --primary-default: #FF8B28;
+    --primary-900: #FF8B28;
+}
+
+app-choose-theme .color-button .app-theme-deep-orange :is(.theme-color div, .theme-color span) {
+    --primary-default: #ef7800;
+    --primary-900: #ef7800;
+}
+
+app-choose-theme .color-button .app-theme-brown :is(.theme-color div, .theme-color span) {
+    --primary-default: #824F11;
+    --primary-900: #824F11;
+}
+
+app-choose-theme .color-button .app-theme-grey :is(.theme-color div, .theme-color span) {
+    --primary-default: #3e3e41;
+    --primary-900: #3e3e41;
+}
+
+app-choose-theme .color-button .app-theme-blue-grey :is(.theme-color div, .theme-color span) {
+    --primary-default: #414779;
+    --primary-900: #414779;
+}

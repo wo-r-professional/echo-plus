@@ -9,7 +9,7 @@ app-student-courses mat-card .course-card-image {
     margin: unset !important;
     width: unset !important;
     background-position: 50% 100% !important;
-    background-size: 100% 100%;
+    background-size: 100% 100% !important;
     display: var(--remove-thumbnails);
 }
 
@@ -20,6 +20,7 @@ app-student-courses mat-card .card-click {
 app-student-courses mat-card .nav-card {
     display: flex;
     align-items: center;
+    flex-direction: row !important;
 }
 
 app-student-courses mat-card mat-card-title-group {
@@ -36,6 +37,67 @@ app-student-courses mat-card .detail-ct .progress-ct,
 app-student-courses mat-card .detail-ct .score-ct div:first-child,
 app-student-courses mat-card .color-band {
     display: none !important;
+}
+
+@media (max-width: 900px) {
+    app-student-courses .grid-ct .course-card {
+        position: static !important;
+        top: 0 !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100%;
+    }
+
+    app-student-courses mat-card .nav-card {
+        gap: 1rem;
+    }
+
+    app-student-courses .grid-ct {
+        width: 100% !important;
+        height: unset !important;
+        display: flex !important;
+        flex-flow: row;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: baseline;
+        transition: none !important;
+    }
+}
+
+/** Order courses styling CSS **/
+app-order-courses.ng-star-inserted {
+    background: transparent !important;
+}
+
+.cdk-drag.cdk-drag-preview .course-icon,
+app-order-courses.ng-star-inserted mat-card .course-icon { display: none !important; }
+
+app-order-courses.ng-star-inserted mat-card {
+    left: 50%;
+    top: 50%;
+    position: absolute;
+    transform: translate(-50%, -50%);
+}
+
+app-order-courses.ng-star-inserted mat-card {
+    position: absolute !important;
+}
+
+app-order-courses .order-drag-row .grip-icon,
+.cdk-drag-preview .grip-icon {
+  color: var(--text-color) !important;
+}
+
+app-order-courses .order-drag-row {
+	background: transparent !important;
+}
+
+.cdk-drag.cdk-drag-preview {
+    border-radius: 0px !important;
+    box-shadow: var(--ckconf-shadow) !important;
+    background: var(--cktheme-color1) !important;
 }
 
 /** Course page styling CSS **/

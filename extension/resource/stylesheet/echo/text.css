@@ -1,8 +1,23 @@
 /** Text styling CSS **/
 
+/* links */
 :root a:not(:has(mat-icon))[href] *,
-:root a:not(:has(mat-icon)) * {
+:root a:not(:has(mat-icon)) *,
+.ng-star-inserted .fr-view a,
+.ng-star-inserted .fr-view a span,
+.ng-star-inserted .fr-view a div,
+.ng-star-inserted .fr-view a u *,
+.ng-star-inserted .fr-view span a *,
+.ng-star-inserted a:link u,
+lib-grade-details.ng-star-inserted div a,
+lib-asset-player.ng-star-inserted div a,
+span a,
+h2 a,
+h3 a,
+h1 a,
+h4 a,
+span:has(a) {
     text-decoration: none !important;
     background: transparent !important;
-    /*color: red !important;*/
+    color: var(--theme-default-color) !important;
 }
