@@ -106,7 +106,7 @@
                                 </div>
                                 <div class="mat-ripple mat-mdc-checkbox-ripple mat-mdc-focus-indicator"></div>
                             </div>
-                            <label class="mdc-label">Enable custom stylesheets</label>
+                            <label class="mdc-label">Custom styling</label>
                         </div>
                     </mat-checkbox>
                     <!---->
