@@ -25,7 +25,6 @@
         let check_session = setInterval(function () {
             if (get_details.token != undefined) {
                 clearInterval(check_session);
-                window.alert("Hey, thanks for using Proview.\n\nThis extension brings a lot of changes to Echo. We recommend that you view the documentation for this extension, the link is available on the settings page of Echo.");
                 config("set", "proview_extension_first_use", true);
 
                 // Get the users existing profile picture.
@@ -48,6 +47,8 @@
                 config("set", "proview_quality_features", true);
                 config("set", "proview_custom_background", "");
                 config("set", "proview_hide_courses", "");
+
+                window.alert("Hey, thanks for using Proview.\n\nThis extension brings a lot of changes to Echo. We recommend that you view the documentation for this extension, the link is available on the settings page of Echo.");
             }
         });
     }
@@ -179,13 +180,14 @@
                         username: `${window.location.href.split("//")[1].split(".")[0]}/${JSON.parse(config("get", "proview_automatic_logins_details"))[0]}`,
                     }}),
                     success: function (json) {
-                        console.log(json)
                         if (json.response.code == "OK") {
                             let session = JSON.parse(config("get", "session"))
                             session.minutes = "-1";
                             session.token = json.response.user.token;
                             config("set", "session", JSON.stringify(session))
-                        }
+                        } 
+                        else
+                            debug_logger("Could not add token & time!", 3);
                     }
                 })
             }

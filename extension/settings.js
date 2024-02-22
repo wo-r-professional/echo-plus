@@ -19,12 +19,12 @@
     // Enforces stricter parsing and error handling in JavaScript, preventing common mistakes like using undeclared variables.
     "use strict";
 
-    setInterval(async function () {
+    new MutationObserver((mutations) => {mutations.forEach(async () => {
         if (!is_page("setting") || !isEmpty($("#proview-settings")))
             return;
 
         // Change the ids of the inputs that exist in the first card.
-        if (!isEmpty($("app-settings form .outer .grid .mdc-card:first-child()"))) {
+        if (!isEmpty($("app-settings form .outer .grid .mdc-card:first-child()")) && isEmpty($("#firstname"))) {
             await $("app-settings form .grid mat-card:first-child mat-card-content mat-form-field input").removeAttr("disabled");
             await $("app-settings form .grid mat-card:first-child mat-card-content mat-form-field .mdc-text-field--disabled").removeClass("mdc-text-field--disabled");
 
@@ -46,7 +46,7 @@
         }
 
         // Append custom profile input to the profile card.
-        if (!isEmpty($("app-settings form .outer .grid .mdc-card:has(.profile-image)"))) {
+        if (!isEmpty($("app-settings form .outer .grid .mdc-card:has(.profile-image)")) && isEmpty($("#custom_pfp"))) {
             await $("app-settings form .outer .grid .mdc-card:has(.profile-image) mat-card-content").append(`
                 <span>Instead of uploading an image, simply link it here and it will use it instead (this allows the use of animated pfps).</span>
                 <mat-form-field class="mat-mdc-form-field mat-mdc-form-field-type-mat-input mat-form-field-appearance-outline mat-primary ng-pristine ng-valid ng-star-inserted mat-form-field-hide-placeholder ng-touched">
@@ -78,7 +78,7 @@
         }
 
         // Append the rest of the settings to the last card.
-        if (!isEmpty($("app-settings form .outer .grid .mdc-card:last-child()"))) {
+        if (!isEmpty($("app-settings form .outer .grid .mdc-card:last-child()")) && isEmpty($("#proview-settings"))) {
             await $("app-settings form .outer .grid .mdc-card:last-child() mat-card-content").append(`
                 <div id="proview-settings">
                     <p>
@@ -263,25 +263,33 @@
             debug_logger("Appended settings to the last card", 1);
                   
             // Prop the settings, so they match what has been set in config.
-            $("#custom_pfp").prop("value", config("get", "proview_custom_profile_picture"));
-            $("#custom_styles").prop("checked", config("get", "proview_stylesheets") === "true");
-            $("#remove_thumbnails").prop("checked", config("get", "proview_remove_thumbnails") === "true");
-            $("#replace_standards").prop("checked", config("get", "proview_replace_standards") === "true");
-            $("#quality_features").prop("checked", config("get", "proview_quality_features")) === "true";
-            $("#custom_background").prop("value", config("get", "proview_custom_background"));
-            if (!isEmpty(config("get", "proview_hide_courses")))
-                $("#hide_courses").prop("value", JSON.parse(config("get", "proview_hide_courses")).join(", "));
+            try {
+                $("#custom_pfp").prop("value", config("get", "proview_custom_profile_picture"));
+                $("#custom_styles").prop("checked", config("get", "proview_stylesheets") === "true");
+                $("#remove_thumbnails").prop("checked", config("get", "proview_remove_thumbnails") === "true");
+                $("#replace_standards").prop("checked", config("get", "proview_replace_standards") === "true");
+                $("#quality_features").prop("checked", config("get", "proview_quality_features") === "true");
+                $("#custom_background").prop("value", config("get", "proview_custom_background"));
+                if (!isEmpty(config("get", "proview_hide_courses")))
+                    $("#hide_courses").prop("value", JSON.parse(config("get", "proview_hide_courses")).join(", "));
+            } catch (e) {
+                console.error(e);
+            }
 
             debug_logger("Propped inputs/checkboxes to current configuration", 1);
 
             // Once "Save" is clicked, save all changes done to settings.
-            $("app-settings mat-toolbar button:last-child").on("mousedown", async function (event) {
-                config("set", "proview_stylesheets", $("#custom_styles").prop("checked"));
-                config("set", "proview_remove_thumbnails", $("#remove_thumbnails").prop("checked"));
-                config("set", "proview_replace_standards", $("#replace_standards").prop("checked"));
-                config("set", "proview_quality_features", $("#quality_features").prop("checked"));
-                config("set", "proview_custom_background", $("#custom_background").val());
-                config("set", "proview_hide_courses", JSON.stringify($("#hide_courses").val().split(",").map(item => item.trim())));
+            $("app-settings mat-toolbar button:last-child").on("mousedown mouseup", async function (event) {
+                try {
+                    config("set", "proview_stylesheets", $("#custom_styles").prop("checked"));
+                    config("set", "proview_remove_thumbnails", $("#remove_thumbnails").prop("checked"));
+                    config("set", "proview_replace_standards", $("#replace_standards").prop("checked"));
+                    config("set", "proview_quality_features", $("#quality_features").prop("checked"));
+                    config("set", "proview_custom_background", $("#custom_background").val());
+                    config("set", "proview_hide_courses", JSON.stringify($("#hide_courses").val().split(",").map(item => item.trim())));
+                } catch (e) {
+                    console.error(e)
+                }
 
                 var self = {
                     "userid": get_details.id,
@@ -328,5 +336,5 @@
                 window.location.href = "student/home/courses";
             })
         }
-    })
+    })}).observe($("head, body")[0], { childList: true });
 })();
