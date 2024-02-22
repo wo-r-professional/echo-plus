@@ -10,7 +10,7 @@
  * the code as long as they provide attribution back to the author and don’t hold the author liable. This encourages 
  * use and reuse in both commercial and open-source software.
  *
- * Repository: https://github.com/wo-r-professional/proview-for-echo/
+ * Repository: https://github.com/wo-r-professional/proview-for-echo
  * Documentation: https://github.com/wo-r-professional/proview-for-echo/wiki
  * 
  * Dependencies: jQuery (v3.7.1), helper.js, settings.js
@@ -25,7 +25,6 @@
         let check_session = setInterval(function () {
             if (get_details.token != undefined) {
                 clearInterval(check_session);
-                window.alert("Hey, thanks for using Proview.\n\nThis extension brings a lot of changes to Echo. We recommend that you view the documentation for this extension, the link is available on the settings page of Echo.");
                 config("set", "proview_extension_first_use", true);
 
                 // Get the users existing profile picture.
@@ -43,13 +42,14 @@
 
                 // Set the rest to the default settings.
                 config("set", "proview_allow_extension_updates", true);
-                config("set", "proview_automatic_logins", false);
                 config("set", "proview_stylesheets", false);
                 config("set", "proview_remove_thumbnails", false);
                 config("set", "proview_replace_standards", true);
                 config("set", "proview_quality_features", true);
                 config("set", "proview_custom_background", "");
                 config("set", "proview_hide_courses", "");
+
+                window.alert("Hey, thanks for using Proview.\n\nThis extension brings a lot of changes to Echo. We recommend that you view the documentation for this extension, the link is available on the settings page of Echo.");
             }
         });
     }
@@ -134,7 +134,7 @@
             </style>
         `)
     }
-
+    
     // Hides courses from the course page if the value from config matches it
     if (!isEmpty(JSON.parse(config("get", "proview_hide_courses"))[0])) {
         new MutationObserver(function (mutations) {mutations.forEach(function () {
@@ -166,6 +166,51 @@
             $("head").append(`<base id="proview-base-change" href="/" target="_blank">`);
         })
 
+        // Checks for login details, then it uses those details to always create a login that last forever.
+        new MutationObserver((mutations) => {mutations.forEach(() => {
+            if (!isEmpty(config("get", "proview_automatic_logins_details")) && JSON.parse(config("get", "session")).minutes != "-1") {
+                $.ajax({
+                    url: api("/cmd"),
+                    method: "POST",
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify({"request": {
+                        cmd: "login3",
+                        expireseconds: "-1",
+                        newsession: true,
+                        password: JSON.parse(config("get", "proview_automatic_logins_details"))[1],
+                        username: `${window.location.href.split("//")[1].split(".")[0]}/${JSON.parse(config("get", "proview_automatic_logins_details"))[0]}`,
+                    }}),
+                    success: function (json) {
+                        if (json.response.code == "OK") {
+                            let session = JSON.parse(config("get", "session"))
+                            session.minutes = "-1";
+                            session.token = json.response.user.token;
+                            config("set", "session", JSON.stringify(session))
+                        } 
+                        else
+                            debug_logger("Could not add token & time!", 3);
+                    }
+                })
+            }
+        
+            // Get details
+            if (is_page("login") && isEmpty(config("get", "proview_automatic_logins_details"))) {
+                $("mat-toolbar button[type=\"submit\"]").on("mousedown", function () {
+                    let details = [];
+                    $.each($(".login-fields mat-form-field input"), function () {
+                        if ($(this).val() != "" && details.length != 2)
+                            details.push($(this).val());
+                    })
+
+                    if (details.length == 2 && isEmpty(config("get", "proview_automatic_logins_details"))) {
+                        config("set", "proview_automatic_logins_details", JSON.stringify(details));
+                        debug_logger("Saved login details", 1);
+                    }
+                });
+            }
+        })}).observe($("body app-root")[0], { childList: true });
+
         // Re-enable all disabled buttons, inputs, and checkboxes.
         new MutationObserver(function (mutations) {mutations.forEach(function () {
             $("button[disabled], input[disabled], div:has(input[disabled]).mdc-text-field--disabled").removeAttr("disabled").removeClass("mdc-text-field--disabled");
@@ -183,6 +228,7 @@
                 url: api(`/cmd/listuserenrollments?_token=${get_details.token}&userid=${get_details.id}&privileges=1&select=data,course,course.data,course.teachers,metrics`),
                 method: "GET",
                 dataType: "json",
+                contentType: "application/json; charset=utf-8",
                 success: function(json) {
                     if (is_page("home/courses") || is_page("gradebook") || is_page("activity") || is_page("dashboard")) {
                         $.each(json.response.enrollments.enrollment, function () {
@@ -193,11 +239,11 @@
                                 score_color = "no-color";
                             else if (true_score >= 80)
                                 score_color = "pass-color";
-                            else if (true_score < 80) {
+                            else if (true_score < 80 && true_score > 60) {
                                 $("body").css("--warn-color", "#ffd34d");
                                 score_color = "warn-color";
                             }
-                            else if (true < 60)
+                            else if (true_score < 60)
                                 score_color = "fail-color";
 
                             true_score = isNaN(true_score) ? "--" : true_score;
@@ -229,66 +275,5 @@
             });
         })}).observe($("body app-root")[0], { childList: true });
         debug_logger(`Actively looking for scores`, 4); // no spam plz
-    }
-
-    // Checks for logins. If one exists it will try to login, if that fails it will remove it. (ignoring main-screen login)
-    if (is_true_by_string(config("get", "proview_automatic_logins"))) {
-        new MutationObserver((mutations) => {mutations.forEach(async () => {
-            if (!is_page("login"))
-                return;
-            
-            if (!isEmpty(config("get", "proview_automatic_logins_details"))) {
-                if (is_page("login")) {
-                    await $.ajax({
-                        url: api("/cmd"),
-                        method: "POST",
-                        dataType: "json",
-                        contentType: "application/json; charset=utf-8",
-                        data: JSON.stringify({"request": {
-                            cmd: "login3",
-                            expireseconds: "-1",
-                            password: JSON.parse(config("get", "proview_automatic_logins_details"))[1],
-                            username: `${window.location.href.split("//")[1].split(".")[0]}/${JSON.parse(config("get", "proview_automatic_logins_details"))[0]}`,
-                        }}),
-                        success: (json) => {
-                            console.log(json)
-                        }
-                    })
-                }
-                return;
-            }
-        
-            // Get details
-            $("mat-toolbar button[type=\"submit\"]").on("mousedown", function () {
-                let details = [];
-                $.each($(".login-fields mat-form-field input"), function () {
-                    if (details.length == 2)
-                        return
-
-                    if ($(this).val() != "")
-                        details.push($(this).val());
-                })
-
-                if (details.length == 2 && isEmpty(config("get", "proview_automatic_logins_details"))) {
-                    config("set", "proview_automatic_logins_details", JSON.stringify(details));
-                    debug_logger("Saved login details", 1);
-                }
-            });
-        })}).observe($("body app-root")[0], { childList: true });
-
-        // Observer cannot find these popup timeout panels so just constantly check for them
-        setInterval(function () {
-            if (isEmpty($(".cdk-overlay-container .cdk-overlay-pane app-session-lost")))
-                return;
-
-            $(".cdk-overlay-container .cdk-overlay-pane app-session-lost").remove();
-            debug_logger("Removed a timeout panel", 1)
-        })
-    }
-    else {
-        // Since I don't want this to go unclear, I have stated here that I DO NOT
-        // want these details in anyway if its disabled.
-        config("remove", "proview_automatic_login_details");
-        debug_logger("Removed login details", 1);
     }
 })();

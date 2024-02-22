@@ -19,12 +19,12 @@
     // Enforces stricter parsing and error handling in JavaScript, preventing common mistakes like using undeclared variables.
     "use strict";
 
-    setInterval(async function () {
+    new MutationObserver((mutations) => {mutations.forEach(async () => {
         if (!is_page("setting") || !isEmpty($("#proview-settings")))
             return;
 
         // Change the ids of the inputs that exist in the first card.
-        if (!isEmpty($("app-settings form .outer .grid .mdc-card:first-child()"))) {
+        if (!isEmpty($("app-settings form .outer .grid .mdc-card:first-child()")) && isEmpty($("#firstname"))) {
             await $("app-settings form .grid mat-card:first-child mat-card-content mat-form-field input").removeAttr("disabled");
             await $("app-settings form .grid mat-card:first-child mat-card-content mat-form-field .mdc-text-field--disabled").removeClass("mdc-text-field--disabled");
 
@@ -46,7 +46,7 @@
         }
 
         // Append custom profile input to the profile card.
-        if (!isEmpty($("app-settings form .outer .grid .mdc-card:has(.profile-image)"))) {
+        if (!isEmpty($("app-settings form .outer .grid .mdc-card:has(.profile-image)")) && isEmpty($("#custom_pfp"))) {
             await $("app-settings form .outer .grid .mdc-card:has(.profile-image) mat-card-content").append(`
                 <span>Instead of uploading an image, simply link it here and it will use it instead (this allows the use of animated pfps).</span>
                 <mat-form-field class="mat-mdc-form-field mat-mdc-form-field-type-mat-input mat-form-field-appearance-outline mat-primary ng-pristine ng-valid ng-star-inserted mat-form-field-hide-placeholder ng-touched">
@@ -78,7 +78,7 @@
         }
 
         // Append the rest of the settings to the last card.
-        if (!isEmpty($("app-settings form .outer .grid .mdc-card:last-child()"))) {
+        if (!isEmpty($("app-settings form .outer .grid .mdc-card:last-child()")) && isEmpty($("#proview-settings"))) {
             await $("app-settings form .outer .grid .mdc-card:last-child() mat-card-content").append(`
                 <div id="proview-settings">
                     <p>
@@ -106,26 +106,7 @@
                                 </div>
                                 <div class="mat-ripple mat-mdc-checkbox-ripple mat-mdc-focus-indicator"></div>
                             </div>
-                            <label class="mdc-label">Automatically update extension</label>
-                        </div>
-                    </mat-checkbox>
-                    <!---->
-                    <!---->
-                    <mat-checkbox class="mat-mdc-checkbox mat-accent mat-mdc-checkbox-checked ng-untouched ng-pristine ng-valid">
-                        <div class="mdc-form-field">
-                            <div class="mdc-checkbox">
-                                <div class="mat-mdc-checkbox-touch-target"></div>
-                                <input id="auto_login" type="checkbox" class="mdc-checkbox__native-control mdc-checkbox--selected">
-                                <div class="mdc-checkbox__ripple"></div>
-                                <div class="mdc-checkbox__background">
-                                    <svg focusable="false" viewBox="0 0 24 24" class="mdc-checkbox__checkmark">
-                                        <path fill="none" d="M1.73,12.91 8.1,19.28 22.79,4.59" class="mdc-checkbox__checkmark-path"></path>
-                                    </svg>
-                                    <div class="mdc-checkbox__mixedmark"></div>
-                                </div>
-                                <div class="mat-ripple mat-mdc-checkbox-ripple mat-mdc-focus-indicator"></div>
-                            </div>
-                            <label class="mdc-label">Automatically login</label>
+                            <label class="mdc-label">Check for updates</label>
                         </div>
                     </mat-checkbox>
                     <!---->
@@ -144,7 +125,7 @@
                                 </div>
                                 <div class="mat-ripple mat-mdc-checkbox-ripple mat-mdc-focus-indicator"></div>
                             </div>
-                            <label class="mdc-label">Enable custom stylesheets</label>
+                            <label class="mdc-label">Custom styling</label>
                         </div>
                     </mat-checkbox>
                     <!---->
@@ -301,31 +282,35 @@
             debug_logger("Appended settings to the last card", 1);
                   
             // Prop the settings, so they match what has been set in config.
-            if (!isEmpty($("#firstname")) && !isEmpty($("#custom_pfp")) && !isEmpty($("#update_extension"))) {
+            try {
                 $("#custom_pfp").prop("value", config("get", "proview_custom_profile_picture"));
                 $("#update_extension").prop("checked", config("get", "proview_allow_extension_updates") === "true");
-                $("#auto_login").prop("checked", config("get", "proview_automatic_logins") === "true");
                 $("#custom_styles").prop("checked", config("get", "proview_stylesheets") === "true");
                 $("#remove_thumbnails").prop("checked", config("get", "proview_remove_thumbnails") === "true");
                 $("#replace_standards").prop("checked", config("get", "proview_replace_standards") === "true");
-                $("#quality_features").prop("checked", config("get", "proview_quality_features")) === "true";
+                $("#quality_features").prop("checked", config("get", "proview_quality_features") === "true");
                 $("#custom_background").prop("value", config("get", "proview_custom_background"));
                 if (!isEmpty(config("get", "proview_hide_courses")))
                     $("#hide_courses").prop("value", JSON.parse(config("get", "proview_hide_courses")).join(", "));
 
                 debug_logger("Propped inputs/checkboxes to current configuration", 1);
+            } catch (e) {
+                console.error(e)
             }
 
             // Once "Save" is clicked, save all changes done to settings.
-            $("app-settings mat-toolbar button:last-child").on("mousedown", async function (event) {
-                config("set", "proview_allow_extension_updates", $("#update_extension").prop("checked"));
-                config("set", "proview_automatic_logins", $("#auto_login").prop("checked"));
-                config("set", "proview_stylesheets", $("#custom_styles").prop("checked"));
-                config("set", "proview_remove_thumbnails", $("#remove_thumbnails").prop("checked"));
-                config("set", "proview_replace_standards", $("#replace_standards").prop("checked"));
-                config("set", "proview_quality_features", $("#quality_features").prop("checked"));
-                config("set", "proview_custom_background", $("#custom_background").val());
-                config("set", "proview_hide_courses", JSON.stringify($("#hide_courses").val().split(",").map(item => item.trim())));
+            $("app-settings mat-toolbar button:last-child").on("mousedown mouseup", async function (event) {
+                try {
+                    config("set", "proview_allow_extension_updates", $("#update_extension").prop("checked"));
+                    config("set", "proview_stylesheets", $("#custom_styles").prop("checked"));
+                    config("set", "proview_remove_thumbnails", $("#remove_thumbnails").prop("checked"));
+                    config("set", "proview_replace_standards", $("#replace_standards").prop("checked"));
+                    config("set", "proview_quality_features", $("#quality_features").prop("checked"));
+                    config("set", "proview_custom_background", $("#custom_background").val());
+                    config("set", "proview_hide_courses", JSON.stringify($("#hide_courses").val().split(",").map(item => item.trim())));
+                } catch (e) {
+                    console.error(e)
+                }
 
                 var self = {
                     "userid": get_details.id,
@@ -371,5 +356,5 @@
                 window.location.href = "student/home/courses";
             })
         }
-    })
+    })}).observe($("head, body")[0], { childList: true });
 })();
