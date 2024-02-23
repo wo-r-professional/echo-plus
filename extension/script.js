@@ -61,8 +61,8 @@
             method: "get",
             dataType: "text",
             success: async function(text) {
-                if (!$("head #proview-css").length)
-                    await $("head").prepend("<style id=\"proview-css\"></style>");
+                if (!$("body #proview-css").length)
+                    await $("body").prepend("<style id=\"proview-css\"></style>");
 
                 await $.each(text.match(/@import\s+(?!url\(\s*['"]?https:\/\/[^'"\)]+['"]?\)\s*;)\s*(?:url\()?\s*['"]?([^'"\)]+)['"]?\)?[^;]*;/g), (index, object) => {
                     $.ajax({
@@ -76,10 +76,10 @@
                             rooted_text = rooted_text.replace(/\/\*[\s\S]*?\*\/|\/\*\*[\s\S]*?\*\//g, "");
                             text = `${text.trim()} ${rooted_text.trim()}`;
 
-                            if (text == $("head #proview-css").text())
+                            if (text == $("body #proview-css").text())
                                 return;
 
-                            $("head #proview-css").text(text);
+                            $("body #proview-css").text(text);
                         }
                     });
                 });

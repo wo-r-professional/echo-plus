@@ -46,7 +46,7 @@
 /* subset home navbar */
 :root app-after-login:not(:has(app-course-home)) :has(.main-toolbar) mat-tab-header {
     background: var(--foreground) !important;
-    color: var(--foreground) !important;
+    color: var(--theme-default-color) !important;
 }
 
 /* activity navbar */
@@ -76,30 +76,31 @@
     color: var(--text-color) !important;
 }
 
-/* TODO:
+/** Tab labels **/
 .mdc-tab__content .mdc-tab__text-label {
-    color: var(--cktheme-text) !important;
+    color: var(--text-color) !important;
     user-select: none !important;
 }
 
 .mat-ripple-element {
-    background: var(--cktheme-setcolor) !important;
-    color: var(--cktheme-text) !important;
+    background: var(--theme-default-color) !important;
+    color: var(---text-color) !important;
     opacity: 0.2;
 }
 
 .mat-ripple .mat-ripple-element {
-    background: var(--cktheme-setcolor) !important;
-    color: var(--cktheme-text) !important;
+    background: var(--theme-default-color) !important;
+    color: var(---text-color) !important;
     opacity: 0.2;
 }
-*/
+
 .submit-disabled { display: none !important; }
 
 button.mdc-fab--mini .mat-mdc-button-persistent-ripple {
-    background: var(--cktheme-setcolor) !important;
+    background: var(--theme-default-color) !important;
 }
 
+/** Inputs **/
 .mdc-text-field--outlined .mdc-text-field--focused .mdc-notched-outline__leading, 
 .mdc-text-field--outlined .mdc-text-field--focused .mdc-notched-outline__notch, 
 .mdc-text-field--outlined .mdc-text-field--focused .mdc-notched-outline__trailing,
@@ -123,11 +124,15 @@ button.mdc-fab--mini .mat-mdc-button-persistent-ripple {
     border-color: var(--border-color) !important;
 }
 
+.mdc-text-field input {
+    caret-color: var(--text-color) !important;
+}
 
+/** Badges **/
 .ng-star-inserted .mat-badge-content,
 .ng-star-inserted .app-large-button-badge {
-    background: var(--cktheme-setcolor) !important;
-    color: var(--cktheme-colortext) !important;
+    background: var(--theme-default-color) !important;
+    color: var(--theme-default-text-color) !important;
     border-radius: 100px !important;
 }
 
@@ -135,38 +140,25 @@ button.mdc-fab--mini .mat-mdc-button-persistent-ripple {
     line-height: 15px !important;
 }
 
-.mdc-text-field input {
-    caret-color: var(--cktheme-text) !important;
-}
-
-button.mdc-fab--mini mat-icon {
-    color: var(--cktheme-colortext) !important;
-}
-
-.cdk-overlay-container .mat-mdc-dialog-container .mat-mdc-dialog-surface {
-    border-radius: 0px !important;
-    background: var(--cktheme-color1) !important;;
-}
-
 .mdc-checkbox__ripple {
     display: none !important;
 }
 
+/** Checkboxes **/
 .mdc-checkbox__background {
-    background: var(--cktheme-setcolor) !important;
-    border: 2px solid var(--cktheme-setcolor) !important;
-    border-radius: 0px !important;
+    background: var(--theme-default-color) !important;
+    border: 2px solid var(--theme-default-color) !important;
 }
 
 .mdc-switch__ripple .mat-ripple:active,
 .mdc-switch__ripple .mat-ripple:hover,
 .mdc-switch__ripple .mat-ripple:focus {
-    background: var(--primary-400) !important;
+    background: var(--theme-default-color) !important;
 }
 
 .mdc-switch__handle .mdc-switch__icon path {
-    stroke: var(--cktheme-colortext) !important;
-    fill: var(--cktheme-colortext) !important;
+    stroke: var(--theme-default-text-color) !important;
+    fill: var(--theme-default-text-color) !important;
 }
 
 .mdc-switch--unselected .mdc-switch__ripple::after {
@@ -175,30 +167,30 @@ button.mdc-fab--mini mat-icon {
 }
 
 .mdc-switch__track::after {
-    background: var(--cktheme-setcolor) !important;
+    background: var(--theme-default-color) !important;
 }
 
 .mat-mdc-slide-toggle .mdc-switch.mdc-switch--selected:enabled .mdc-switch__handle::after {
-    background: var(--cktheme-setcolor) !important;
+    background: var(--theme-default-color) !important;
 }
 
 .mdc-tab__ripple::before {
-    background: var(--cktheme-setcolor) !important;
-}
-
-.mat-icon {
-    color: var(---text-color) !important;
+    background: var(--theme-default-color) !important;
 }
 
 .mdc-tab-indicator .mdc-tab-indicator__content {
-    border-color: var(--cktheme-setcolor) !important;
+    border-color: var(--theme-default-color) !important;
 }
 
 .mdc-checkbox__checkmark-path {
-	stroke: var(--cktheme-colortext) !important;
+	stroke: var(--theme-default-text-color) !important;
 }
 
-.mdc-button:not(:has(mat-icon)) {
+mat-icon {
+    color: var(--text-color) !important;
+}
+
+.mdc-button:not(:has(mat-icon), :has(.theme-color)) {
     box-shadow: var(--box-shadow) !important;
     border: 0px !important;
     color: var(--theme-default-text-color) !important;
@@ -206,8 +198,50 @@ button.mdc-fab--mini mat-icon {
     user-select: none !important;
 }
 
+button.mdc-fab--mini mat-icon {
+    color: var(--theme-default-text-color) !important;
+}
+
 /* change mat cards (base mat cards) to follow the most transparent versions of foreground */
 mat-card {
     background: var(--foreground-opacity-e0) !important;
+    box-shadow: var(--box-shadow);
 }
 
+.cdk-overlay-container .mat-mdc-dialog-container .mat-mdc-dialog-surface {
+    background: var(--foreground) !important;
+    box-shadow: var(--box-shadow);
+}
+
+/** Disabled **/
+.mdc-button[disabled="true"] {
+    opacity: .50;
+}
+
+/** Progress bar **/
+.mat-mdc-progress-bar {
+    height: 4px !important;
+}
+
+.mat-mdc-progress-bar.mat-primary .mdc-linear-progress__bar {
+    background: var(--theme-default-color) !important;
+}
+
+.mat-mdc-progress-bar.mat-primary .mdc-linear-progress__buffer-bar {
+    background: transparent !important;
+}
+
+.mat-mdc-progress-bar .mdc-linear-progress__bar-inner {
+    border: 1px solid var(--theme-default-color) !important;
+}
+
+.mat-mdc-form-field-hint { display: none !important; }
+
+.calendar-day .day-number.app-primary-default-background {
+    color: var(--theme-default-text-color) !important;
+    background: var(--theme-default-color) !important;
+}
+
+app-calendar .event-indicator {
+    background: var(--theme-default-color) !important;
+}

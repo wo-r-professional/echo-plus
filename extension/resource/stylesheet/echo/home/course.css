@@ -4,6 +4,10 @@ body {
     --remove-thumbnails: block;
 }
 
+.mat-mdc-icon-button, mat-icon {
+    opacity: unset !important;
+}
+
 /** remove the course thumbnails if you want them gone **/
 app-student-courses mat-card .course-card-image {
     margin: unset !important;
@@ -96,8 +100,8 @@ app-order-courses .order-drag-row {
 
 .cdk-drag.cdk-drag-preview {
     border-radius: 0px !important;
-    box-shadow: var(--ckconf-shadow) !important;
-    background: var(--cktheme-color1) !important;
+    box-shadow: var(--box-shadow) !important;
+    background: var(--foreground-opacity-e0) !important;
 }
 
 /** Course page styling CSS **/
@@ -240,16 +244,42 @@ app-course-home mat-tab-group mat-tab-body lib-activity-tree mat-tree {
     background: transparent !important;
 }
 
-app-course-home mat-tab-group mat-tab-body lib-activity-tree mat-tree mat-tree-node:hover {
-    background: var(--primary-500) !important;
+:root .activity-tree .mat-tree-node:has(button[mat-ripple-loader-disabled=""]):hover, 
+:root .activity-tree .mat-tree-node:has(button[mat-ripple-loader-disabled=""]):focus,
+:root .search-results .mat-mdc-list-item:hover, 
+:root .search-results .mat-mdc-list-item:focus,
+app-course-home mat-tab-group mat-tab-body lib-activity-tree mat-tree mat-tree-node:has(button[mat-ripple-loader-disabled=""]):hover,
+:root app-course-home .featured-items .mat-mdc-nav-list .mat-mdc-list-item:hover, 
+:root app-course-home .featured-items .mat-mdc-nav-list .mat-mdc-list-item:focus,
+app-course-home .featured-items mat-nav-list a:hover {
+    background: var(--theme-default-color) !important;
 }
 
+:root .activity-tree .mat-tree-node:has(button[mat-ripple-loader-disabled=""]):hover :is(a, div, mat-icon), 
+:root .activity-tree .mat-tree-node:has(button[mat-ripple-loader-disabled=""]):focus :is(a, div, mat-icon),
+:root .search-results .mat-mdc-list-item:hover :is(a, div, mat-icon), 
+:root .search-results .mat-mdc-list-item:focus :is(a, div, mat-icon),
+app-course-home mat-tab-group mat-tab-body lib-activity-tree mat-tree mat-tree-node:has(button[mat-ripple-loader-disabled=""]):hover :is(a, div, mat-icon),
+:root app-course-home .featured-items .mat-mdc-nav-list .mat-mdc-list-item:hover :is(div, span), 
+:root app-course-home .featured-items .mat-mdc-nav-list .mat-mdc-list-item:focus :is(div, span),
+app-course-home .featured-items mat-nav-list a:hover :is(div, span) {
+    color: var(--theme-default-text-color) !important;
+}
+
+.search-results .mat-icon.notranslate.play-icon.fa-play-circle.fas.mat-icon-no-color { display: none !important; }
+
+.search-results .app-accent-default-color {
+    color: inherit !important;
+}
+
+:root .activity-tree .mat-tree-node:not(:has(button[mat-ripple-loader-disabled=""])):hover, 
+:root .activity-tree .mat-tree-node:not(:has(button[mat-ripple-loader-disabled=""])):focus,
 app-course-home mat-tab-group mat-tab-body lib-activity-tree mat-tree mat-tree-node:not(:has(button[mat-ripple-loader-disabled=""])):hover {
-    background: transparent !important;;
+    background: transparent !important;
 }
 
 app-course-home mat-tab-group mat-tab-body lib-activity-tree mat-tree mat-tree-node a {
-    padding: 0 !important;;
+    padding: 0 !important;
 }
 
 app-course-home mat-tab-group mat-tab-body lib-activity-tree mat-tree mat-tree-node button[mat-ripple-loader-disabled=""] {

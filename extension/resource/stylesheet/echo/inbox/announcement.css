@@ -9,6 +9,35 @@ body:has(app-announcement-detail) mat-toolbar .mdc-icon-button[mattooltip="Annou
     display: none;
 }
 
+@media (max-width: 710px) {
+    app-inbox {
+        flex: unset !important;
+        flex-direction: column !important;
+        overflow: auto !important;
+    }
+
+    app-inbox :is(.announcement-list, app-announcement-detail) {
+        width: 100% !important;
+    }
+
+    app-inbox app-announcement-detail {
+        flex: unset !important;
+        overflow: unset !important; 
+        height: 100rem;
+    }
+
+    app-inbox .announcement-list mat-nav-list {
+        display: flex;
+        flex-direction: row !important;
+        flex-wrap: wrap;
+    }
+
+    app-inbox .announcement-list mat-nav-list mat-list-item {
+        width: fit-content !important;
+        flex: 1 auto !important;
+        align-items: center;
+    }
+}
 app-announcement-detail.ng-star-inserted {
     background: var(--foreground-opacity-ba) !important;
     padding: 1px 0 !important;

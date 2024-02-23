@@ -34,7 +34,7 @@ app-before-login app-login mat-toolbar:before {
     font-size: 40px;
 }
 
-.mat-toolbar.main-toolbar.mat-elevation-z4.app-primary-dark-background.app-primary-dark-contrast-color.buzz-main-header.mat-primary.mat-toolbar-single-row {
+app-before-login .mat-toolbar.main-toolbar {
     box-shadow: var(--box-shadow);
     background: var(--foreground-opacity-e0) !important;
 }

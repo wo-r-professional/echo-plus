@@ -44,113 +44,137 @@ body.app-light-theme {
 }
 
 /** Determine the color sets based off the users current theme **/
-/** TODO: do this soon **/
 body.app-theme-red {
     --theme-default-color: #e73643;
     --theme-default-color-rgba: 231, 54, 67;
     --theme-default-text-color: white;
+    --theme-default-text-hover-color: #8b1c22; /* Much darker */
 }
 
 body.app-theme-pink {
     --theme-default-color: #ff8fab;
     --theme-default-color-rgba: 255, 143, 171;
     --theme-default-text-color: white;
-} 
+    --theme-default-text-hover-color: #b65a75; /* Much darker */
+}
 
 body.app-theme-purple {
     --theme-default-color: #8E6EDA;
     --theme-default-color-rgba: 142, 110, 218;
     --theme-default-text-color: white;
-} 
+    --theme-default-text-hover-color: #573d8a; /* Much darker */
+}
 
 body.app-theme-deep-purple {
     --theme-default-color: #460EC9;
     --theme-default-color-rgba: 70, 14, 201;
     --theme-default-text-color: white;
-} 
+    --theme-default-text-hover-color: #2e0a77; /* Much darker */
+}
 
 body.app-theme-indigo {
     --theme-default-color: #6F00FF;
     --theme-default-color-rgba: 111, 0, 255;
     --theme-default-text-color: white;
-} 
+    --theme-default-text-hover-color: #4600b3; /* Much darker */
+}
 
 body.app-theme-blue {
     --theme-default-color: #00569D;
     --theme-default-color-rgba: 0, 86, 157;
     --theme-default-text-color: white;
-} 
+    --theme-default-text-hover-color: #003b6f; /* Much darker */
+}
 
 body.app-theme-light-blue {
     --theme-default-color: #7BB4E3;
     --theme-default-color-rgba: 123, 180, 227;
     --theme-default-text-color: white;
-} 
+    --theme-default-text-hover-color: #4e7ca1; /* Much darker */
+}
 
 body.app-theme-cyan {
     --theme-default-color: #e0f7fa;
     --theme-default-color-rgba: 224, 247, 250;
     --theme-default-text-color: black;
-} 
+    --theme-default-text-hover-color: #7da8b3; /* Much darker */
+}
 
 body.app-theme-teal {
     --theme-default-color: #e0f2f1;
     --theme-default-color-rgba: 224, 242, 241;
     --theme-default-text-color: black;
-} 
+    --theme-default-text-hover-color: #5d807f; /* Much darker */
+}
 
 body.app-theme-green {
     --theme-default-color: #4cc758;
     --theme-default-color-rgba: 76, 199, 88;
     --theme-default-text-color: black;
-} 
+    --theme-default-text-hover-color: #2e6b34; /* Much darker */
+}
 
 body.app-theme-light-green {
     --theme-default-color: #98de7e;
     --theme-default-color-rgba: 152, 222, 126;
     --theme-default-text-color: black;
-} 
+    --theme-default-text-hover-color: #5a9e4f; /* Much darker */
+}
 
 body.app-theme-lime {
     --theme-default-color: #69FF30;
     --theme-default-color-rgba: 105, 255, 48;
     --theme-default-text-color: black;
-} 
+    --theme-default-text-hover-color: #3cb021; /* Much darker */
+}
 
 body.app-theme-amber {
     --theme-default-color: #ffa528;
     --theme-default-color-rgba: 255, 165, 40;
     --theme-default-text-color: black;
-} 
+    --theme-default-text-hover-color: #b27300; /* Much darker */
+}
 
 body.app-theme-orange {
     --theme-default-color: #FF8B28;
     --theme-default-color-rgba: 255, 139, 40;
     --theme-default-text-color: white;
-} 
+    --theme-default-text-hover-color: #b25c00; /* Much darker */
+}
 
 body.app-theme-deep-orange {
     --theme-default-color: #ef7800;
     --theme-default-color-rgba: 239, 120, 0;
     --theme-default-text-color: white;
-} 
+    --theme-default-text-hover-color: #934600; /* Much darker */
+}
 
 body.app-theme-brown {
     --theme-default-color: #824F11;
     --theme-default-color-rgba: 130, 79, 17;
     --theme-default-text-color: white;
-} 
+    --theme-default-text-hover-color: #5a340c; /* Much darker */
+}
 
 body.app-theme-grey {
     --theme-default-color: #3e3e41;
     --theme-default-color-rgba: 62, 62, 65;
     --theme-default-text-color: white;
-} 
+    --theme-default-text-hover-color: #1f1f21; /* Much darker */
+}
 
 body.app-theme-blue-grey {
     --theme-default-color: #414779;
     --theme-default-color-rgba: 65, 71, 121;
     --theme-default-text-color: white;
+    --theme-default-text-hover-color: #2a2f4f; /* Much darker */
+}
+
+body.app-theme-high-contrast {
+    --theme-default-color: black;
+    --theme-default-color-rgba: 0, 0, 0;
+    --theme-default-text-color: white;
+    --theme-default-text-hover-color: #3b3b3b;
 }
 
 /** Theme styling CSS **/

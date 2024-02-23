@@ -21,3 +21,22 @@ span:has(a) {
     background: transparent !important;
     color: var(--theme-default-color) !important;
 }
+
+/* links hovered */
+:root a:not(:has(mat-icon))[href] *,
+:root a:not(:has(mat-icon)) *,
+.ng-star-inserted .fr-view a:hover,
+.ng-star-inserted .fr-view a:hover span,
+.ng-star-inserted .fr-view a:hover div,
+.ng-star-inserted .fr-view a:hover u *,
+.ng-star-inserted .fr-view span a:hover *,
+lib-grade-details.ng-star-inserted div a:hover,
+lib-asset-player.ng-star-inserted div a:hover,
+span a:hover,
+h2 a:hover,
+h3 a:hover,
+h1 a:hover,
+h4 a:hover,
+a:hover {
+    color: var(--theme-default-text-hover-color) !important;
+}
