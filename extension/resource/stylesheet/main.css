@@ -62,7 +62,7 @@ html, body {
   app-activity-item .mat-drawer-container,
   app-order-courses .main,
   app-student-grades .main,
-  app-badges
+  app-badges,
 ){
   background: var(--background) !important;
 
@@ -71,6 +71,17 @@ html, body {
   background-size: 100% 100% !important;
   background-repeat: no-repeat !important;
 }
+
+/*:root app-root {
+  position: absolute !important;
+  inset: 0px !important;
+
+  background: var(--background) !important;
+
+  background-image: var(--custom-background) !important;
+  background-size: 100% 100% !important;
+  background-repeat: no-repeat !important;
+}*/
 
 
 /* text changes */
@@ -82,9 +93,13 @@ html, body {
 /* tabs, extra menus, cards, navbars, modals, buttons, inputs, checkmarks, ect */
 @import url("echo/interactables.css");
 
+/* things that I could not put within a specific catagory */
+@import url("echo/others.css");
+
 /* large list of styling for direct pages of the site */
 @import url("echo/login.css");
 @import url("echo/home/course.css");
 @import url("echo/home/todo.css");
 @import url("echo/home/stream.css");
 @import url("echo/inbox/announcement.css");
+@import url("echo/calendar.css");

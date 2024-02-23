@@ -252,23 +252,12 @@ app-course-home mat-tab-group mat-tab-body lib-activity-tree mat-tree mat-tree-n
 :root app-course-home .featured-items .mat-mdc-nav-list .mat-mdc-list-item:hover, 
 :root app-course-home .featured-items .mat-mdc-nav-list .mat-mdc-list-item:focus,
 app-course-home .featured-items mat-nav-list a:hover {
-    background: var(--theme-default-color) !important;
-}
-
-:root .activity-tree .mat-tree-node:has(button[mat-ripple-loader-disabled=""]):hover :is(a, div, mat-icon), 
-:root .activity-tree .mat-tree-node:has(button[mat-ripple-loader-disabled=""]):focus :is(a, div, mat-icon),
-:root .search-results .mat-mdc-list-item:hover :is(a, div, mat-icon), 
-:root .search-results .mat-mdc-list-item:focus :is(a, div, mat-icon),
-app-course-home mat-tab-group mat-tab-body lib-activity-tree mat-tree mat-tree-node:has(button[mat-ripple-loader-disabled=""]):hover :is(a, div, mat-icon),
-:root app-course-home .featured-items .mat-mdc-nav-list .mat-mdc-list-item:hover :is(div, span), 
-:root app-course-home .featured-items .mat-mdc-nav-list .mat-mdc-list-item:focus :is(div, span),
-app-course-home .featured-items mat-nav-list a:hover :is(div, span) {
-    color: var(--theme-default-text-color) !important;
+    background: rgba(var(--theme-default-color-rgba), .20) !important;
 }
 
 .search-results .mat-icon.notranslate.play-icon.fa-play-circle.fas.mat-icon-no-color { display: none !important; }
 
-.search-results .app-accent-default-color {
+.search-results .app-accent-default-color, :root app-course-home app-to-do-list .app-accent-default-color {
     color: inherit !important;
 }
 
@@ -304,4 +293,14 @@ app-course-home mat-tab-group mat-tab-body .message {
     justify-content: center;
     align-items: center;
     font-style: normal !important;
+}
+
+app-course-home app-to-do-list mat-nav-list a:hover {
+    background: rgba(var(--theme-default-color-rgba), .20) !important;
+}
+
+app-course-home app-to-do-list .mat-mdc-nav-list .mat-mdc-list-item,
+app-course-home app-to-do-list .mat-mdc-nav-list a:hover {
+    --theme-default-text-hover-color: none;
+    --theme-default-color: none;
 }

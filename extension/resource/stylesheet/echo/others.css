@@ -1,0 +1,9 @@
+/** Contains elements that are usually only needed to be changed once **/
+
+mat-divider, .divider {
+    border-color: rgb(59, 59, 59) !important;
+}
+
+html > .app-loading { background: rgba(0, 0, 0, 0) !important; }
+
+app-root > svg.app-loading { display: none !important; }

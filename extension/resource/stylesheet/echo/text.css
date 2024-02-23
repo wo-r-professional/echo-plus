@@ -1,8 +1,8 @@
 /** Text styling CSS **/
 
 /* links */
-:root a:not(:has(mat-icon))[href] *,
-:root a:not(:has(mat-icon)) *,
+:root a:not(:has(mat-icon), :has(.mdc-list-item__content))[href] *,
+:root a:not(:has(mat-icon), :has(.mdc-list-item__content)) *,
 .ng-star-inserted .fr-view a,
 .ng-star-inserted .fr-view a span,
 .ng-star-inserted .fr-view a div,
@@ -23,8 +23,8 @@ span:has(a) {
 }
 
 /* links hovered */
-:root a:not(:has(mat-icon))[href] *,
-:root a:not(:has(mat-icon)) *,
+:root a:not(:has(mat-icon), :has(.mdc-list-item__content))[href] *,
+:root a:not(:has(mat-icon), :has(.mdc-list-item__content)) *,
 .ng-star-inserted .fr-view a:hover,
 .ng-star-inserted .fr-view a:hover span,
 .ng-star-inserted .fr-view a:hover div,
@@ -36,7 +36,6 @@ span a:hover,
 h2 a:hover,
 h3 a:hover,
 h1 a:hover,
-h4 a:hover,
-a:hover {
+h4 a:hover {
     color: var(--theme-default-text-hover-color) !important;
 }

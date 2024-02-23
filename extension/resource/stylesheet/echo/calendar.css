@@ -1,0 +1,93 @@
+/** Calendar styling CSS **/
+app-calendar .calendar-ct,
+app-calendar .list-date {
+    background: var(--foreground-opacity-e0) !important;
+}
+
+app-calendar .list-date {
+    border-bottom: 0px !important;
+    height: 100%;
+}
+
+app-calendar .list-date .list-date-header div {
+    color: var(--cktheme-setcolor) !important;
+}
+
+app-calendar .calendar-ct .calendar-day .today {
+    font-weight: 900 !important;
+    color: var(--theme-default-color) !important;
+}
+
+:root app-calendar .course-events .list-date-event mat-icon {
+    position: unset !important;
+}
+
+:root app-calendar .course-events .list-date-event {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+:root app-calendar .course-events .list-date-event:hover,
+:root app-calendar .course-events .list-date-event:focus {
+    --background-hover: rgba(var(--theme-default-color-rgba), .20);
+}
+
+app-calendar .course-events {
+    padding: 5px 20px 5px 20px !important;
+}
+
+app-calendar .course-events:hover mat-icon,
+app-calendar .course-events:hover mat-tree .list-date-event .event-title {
+    color: var(--text-color) !important;
+}
+
+app-calendar .course-events mat-tree {
+    background: none !important;
+}
+
+app-calendar .course-events mat-tree .list-date-event .activity-count {
+    font-style: normal !important;
+}
+
+app-calendar .course-events mat-tree mat-tree-node:not(mat-tree-node:nth-child(1)) {
+    padding-left: 5% !important;
+}
+
+app-calendar .course-events mat-tree mat-tree-node:not(mat-tree-node:nth-child(1)):hover {
+    background: rgba(var(--theme-default-color-rgba), .20) !important;
+}
+
+.calendar-day .day-number.app-primary-default-background {
+    color: var(--theme-default-text-color) !important;
+    background: var(--theme-default-color) !important;
+}
+
+app-calendar .event-indicator {
+    background: var(--theme-default-color) !important;
+}
+
+@media (max-width: 800px) {
+    :root app-calendar {
+        display: flex !important;
+        flex-direction: column !important;
+        height: fit-content !important;
+    }
+
+    app-calendar .calendar-ct .calendar { display: none; }
+
+    app-calendar .calendar-ct .enrollment-list {
+        width: 100% !important;
+        padding: unset !important;
+        border-bottom: 1px solid rgb(59, 59, 59) !important;
+    }
+
+    app-calendar .list-date {
+        padding: 20px !important;
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 1rem;
+    }
+}

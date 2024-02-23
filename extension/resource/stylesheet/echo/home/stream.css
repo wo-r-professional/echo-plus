@@ -1,0 +1,83 @@
+/** Stream styling CSS **/
+app-student-stream mat-card lib-infinite-scroll .details .course-thumbnail,
+app-student-stream mat-card lib-infinite-scroll .details lib-activity-thumbnail,
+app-student-stream mat-card lib-infinite-scroll lib-score .objective-detail,
+app-student-stream mat-card lib-infinite-scroll lib-score .sbg-icon,
+app-student-stream mat-card lib-infinite-scroll lib-score .status-icon,
+app-student-stream mat-card lib-infinite-scroll lib-score .fail-ada,
+app-student-stream mat-card lib-infinite-scroll .friendly-date,
+app-student-stream mat-card lib-infinite-scroll .common-header lib-profile-picture { display: none !important; }
+
+app-student-stream mat-card lib-infinite-scroll .details {
+    margin: 10px 0px 0px !important;
+}
+
+app-student-stream mat-card lib-infinite-scroll .details a {
+    color: var(--theme-default-color) !important;
+    text-decoration: none !important;
+}
+
+app-student-stream mat-card lib-infinite-scroll .details a:hover {
+    color: var(--theme-default-text-hover-color) !important;
+}
+
+app-student-stream mat-card lib-infinite-scroll lib-score .points::after {
+    content: "|";
+    color: var(--text-color);
+}
+
+app-student-stream mat-card lib-infinite-scroll lib-score:has(.mat-mdc-tooltip-trigger) {
+    display: flex;
+    gap: .5rem;
+}
+
+app-student-stream mat-card lib-infinite-scroll .divider {
+    margin: 20px -16px !important;
+}
+
+app-student-stream mat-card lib-infinite-scroll lib-score .mat-mdc-tooltip-trigger {
+    pointer-events: none !important;
+    background-clip: text !important;
+    padding: 0px !important;
+    margin: 0px !important;
+    width: fit-content !important;
+}
+
+app-student-stream mat-card lib-infinite-scroll lib-score .score:not(:last-child) .mat-mdc-tooltip-trigger::after {
+    content: ",";
+    color: var(--text-color);
+}
+
+app-student-stream mat-card lib-infinite-scroll lib-score .letter {
+    color: transparent !important;
+}
+
+@media (max-width: 710px) {
+    app-student-stream {
+        padding: unset !important;
+    }
+
+    app-student-stream mat-card {
+        margin: unset !important;
+        width: 100% !important;
+        border-radius: 0px !important;
+    }
+}
+
+@media (max-width: 630px) {
+    app-student-stream mat-form-field {
+        width: 20rem !important;
+    }
+}
+
+@media (max-width: 550px) {
+    app-student-stream mat-form-field {
+        width: 16rem !important;
+    }
+}
+
+@media (max-width: 490px) {
+    app-student-stream mat-form-field {
+        width: 12rem !important;
+    }
+}

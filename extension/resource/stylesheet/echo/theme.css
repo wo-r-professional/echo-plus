@@ -9,6 +9,11 @@ body {
                   0 4px 4px hsl(0deg 0% 0% / 0.075),
                   0 8px 8px hsl(0deg 0% 0% / 0.075),
                   0 16px 16px hsl(0deg 0% 0% / 0.075);
+    --box-shadow-right: 1px 0 1px hsl(0deg 0% 0% / 0.075),
+                        2px 0 2px hsl(0deg 0% 0% / 0.075),
+                        4px 0 4px hsl(0deg 0% 0% / 0.075),
+                        8px 0 8px hsl(0deg 0% 0% / 0.075),
+                        16px 0 16px hsl(0deg 0% 0% / 0.075);
 }
 
 /** Are we Dark Mode? **/
@@ -16,7 +21,8 @@ body.app-dark-theme {
     --theme-default: dark;
     --text-color: white;
     --border-color: white;
-    --opposite-color: black;
+    --opposite-color: white;
+    --opposite-text-color: black;
 
     /* background */
     --background: #141414;
@@ -32,7 +38,8 @@ body.app-light-theme {
     --theme-default: light;
     --text-color: black;
     --border-color: black;
-    --opposite-color: white;
+    --opposite-color: black;
+    --opposite-text-color: white;
 
     /* background */
     --background: #e2e0e0;
@@ -194,6 +201,10 @@ app-choose-theme div:has(.color-button) {
 }
 
 @media (max-width: 710px) {
+    app-choose-theme mat-card {
+        border-radius: 0px !important;
+    }
+    
     app-choose-theme .top-content {
         position: relative;
         padding: 0px !important;
