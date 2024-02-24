@@ -238,7 +238,7 @@
                             else if (true_score >= 80)
                                 score_color = "pass-color";
                             else if (true_score < 80 && true_score > 60) {
-                                $("body").css("--warn-color", "#ffd34d");
+                                $("body").css("--warn-color", "#fdae61");
                                 score_color = "warn-color";
                             }
                             else if (true_score < 60)

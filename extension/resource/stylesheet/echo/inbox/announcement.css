@@ -30,6 +30,8 @@ body:has(app-announcement-detail) mat-toolbar .mdc-icon-button[mattooltip="Annou
         display: flex;
         flex-direction: row !important;
         flex-wrap: wrap;
+        padding-bottom: 0px;
+        border-bottom: 1px solid rgb(59, 59, 59) !important;
     }
 
     app-inbox .announcement-list mat-nav-list mat-list-item {
@@ -65,12 +67,12 @@ app-inbox.ng-star-inserted .list-ct mat-nav-list .selected span {
 
 .app-theme-high-contrast app-inbox.ng-star-inserted .list-ct .selected:hover .mat-mdc-list-item-title,
 .app-theme-high-contrast app-inbox.ng-star-inserted .list-ct .selected:hover .mat-mdc-list-item-line {
-    color: var(--cktheme-oppcolor) !important;
+    color: var(--opposite-color) !important;
 }
 
 app-announcement-detail.ng-star-inserted lib-managed-html * {
     background: transparent !important;
-    color: var(--cktheme-text) !important;
+    color: var(--text-color) !important;
 }
 
 app-announcement-detail.ng-star-inserted .header lib-profile-picture { display: none; }

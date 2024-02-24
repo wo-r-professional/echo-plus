@@ -16,6 +16,16 @@
     -moz-user-select: none;
 }
 
+mat-toolbar.mat-toolbar button[aria-label="Due date scheduler"],
+mat-toolbar.mat-toolbar button[aria-label="Blackout dates"],
+mat-toolbar.mat-toolbar button[aria-label="Go to today"],
+mat-toolbar app-gradebook-home-toolbar button[aria-label="Show printer-friendly version"],
+mat-toolbar.mat-toolbar button[aria-label="Send mail"],
+mat-toolbar.mat-toolbar button[aria-label="View printer-friendly version"],
+mat-toolbar.mat-toolbar button[aria-label="Self assessment"],
+mat-toolbar.mat-toolbar button[aria-label="Self assign"], 
+mat-toolbar.mat-toolbar .toolbar-tools button[aria-label="Help"] { display: none !important; }
+
 :root mat-tab-group {
     border-bottom: none !important;
 }

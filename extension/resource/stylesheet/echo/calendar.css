@@ -10,7 +10,7 @@ app-calendar .list-date {
 }
 
 app-calendar .list-date .list-date-header div {
-    color: var(--cktheme-setcolor) !important;
+    color: var(--theme-default-color) !important;
 }
 
 app-calendar .calendar-ct .calendar-day .today {

@@ -1,0 +1,233 @@
+/** Gradebook styling CSS **/
+app-gradebook-home mat-tab-body .student-objective-summary .objective-speedometer {
+    pointer-events: none !important;
+    background: var(--foreground-opacity-ba) !important;
+    box-shadow: none !important;
+}
+
+app-gradebook-home mat-tab-body .student-objective-summary .objective-speedometer .gauge-score {
+    color: var(--theme-default-color) !important;
+}
+
+app-gradebook-home mat-tab-body .student-objective-summary {
+    padding: 0px !important;
+    overflow: hidden !important;
+    flex: none !important;
+    flex-shrink: none !important;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    align-items: flex-start;
+}
+
+app-gradebook-home mat-tab-body .student-objective-summary .objective-speedometer:not(:is(.objective-speedometer:nth-child(1), .objective-speedometer:nth-child(2))) {
+    border-top: 1px solid rgb(59, 59, 59) !important;
+}
+
+app-gradebook-home mat-tab-body .student-objective-summary .objective-speedometer:is(.objective-speedometer:nth-child(1), .objective-speedometer:nth-child(3)) {
+    border-right: 1px solid rgb(59, 59, 59) !important;
+}
+
+app-gradebook-home mat-tab-body .student-objective-summary .objective-speedometer {
+    width: 50%;
+    margin: unset !important;
+    flex-shrink: initial !important;
+}
+
+app-gradebook-home mat-tab-body .student-objective-summary .objective-speedometer:last-child {
+    width: 100% !important;
+}
+
+app-gradebook-home {
+    height: fit-content;
+    overflow: auto !important;
+}
+
+app-gradebook-home mat-tab-header,
+app-gradebook-home mat-tab-body .student-objective-summary .objective-speedometer .gauge,
+app-gradebook-home mat-tab-body .student-objective-summary .objective-speedometer .gauge-progress { display: none !important; }
+
+app-gradebook-home mat-table {
+    overflow: hidden !important;
+}
+
+app-gradebook-home .mat-mdc-table a {
+    color: var(--theme-default-color) !important;
+    text-decoration: none !important;
+}
+
+app-gradebook-home .mat-mdc-table a:hover {
+    color: var(--theme-default-text-hover-color) !important;
+}
+
+app-gradebook-home .mat-mdc-table {
+    background: var(--foreground-opacity-e0) !important;
+}
+
+app-gradebook-home .mat-mdc-table mat-header-cell {
+    user-select: none !important;
+}
+
+app-gradebook-home .mat-mdc-table .mat-column-course {
+    max-width: unset !important;
+    min-height: unset !important;
+}
+
+app-gradebook-home mat-header-row,
+app-gradebook-home mat-row {
+    width: 100%;
+    min-width: unset !important;
+}
+
+app-gradebook-home mat-header-cell,
+app-gradebook-home mat-cell {
+    min-width: unset !important;
+}
+
+app-gradebook-home mat-header-cell,
+app-gradebook-home mat-row-cell {
+    min-width: unset !important;
+}
+
+app-gradebook-home .cdk-column-progress,
+app-gradebook-home .cdk-column-progressAll,
+app-gradebook-home .cdk-column-start,
+app-gradebook-home .cdk-column-end,
+app-gradebook-home .cdk-column-daysLeft,
+app-gradebook-home .cdk-column-self { display: none !important; }
+
+app-gradebook-home mat-header-cell .objective-header .objective-color,
+app-gradebook-home button[appselfassessmentview],
+app-gradebook-home .cdk-column-picture { display: none !important; }
+
+lib-grade-details.ng-star-inserted lib-student-grade-details .objective-text,
+lib-grade-details.ng-star-inserted lib-student-grade-details .objective-color,
+lib-grade-details lib-student-grade-details .icon-ct { display: none !important; }
+
+app-gradebook-home mat-table mat-cell:has(.no-score) span {
+    all: unset !important;
+}
+
+app-gradebook-home mat-table mat-cell:has(.no-score) span::before {
+    content: "--";
+}
+
+lib-grade-details lib-student-grade-details .fields-ct {
+    padding-left: 0px !important;
+    padding-bottom: 20px !important;
+}
+
+lib-grade-details lib-student-grade-details mat-tab-header {
+    padding: 0px 0px 5px 20px !important;
+}
+
+lib-grade-details.ng-star-inserted lib-student-grade-details .mat-mdc-tab-header {
+    background: transparent !important;
+}
+
+lib-grade-details.ng-star-inserted lib-student-grade-details .data-row label {
+    padding-right: 35px !important;
+}
+
+lib-grade-details.ng-star-inserted lib-student-grade-details .objective-title {
+    overflow: unset !important;
+}
+
+app-gradebook-tabs mat-accordion {
+    margin: unset !important;
+    border-radius: 0px !important;
+    height: max-content;
+}
+
+app-gradebook-tabs mat-accordion mat-expansion-panel {
+    background: var(--foreground-opacity-e0) !important;
+}
+
+
+
+/** Sub gradebooks styling CSS **/
+app-gradebook-tabs mat-tab-header { display: none !important;}
+
+app-student-grades.ng-star-inserted mat-card {
+    background: var(--foreground-opacity-ba) !important;
+    margin: unset !important;
+    border-radius: 0px;
+}
+
+app-student-grades.ng-star-inserted mat-card h4 {
+    margin: 0px 0px 30px 0px !important;
+    font-size: 30px !important;
+}
+
+app-student-grades.ng-star-inserted mat-card .objective-title {
+    overflow: unset !important;
+}
+
+app-student-grades.ng-star-inserted mat-card .completion,
+app-student-grades.ng-star-inserted .objective-color { display: none !important; }
+
+app-student-grades.ng-star-inserted app-student-grade-list mat-table {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: stretch;
+    align-content: stretch;
+    margin-bottom: 0px !important;
+    background: var(--foreground-opacity-e0) !important;
+}
+
+app-student-grades.ng-star-inserted .cdk-column-dueDate .mat-icon,
+app-student-grades.ng-star-inserted app-student-grade-list mat-table mat-cell lib-score .no-score { display: none !important; }
+
+app-student-grades.ng-star-inserted .cdk-column-submittedDate,
+app-student-grades.ng-star-inserted .cdk-column-dueDate { display: none; }
+
+:root app-student-grades.ng-star-inserted mat-table mat-row:not(:has(mat-cell.toc-depth1)):hover {
+    background: rgba(var(--theme-default-color-rgba), .20) !important;
+    border-bottom: 0px !important;
+}
+
+:root app-student-grades.ng-star-inserted mat-table mat-row:has(mat-cell.toc-depth1):hover {
+    background: var(--foreground) !important;
+    cursor: default !important;
+    border-bottom: 0px !important;
+}
+
+app-student-grades.ng-star-inserted mat-table .cdk-column-status {
+    max-width: 80px !important;
+}
+
+app-student-grades.ng-star-inserted app-student-grade-list mat-table mat-cell lib-score:has(.no-score)::before,
+app-student-grades.ng-star-inserted app-student-grade-list mat-table mat-cell lib-score:not(:has(.percent), :has(.status-icon))::before {
+    content: "--";
+}
+
+app-student-grades.ng-star-inserted app-student-grade-list mat-table .points { display: none; }
+
+app-student-grades.ng-star-inserted app-student-grade-list mat-table .cdk-column-gradeStatus { display: none !important; }
+
+app-student-grades.ng-star-inserted app-student-grade-list mat-table .mdc-data-table__row {
+    height: 100% !important;
+}
+
+app-student-grades.ng-star-inserted mat-header-row,
+app-student-grades.ng-star-inserted mat-row {
+    width: 100%;
+    min-width: unset !important;
+}
+
+app-student-grades.ng-star-inserted mat-header-cell,
+app-student-grades.ng-star-inserted mat-cell {
+    min-width: unset !important;
+}
+
+app-student-grades.ng-star-inserted mat-header-cell,
+app-student-grades.ng-star-inserted mat-row-cell {
+    min-width: unset !important;
+}
+
+@media (max-width: 600px) {
+    app-student-grades.ng-star-inserted app-student-grade-list mat-table * {
+        font-size: 11px !important;
+    }
+}
+
