@@ -42,12 +42,13 @@
 
                 // Set the rest to the default settings.
                 config("set", "proview_allow_extension_updates", true);
+                config("set", "proview_stay_logged_in", false);
                 config("set", "proview_stylesheets", false);
                 config("set", "proview_remove_thumbnails", false);
                 config("set", "proview_replace_standards", true);
                 config("set", "proview_quality_features", true);
                 config("set", "proview_custom_background", "");
-                config("set", "proview_hide_courses", "");
+                config("set", "proview_hide_courses", JSON.stringify([""]));
 
                 window.alert("Hey, thanks for using Proview.\n\nThis extension brings a lot of changes to Echo. We recommend that you view the documentation for this extension, the link is available on the settings page of Echo.");
             }
@@ -167,60 +168,6 @@
             $("head").append(`<base id="proview-base-change" href="/" target="_blank">`);
         })
 
-        // Checks for login details, then it uses those details to always create a login that last forever.
-        new MutationObserver((mutations) => {mutations.forEach(() => {
-            // This will be here anyways I guess
-            if (!isEmpty($("body:has(app-before-login)")) && !isEmpty(config("get", "proview_automatic_logins_details"))) {
-                $.ajax({
-                    url: api("/cmd"),
-                    method: "POST",
-                    dataType: "json",
-                    contentType: "application/json; charset=utf-8",
-                    data: JSON.stringify({"request": {
-                        cmd: "login3",
-                        expireseconds: "-1",
-                        token: get_details.token,
-                        password: JSON.parse(config("get", "proview_automatic_logins_details"))[1],
-                        username: `${window.location.href.split("//")[1].split(".")[0]}/${JSON.parse(config("get", "proview_automatic_logins_details"))[0]}`,
-                    }}),
-                    success: function (json) {
-                        if (json.response.code == "OK") {
-                            let token = json.response.user.token;
-
-                            json.response.token = token;
-                            json.response.user.id = json.response.user.userid;
-                            
-                            delete json.response.user.token;
-                            delete json.response.code;
-                            delete json.response.user.userid;
-                    
-                            config("set", "session", JSON.stringify(json.response));
-
-                            window.location.href = "student/home/courses";
-                        } 
-                    }
-                })
-
-                debug_logger("Automatically logging in", 4);
-            }
-
-            // Get details
-            if (is_page("login") && isEmpty(config("get", "proview_automatic_logins_details"))) {
-                $("mat-toolbar button[type=\"submit\"]").on("mousedown", function () {
-                    let details = [];
-                    $.each($(".login-fields mat-form-field input"), function () {
-                        if ($(this).val() != "" && details.length != 2)
-                            details.push($(this).val());
-                    })
-
-                    if (details.length == 2 && isEmpty(config("get", "proview_automatic_logins_details"))) {
-                        config("set", "proview_automatic_logins_details", JSON.stringify(details));
-                        debug_logger("Saved login details", 1);
-                    }
-                });
-            }
-        })}).observe($("body app-root")[0], { childList: true });
-
         // Re-enable all disabled buttons, inputs, and checkboxes.
         new MutationObserver(function (mutations) {mutations.forEach(function () {
             $("button[disabled], input[disabled], div:has(input[disabled]).mdc-text-field--disabled").removeAttr("disabled").removeClass("mdc-text-field--disabled");
@@ -286,4 +233,75 @@
         })}).observe($("body app-root")[0], { childList: true });
         debug_logger(`Actively looking for scores`, 4); // no spam plz
     }
+    
+    // Checks for login details, then it uses those details to create a login session that last forever.
+    if (is_true_by_string(config("get", "proview_stay_logged_in"))) {
+        new MutationObserver((mutations) => {mutations.forEach(() => {
+            if (!isEmpty($("body:has(app-before-login)")) && !isEmpty(config("get", "proview_automatic_logins_details"))) {
+                $.ajax({
+                    url: api("/cmd"),
+                    method: "POST",
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify({"request": {
+                        cmd: "login3",
+                        expireseconds: "-1",
+                        password: JSON.parse(config("get", "proview_automatic_logins_details"))[1],
+                        username: `${window.location.href.split("//")[1].split(".")[0]}/${JSON.parse(config("get", "proview_automatic_logins_details"))[0]}`,
+                    }}),
+                    success: function (json) {
+                        if (json.response.code == "OK") {
+                            let token = json.response.user.token;
+
+                            json.response.token = token;
+                            json.response.user.id = json.response.user.userid;
+                            
+                            delete json.response.user.token;
+                            delete json.response.code;
+                            delete json.response.user.userid;
+                    
+                            config("set", "session", JSON.stringify(json.response));
+
+                            window.location.href = "/student/home/courses";
+                        } 
+                    }
+                })
+
+                debug_logger("Automatically logging in", 4);
+            }
+        
+            // Get details (if they don't exist)
+            if (is_page("login") && isEmpty(config("get", "proview_automatic_logins_details"))) {
+                $("mat-toolbar button[type=\"submit\"]").on("mousedown", function () {
+                    let details = [];
+                    $.each($(".login-fields mat-form-field input"), function () {
+                        if ($(this).val() != "" && details.length != 2)
+                            details.push($(this).val());
+                    })
+
+                    // Check if valid
+                    $.ajax({
+                        url: api("/cmd"),
+                        method: "POST",
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+                        data: JSON.stringify({"request": {
+                            cmd: "login3",
+                            expireseconds: "-1",
+                            password: details[1],
+                            username: `${window.location.href.split("//")[1].split(".")[0]}/${details[0]}`,
+                        }}),
+                        success: (json) => {
+                            if (json.response.code == "OK" && details.length == 2 && isEmpty(config("get", "proview_automatic_logins_details"))) {
+                                config("set", "proview_automatic_logins_details", JSON.stringify(details));
+                                debug_logger("Saved login details", 1);
+                            }
+                        }
+                    })
+                });
+            }
+        })}).observe($("body app-root")[0], { childList: true });
+    } 
+    else
+        config("remove", "proview_stay_logged_in");
 })();
