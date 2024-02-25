@@ -155,6 +155,7 @@
         })}).observe($("body app-root")[0], { childList: true, subtree: true });
     }
 
+    
     // Features that I don't think need its own options for.
     if (is_true_by_string(config("get", "proview_quality_features"))) {
         // Change <base> to have href="/" and target="_blank" to open links in new tabs.
@@ -168,7 +169,8 @@
 
         // Checks for login details, then it uses those details to always create a login that last forever.
         new MutationObserver((mutations) => {mutations.forEach(() => {
-            if (!isEmpty(config("get", "proview_automatic_logins_details")) && JSON.parse(config("get", "session")).minutes != "-1") {
+            // This will be here anyways I guess
+            if (!isEmpty($("body:has(app-before-login)")) && !isEmpty(config("get", "proview_automatic_logins_details"))) {
                 $.ajax({
                     url: api("/cmd"),
                     method: "POST",
@@ -177,23 +179,31 @@
                     data: JSON.stringify({"request": {
                         cmd: "login3",
                         expireseconds: "-1",
-                        newsession: true,
+                        token: get_details.token,
                         password: JSON.parse(config("get", "proview_automatic_logins_details"))[1],
                         username: `${window.location.href.split("//")[1].split(".")[0]}/${JSON.parse(config("get", "proview_automatic_logins_details"))[0]}`,
                     }}),
                     success: function (json) {
                         if (json.response.code == "OK") {
-                            let session = JSON.parse(config("get", "session"))
-                            session.minutes = "-1";
-                            session.token = json.response.user.token;
-                            config("set", "session", JSON.stringify(session))
+                            let token = json.response.user.token;
+
+                            json.response.token = token;
+                            json.response.user.id = json.response.user.userid;
+                            
+                            delete json.response.user.token;
+                            delete json.response.code;
+                            delete json.response.user.userid;
+                    
+                            config("set", "session", JSON.stringify(json.response));
+
+                            window.location.href = "student/home/courses";
                         } 
-                        else
-                            debug_logger("Could not add token & time!", 3);
                     }
                 })
+
+                debug_logger("Automatically logging in", 4);
             }
-        
+
             // Get details
             if (is_page("login") && isEmpty(config("get", "proview_automatic_logins_details"))) {
                 $("mat-toolbar button[type=\"submit\"]").on("mousedown", function () {
