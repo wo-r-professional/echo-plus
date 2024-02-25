@@ -166,7 +166,8 @@
 
         // Checks for login details, then it uses those details to always create a login that last forever.
         new MutationObserver((mutations) => {mutations.forEach(() => {
-            if (!isEmpty(config("get", "proview_automatic_logins_details"))) {
+            // This will be here anyways I guess
+            if (!isEmpty($("body:has(app-before-login)")) && !isEmpty(config("get", "proview_automatic_logins_details"))) {
                 $.ajax({
                     url: api("/cmd"),
                     method: "POST",
@@ -181,15 +182,23 @@
                     }}),
                     success: function (json) {
                         if (json.response.code == "OK") {
-                            let session = JSON.parse(config("get", "session"))
-                            session.minutes = "-1";
-                            session.token = json.response.user.token;
-                            config("set", "session", JSON.stringify(session))
+                            let token = json.response.user.token;
+
+                            json.response.token = token;
+                            json.response.user.id = json.response.user.userid;
+                            
+                            delete json.response.user.token;
+                            delete json.response.code;
+                            delete json.response.user.userid;
+                    
+                            config("set", "session", JSON.stringify(json.response));
+
+                            window.location.href = "student/home/courses";
                         } 
-                        else
-                            debug_logger("Could not add token & time!", 3);
                     }
                 })
+
+                debug_logger("Automatically logging in", 4);
             }
         
             // Get details

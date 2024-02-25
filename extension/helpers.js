@@ -104,17 +104,6 @@ function is_true_by_string(value) {
 }
 
 /**
- * Simulates a stroke of keypresses
- * HACK: Thank you GPT-3.5, this would not have happened without you <3.  
- */
-function simulateKeypress(element, text) {
-    for (var i = 0; i < text.length; i++) {
-        var keyCode = text.charCodeAt(i);
-        element.trigger({ type: 'keypress', which: keyCode, keyCode: keyCode });
-    }
-}
-
-/**
  * Get details from echos localstorage & extension
  */
 const get_details = {
