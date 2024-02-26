@@ -1,6 +1,6 @@
 {
     "manifest_version": 3,
-    "version": "0.0.8",
+    "version": "0.0.9",
     "author": "wo-r",
     "name": "proview for echo",
     "description": "An extension for Echo that implements fixes, features, and redesigns, all aimed at enhancing the overall experience of using Echo.",
