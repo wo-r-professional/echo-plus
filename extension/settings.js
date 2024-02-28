@@ -187,7 +187,7 @@
                     </mat-checkbox>
                     <!---->
                     <!---->
-                    <span>Changes the website's background (only works if <b>Custom Stylesheets</b> is enabled).</span>
+                    <span>Change the websites background to anything you want (Supports gifs and static images).<b></b></span>
                     <mat-form-field class="mat-mdc-form-field mat-mdc-form-field-type-mat-input mat-form-field-appearance-outline mat-primary ng-pristine ng-valid ng-star-inserted mat-form-field-hide-placeholder ng-touched">
                         <div class="mat-mdc-text-field-wrapper mdc-text-field mdc-text-field--outlined">
                             <div class="mat-mdc-form-field-flex">
@@ -204,7 +204,7 @@
                     </mat-form-field>
                     <!---->
                     <!---->
-                    <span>Hides specific courses on the main page of Echo (add the course name and separate with a comma).</span>
+                    <span>Hides specific courses on the main page of Echo (add the course name, and separate with a comma).</span>
                     <mat-form-field class="mat-mdc-form-field mat-mdc-form-field-type-mat-input mat-form-field-appearance-outline mat-primary ng-pristine ng-valid ng-star-inserted mat-form-field-hide-placeholder ng-touched">
                         <div class="mat-mdc-text-field-wrapper mdc-text-field mdc-text-field--outlined">
                             <div class="mat-mdc-form-field-flex">
