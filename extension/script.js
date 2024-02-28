@@ -236,7 +236,7 @@
                 if (!(window.location.href === window.location.origin + '/' || is_page("login")))
                     config("set", "proview_last_set_url",  window.location.href);
                 
-                if (!isEmpty($("body:has(app-before-login)")) && !isEmpty(config("get", "proview_automatic_logins_details"))) {
+                if (!isEmpty($("body:has(app-before-login)")) && !isEmpty(config("get", "proview_stay_logged_in_details"))) {
                     $.ajax({
                         url: api("/cmd"),
                         method: "POST",
@@ -245,8 +245,8 @@
                         data: JSON.stringify({"request": {
                             cmd: "login3",
                             expireseconds: "-1",
-                            password: JSON.parse(config("get", "proview_automatic_logins_details"))[1],
-                            username: `${window.location.href.split("//")[1].split(".")[0]}/${JSON.parse(config("get", "proview_automatic_logins_details"))[0]}`,
+                            password: JSON.parse(config("get", "proview_stay_logged_in_details"))[1],
+                            username: `${window.location.href.split("//")[1].split(".")[0]}/${JSON.parse(config("get", "proview_stay_logged_in_details"))[0]}`,
                         }}),
                         success: function (json) {
                             if (json.response.code == "OK") {
@@ -270,7 +270,7 @@
                 }
             
                 // Get details (if they don't exist)
-                if (is_page("login") && isEmpty(config("get", "proview_automatic_logins_details"))) {
+                if (is_page("login") && isEmpty(config("get", "proview_stay_logged_in_details"))) {
                     $("mat-toolbar button[type=\"submit\"]").on("mousedown", function () {
                         let details = [];
                         $.each($(".login-fields mat-form-field input"), function () {
@@ -291,8 +291,8 @@
                                 username: `${window.location.href.split("//")[1].split(".")[0]}/${details[0]}`,
                             }}),
                             success: (json) => {
-                                if (json.response.code == "OK" && details.length == 2 && isEmpty(config("get", "proview_automatic_logins_details"))) {
-                                    config("set", "proview_automatic_logins_details", JSON.stringify(details));
+                                if (json.response.code == "OK" && details.length == 2 && isEmpty(config("get", "proview_stay_logged_in_details"))) {
+                                    config("set", "proview_stay_logged_in_details", JSON.stringify(details));
                                     debug_logger("Saved login details", 1);
                                 }
                             }
