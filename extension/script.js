@@ -119,6 +119,7 @@
             </style>
         `)
     }
+    
     // Remove thumbnails if stylesheets is not on
     if (!is_true_by_string(config("get", "proview_stylesheets")) && is_true_by_string(config("get", "proview_remove_thumbnails"))) {
         $("head").append(`
@@ -138,18 +139,13 @@
     if (!isEmpty(JSON.parse(config("get", "proview_hide_courses"))[0])) {
         new MutationObserver(function (mutations) {mutations.forEach(function () {
             $.each(JSON.parse(config("get", "proview_hide_courses")), function () {
-                if ($(`app-student-home-tabs app-student-courses .grid-ct mat-card:has(h2:contains(${this})) h2`).text().trim() == this)
-                    $(`app-student-home-tabs app-student-courses .grid-ct mat-card:has(h2:contains(${this}))`).remove();
-                else if ($(`app-gradebook-home mat-row:has(mat-cell a:contains("${this}")) mat-cell a:contains("${this}")`).text().trim() == this)
-                    $(`app-gradebook-home mat-row:has(mat-cell a:contains("${this}"))`).remove();
-                else if ($(`.cdk-overlay-container .cdk-overlay-pane mat-dialog-content .enrollment-list li:has(.course-title:contains(${this})) .course-title`).text().trim() == this)
-                    $(`.cdk-overlay-container .cdk-overlay-pane mat-dialog-content .enrollment-list li:has(.course-title:contains(${this}))`).remove();
-                else if ($(`app-order-courses .cdk-drag:has(h3:contains(${this})) h3`).text().trim() == this)
-                    $(`app-order-courses .cdk-drag:has(h3:contains(${this}))`).remove();
-                else if ($(`app-student-nav .course-menu .mat-mdc-list-item:has(.course-title:contains(${this})) .course-title`).text().trim() == this)
-                    $(`app-student-nav .course-menu .mat-mdc-list-item:has(.course-title:contains(${this}))`).remove();
-                else
-                    return;
+                $(`app-student-home-tabs app-student-courses .grid-ct mat-card:has(h2:contains(${this}))`).remove();
+                $(`app-gradebook-home mat-row:has(mat-cell a:contains("${this}"))`).remove();
+                $(`.cdk-overlay-container .cdk-overlay-pane mat-dialog-content .enrollment-list li:has(.course-title:contains(${this}))`).remove();
+                $(`app-order-courses .cdk-drag:has(h3:contains(${this}))`).remove();
+                $(`app-student-nav .course-menu .mat-mdc-list-item:has(.course-title:contains(${this}))`).remove();
+                $(`body:has(lib-activity-stream) .cdk-overlay-container .cdk-overlay-pane mat-option:has(span:contains(${this}))`).remove();
+                $(`app-calendar .calendar-ct mat-selection-list mat-list-option:has(.mat-mdc-list-item-title:contains(${this}))`).remove();
             })
         })}).observe($("body app-root")[0], { childList: true, subtree: true });
     }
@@ -234,49 +230,13 @@
     // Checks for login details, then it uses those details to create a login session that last forever.
     if (is_true_by_string(config("get", "proview_stay_logged_in"))) {
         new MutationObserver((mutations) => {mutations.forEach(() => {
-            if (!isEmpty($("body:has(app-before-login)")) && !isEmpty(config("get", "proview_automatic_logins_details"))) {
-                $.ajax({
-                    url: api("/cmd"),
-                    method: "POST",
-                    dataType: "json",
-                    contentType: "application/json; charset=utf-8",
-                    data: JSON.stringify({"request": {
-                        cmd: "login3",
-                        expireseconds: "-1",
-                        password: JSON.parse(config("get", "proview_automatic_logins_details"))[1],
-                        username: `${window.location.href.split("//")[1].split(".")[0]}/${JSON.parse(config("get", "proview_automatic_logins_details"))[0]}`,
-                    }}),
-                    success: function (json) {
-                        if (json.response.code == "OK") {
-                            let token = json.response.user.token;
-
-                            json.response.token = token;
-                            json.response.user.id = json.response.user.userid;
-                            
-                            delete json.response.user.token;
-                            delete json.response.code;
-                            delete json.response.user.userid;
-                    
-                            config("set", "session", JSON.stringify(json.response));
-
-                            window.location.href = "/student/home/courses";
-                        } 
-                    }
-                })
-
-                debug_logger("Automatically logging in", 4);
-            }
-        
-            // Get details (if they don't exist)
-            if (is_page("login") && isEmpty(config("get", "proview_automatic_logins_details"))) {
-                $("mat-toolbar button[type=\"submit\"]").on("mousedown", function () {
-                    let details = [];
-                    $.each($(".login-fields mat-form-field input"), function () {
-                        if ($(this).val() != "" && details.length != 2)
-                            details.push($(this).val());
-                    })
-
-                    // Check if valid
+            if ((window.location.href === window.location.origin + '/' || is_page("login")) && !isEmpty(config("get", "session"))) {
+                window.location.href = config("get", "proview_last_set_url");
+            } else {
+                if (!(window.location.href === window.location.origin + '/' || is_page("login")))
+                    config("set", "proview_last_set_url",  window.location.href);
+                
+                if (!isEmpty($("body:has(app-before-login)")) && !isEmpty(config("get", "proview_automatic_logins_details"))) {
                     $.ajax({
                         url: api("/cmd"),
                         method: "POST",
@@ -285,17 +245,60 @@
                         data: JSON.stringify({"request": {
                             cmd: "login3",
                             expireseconds: "-1",
-                            password: details[1],
-                            username: `${window.location.href.split("//")[1].split(".")[0]}/${details[0]}`,
+                            password: JSON.parse(config("get", "proview_automatic_logins_details"))[1],
+                            username: `${window.location.href.split("//")[1].split(".")[0]}/${JSON.parse(config("get", "proview_automatic_logins_details"))[0]}`,
                         }}),
-                        success: (json) => {
-                            if (json.response.code == "OK" && details.length == 2 && isEmpty(config("get", "proview_automatic_logins_details"))) {
-                                config("set", "proview_automatic_logins_details", JSON.stringify(details));
-                                debug_logger("Saved login details", 1);
-                            }
+                        success: function (json) {
+                            if (json.response.code == "OK") {
+                                let token = json.response.user.token;
+
+                                json.response.token = token;
+                                json.response.user.id = json.response.user.userid;
+                                
+                                delete json.response.user.token;
+                                delete json.response.code;
+                                delete json.response.user.userid;
+                        
+                                config("set", "session", JSON.stringify(json.response));
+
+                                window.location.href = "/student/home/courses";
+                            } 
                         }
                     })
-                });
+
+                    debug_logger("Automatically logging in", 4);
+                }
+            
+                // Get details (if they don't exist)
+                if (is_page("login") && isEmpty(config("get", "proview_automatic_logins_details"))) {
+                    $("mat-toolbar button[type=\"submit\"]").on("mousedown", function () {
+                        let details = [];
+                        $.each($(".login-fields mat-form-field input"), function () {
+                            if ($(this).val() != "" && details.length != 2)
+                                details.push($(this).val());
+                        })
+
+                        // Check if valid
+                        $.ajax({
+                            url: api("/cmd"),
+                            method: "POST",
+                            dataType: "json",
+                            contentType: "application/json; charset=utf-8",
+                            data: JSON.stringify({"request": {
+                                cmd: "login3",
+                                expireseconds: "-1",
+                                password: details[1],
+                                username: `${window.location.href.split("//")[1].split(".")[0]}/${details[0]}`,
+                            }}),
+                            success: (json) => {
+                                if (json.response.code == "OK" && details.length == 2 && isEmpty(config("get", "proview_automatic_logins_details"))) {
+                                    config("set", "proview_automatic_logins_details", JSON.stringify(details));
+                                    debug_logger("Saved login details", 1);
+                                }
+                            }
+                        })
+                    });
+                }
             }
         })}).observe($("body app-root")[0], { childList: true });
     } 

@@ -228,13 +228,41 @@
                         <span>Links</span>
                     </mat-card-subtitle>
                     <p>
-                        <a href="https://github.com/wo-r-professional/proview-for-echo" target="_blank" rel="noopener">Extension Project</a>
-                        <span>·</span>
-                        <a href="https://github.com/wo-r-professional/proview-for-echo/wiki" target="_blank" rel="noopener">Documentation</a>
-                        <span>·</span>
-                        <a href="https://wo-r-professional.github.io/proview/" target="_blank" rel="noopener">Proview Website</a>
-                        <span>·</span>
-                        <a href="https://github.com/wo-r" target="_blank" rel="noopener">Github</a>
+                        <button onclick="window.open('https://github.com/wo-r-professional/proview-for-echo/', '_blank')" color="accent" class="mdc-button mdc-button--raised mat-mdc-raised-button mat-accent mat-mdc-button-base">
+                            <span class="mat-mdc-button-persistent-ripple mdc-button__ripple"></span>
+                            <span class="mdc-button__label">Proview</span>
+                            <span class="mat-mdc-focus-indicator"></span>
+                            <span class="mat-mdc-button-touch-target"></span>
+                            <span class="mat-ripple mat-mdc-button-ripple"></span
+                        </button>
+                        <button onclick="window.open('https://wo-r-professional.github.io/proview/', '_blank')" color="accent" class="mdc-button mdc-button--raised mat-mdc-raised-button mat-accent mat-mdc-button-base">
+                            <span class="mat-mdc-button-persistent-ripple mdc-button__ripple"></span>
+                            <span class="mdc-button__label">Proview website</span>
+                            <span class="mat-mdc-focus-indicator"></span>
+                            <span class="mat-mdc-button-touch-target"></span>
+                            <span class="mat-ripple mat-mdc-button-ripple"></span
+                        </button>
+                        <button onclick="window.open('https://github.com/wo-r-professional/proview-for-echo/wiki', '_blank')" color="accent" class="mdc-button mdc-button--raised mat-mdc-raised-button mat-accent mat-mdc-button-base">
+                            <span class="mat-mdc-button-persistent-ripple mdc-button__ripple"></span>
+                            <span class="mdc-button__label">Documentation</span>
+                            <span class="mat-mdc-focus-indicator"></span>
+                            <span class="mat-mdc-button-touch-target"></span>
+                            <span class="mat-ripple mat-mdc-button-ripple"></span
+                        </button>
+                        <button onclick="window.open('https://github.com/wo-r-professional/proview-for-echo/issues', '_blank')" color="accent" class="mdc-button mdc-button--raised mat-mdc-raised-button mat-accent mat-mdc-button-base">
+                            <span class="mat-mdc-button-persistent-ripple mdc-button__ripple"></span>
+                            <span class="mdc-button__label">Report an issue</span>
+                            <span class="mat-mdc-focus-indicator"></span>
+                            <span class="mat-mdc-button-touch-target"></span>
+                            <span class="mat-ripple mat-mdc-button-ripple"></span
+                        </button>
+                        <button onclick="window.open('https://github.com/wo-r', '_blank')" color="accent" class="mdc-button mdc-button--raised mat-mdc-raised-button mat-accent mat-mdc-button-base">
+                            <span class="mat-mdc-button-persistent-ripple mdc-button__ripple"></span>
+                            <span class="mdc-button__label">Follow me</span>
+                            <span class="mat-mdc-focus-indicator"></span>
+                            <span class="mat-mdc-button-touch-target"></span>
+                            <span class="mat-ripple mat-mdc-button-ripple"></span
+                        </button>
                     </p>
                 </div>
                 <style>
@@ -245,6 +273,10 @@
 
                     #proview-settings mat-form-field:has(#custom_background) {
                         padding: 0 0 1rem !important;
+                    }
+
+                    #proview-settings p:has(mat-divider) {
+                        margin: unset !important;
                     }
 
                     #proview-settings p mat-divider {
@@ -271,9 +303,9 @@
                         flex-wrap: wrap;
                     }
 
-                    #proview-settings p:last-child() {
+                    #proview-settings p:last-child {
                         display: flex;
-                        gap: 0 0.5rem;
+                        gap: .5rem;
                         flex-wrap: wrap;
                     }
                 </style>
