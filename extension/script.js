@@ -305,5 +305,5 @@
         })}).observe($("body")[0], { childList: true, subtree: true });
     } 
     else
-        config("remove", "proview_stay_logged_in");
+        config("remove", "proview_stay_logged_in_details");
 })();
