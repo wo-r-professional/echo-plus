@@ -301,7 +301,7 @@
                 });
             }
 
-            $(".cdk-overlay-container:has(.cdk-overlay-pane app-session-lost)").remove();
+            $(".cdk-overlay-container:has(.cdk-overlay-pane app-session-lost)").empty();
         })}).observe($("body")[0], { childList: true, subtree: true });
     } 
     else
