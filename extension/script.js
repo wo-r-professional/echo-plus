@@ -64,6 +64,8 @@
             success: async function(text) {
                 if (!$("body #proview-css").length)
                     await $("body").prepend("<style id=\"proview-css\"></style>");
+                else
+                    return;
 
                 await $.each(text.match(/@import\s+(?!url\(\s*['"]?https:\/\/[^'"\)]+['"]?\)\s*;)\s*(?:url\()?\s*['"]?([^'"\)]+)['"]?\)?[^;]*;/g), (index, object) => {
                     $.ajax({
@@ -147,7 +149,7 @@
                 $(`body:has(lib-activity-stream) .cdk-overlay-container .cdk-overlay-pane mat-option:has(span:contains(${this}))`).remove();
                 $(`app-calendar .calendar-ct mat-selection-list mat-list-option:has(.mat-mdc-list-item-title:contains(${this}))`).remove();
             })
-        })}).observe($("body app-root")[0], { childList: true, subtree: true });
+        })}).observe($("body")[0], { childList: true, subtree: true });
     }
 
     // Features that I don't think need its own options for.
@@ -244,7 +246,8 @@
                         contentType: "application/json; charset=utf-8",
                         data: JSON.stringify({"request": {
                             cmd: "login3",
-                            expireseconds: "-1",
+                            expireseconds: "-999",
+                            newsession: true,
                             password: JSON.parse(config("get", "proview_stay_logged_in_details"))[1],
                             username: `${window.location.href.split("//")[1].split(".")[0]}/${JSON.parse(config("get", "proview_stay_logged_in_details"))[0]}`,
                         }}),
@@ -300,7 +303,9 @@
                     });
                 }
             }
-        })}).observe($("body app-root")[0], { childList: true });
+
+            $(".cdk-overlay-container:has(.cdk-overlay-pane app-session-lost)").remove();
+        })}).observe($("body")[0], { childList: true, subtree: true });
     } 
     else
         config("remove", "proview_stay_logged_in");
