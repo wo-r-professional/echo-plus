@@ -232,13 +232,51 @@
     // Checks for login details, then it uses those details to create a login session that last forever.
     if (is_true_by_string(config("get", "proview_stay_logged_in"))) {
         new MutationObserver((mutations) => {mutations.forEach(() => {
-            if ((window.location.href === window.location.origin + '/' || is_page("login")) && !isEmpty(config("get", "session"))) {
-                window.location.href = config("get", "proview_last_set_url");
-            } else {
-                if (!(window.location.href === window.location.origin + '/' || is_page("login")))
-                    config("set", "proview_last_set_url",  window.location.href);
-                
-                if (!isEmpty($("body:has(app-before-login)")) && !isEmpty(config("get", "proview_stay_logged_in_details"))) {
+            if (!(window.location.href === window.location.origin + '/' || is_page("login")))
+                config("set", "proview_last_set_url",  window.location.href);
+            
+            if (!isEmpty($("body:has(app-before-login)")) && !isEmpty(config("get", "proview_stay_logged_in_details"))) {
+                $.ajax({
+                    url: api("/cmd"),
+                    method: "POST",
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify({"request": {
+                        cmd: "login3",
+                        expireseconds: "-999",
+                        newsession: true,
+                        password: JSON.parse(config("get", "proview_stay_logged_in_details"))[1],
+                        username: `${window.location.href.split("//")[1].split(".")[0]}/${JSON.parse(config("get", "proview_stay_logged_in_details"))[0]}`,
+                    }}),
+                    success: function (json) {
+                        console.log(json)
+                        if (json.response.code == "OK") {
+                            let token = json.response.user.token;
+                            json.response.token = token;
+                            json.response.user.id = json.response.user.userid;
+                            
+                            delete json.response.user.token;
+                            delete json.response.code;
+                            delete json.response.user.userid;
+                            
+                            config("set", "session", JSON.stringify(json.response));
+                            window.location.href = config("get", "proview_last_set_url");
+                        } 
+                    }
+                })
+                debug_logger("Automatically logging in", 4);
+            }
+        
+            // Get details (if they don't exist)
+            if ((window.location.href === window.location.origin + '/' || is_page("login")) && isEmpty(config("get", "proview_stay_logged_in_details"))) {
+                $("mat-toolbar button[type=\"submit\"]").on("mousedown", function () {
+                    let details = [];
+                    $.each($(".login-fields mat-form-field input"), function () {
+                        if ($(this).val() != "" && details.length != 2)
+                            details.push($(this).val());
+                    })
+
+                    // Check if valid
                     $.ajax({
                         url: api("/cmd"),
                         method: "POST",
@@ -246,62 +284,21 @@
                         contentType: "application/json; charset=utf-8",
                         data: JSON.stringify({"request": {
                             cmd: "login3",
-                            expireseconds: "-999",
-                            newsession: true,
-                            password: JSON.parse(config("get", "proview_stay_logged_in_details"))[1],
-                            username: `${window.location.href.split("//")[1].split(".")[0]}/${JSON.parse(config("get", "proview_stay_logged_in_details"))[0]}`,
+                            password: details[1],
+                            username: `${window.location.href.split("//")[1].split(".")[0]}/${details[0]}`,
                         }}),
-                        success: function (json) {
-                            if (json.response.code == "OK") {
-                                let token = json.response.user.token;
-
-                                json.response.token = token;
-                                json.response.user.id = json.response.user.userid;
+                        success: (json) => {
+                            if (json.response.code == "OK" && details.length == 2 && isEmpty(config("get", "proview_stay_logged_in_details"))) {
+                                config("set", "proview_stay_logged_in_details", JSON.stringify(details));
+                                debug_logger("Saved login details", 1);
                                 
-                                delete json.response.user.token;
-                                delete json.response.code;
-                                delete json.response.user.userid;
-                        
-                                config("set", "session", JSON.stringify(json.response));
-
-                                window.location.href = "/student/home/courses";
-                            } 
+                                // Reload so we don't need them to logout/login twice
+                                window.location.reload();
+                                window.location.href = "/login";
+                            }
                         }
                     })
-
-                    debug_logger("Automatically logging in", 4);
-                }
-            
-                // Get details (if they don't exist)
-                if (is_page("login") && isEmpty(config("get", "proview_stay_logged_in_details"))) {
-                    $("mat-toolbar button[type=\"submit\"]").on("mousedown", function () {
-                        let details = [];
-                        $.each($(".login-fields mat-form-field input"), function () {
-                            if ($(this).val() != "" && details.length != 2)
-                                details.push($(this).val());
-                        })
-
-                        // Check if valid
-                        $.ajax({
-                            url: api("/cmd"),
-                            method: "POST",
-                            dataType: "json",
-                            contentType: "application/json; charset=utf-8",
-                            data: JSON.stringify({"request": {
-                                cmd: "login3",
-                                expireseconds: "-1",
-                                password: details[1],
-                                username: `${window.location.href.split("//")[1].split(".")[0]}/${details[0]}`,
-                            }}),
-                            success: (json) => {
-                                if (json.response.code == "OK" && details.length == 2 && isEmpty(config("get", "proview_stay_logged_in_details"))) {
-                                    config("set", "proview_stay_logged_in_details", JSON.stringify(details));
-                                    debug_logger("Saved login details", 1);
-                                }
-                            }
-                        })
-                    });
-                }
+                });
             }
 
             $(".cdk-overlay-container:has(.cdk-overlay-pane app-session-lost)").remove();
