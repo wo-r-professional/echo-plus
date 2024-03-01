@@ -63,8 +63,10 @@
             method: "get",
             dataType: "text",
             success: async function(text) {
-                if (!$("head #proview-css").length)
-                    await $("head").prepend("<style id=\"proview-css\"></style>");
+                if (!$("body #proview-css").length)
+                    await $("body").prepend("<style id=\"proview-css\"></style>");
+                else
+                    return;
 
                 await $.each(text.match(/@import\s+(?!url\(\s*['"]?https:\/\/[^'"\)]+['"]?\)\s*;)\s*(?:url\()?\s*['"]?([^'"\)]+)['"]?\)?[^;]*;/g), (index, object) => {
                     $.ajax({
@@ -78,10 +80,10 @@
                             rooted_text = rooted_text.replace(/\/\*[\s\S]*?\*\/|\/\*\*[\s\S]*?\*\//g, "");
                             text = `${text.trim()} ${rooted_text.trim()}`;
 
-                            if (text == $("head #proview-css").text())
+                            if (text == $("body #proview-css").text())
                                 return;
 
-                            $("head #proview-css").text(text);
+                            $("body #proview-css").text(text);
                         }
                     });
                 });
@@ -148,10 +150,9 @@
                 $(`body:has(lib-activity-stream) .cdk-overlay-container .cdk-overlay-pane mat-option:has(span:contains(${this}))`).remove();
                 $(`app-calendar .calendar-ct mat-selection-list mat-list-option:has(.mat-mdc-list-item-title:contains(${this}))`).remove();
             })
-        })}).observe($("body app-root")[0], { childList: true, subtree: true });
+        })}).observe($("body")[0], { childList: true, subtree: true });
     }
 
-    
     // Features that I don't think need its own options for.
     if (is_true_by_string(config("get", "proview_quality_features"))) {
         // Change <base> to have href="/" and target="_blank" to open links in new tabs.
@@ -192,7 +193,7 @@
                             else if (true_score >= 80)
                                 score_color = "pass-color";
                             else if (true_score < 80 && true_score > 60) {
-                                $("body").css("--warn-color", "#ffd34d");
+                                $("body").css("--warn-color", "#fdae61");
                                 score_color = "warn-color";
                             }
                             else if (true_score < 60)
@@ -228,17 +229,55 @@
         })}).observe($("body app-root")[0], { childList: true });
         debug_logger(`Actively looking for scores`, 4); // no spam plz
     }
-    
+
     // Checks for login details, then it uses those details to create a login session that last forever.
     if (is_true_by_string(config("get", "proview_stay_logged_in"))) {
         new MutationObserver((mutations) => {mutations.forEach(() => {
-            if ((window.location.href === window.location.origin + '/' || is_page("login")) && !isEmpty(config("get", "session"))) {
-                window.location.href = config("get", "proview_last_set_url");
-            } else {
-                if (!(window.location.href === window.location.origin + '/' || is_page("login")))
-                    config("set", "proview_last_set_url",  window.location.href);
-                
-                if (!isEmpty($("body:has(app-before-login)")) && !isEmpty(config("get", "proview_stay_logged_in_details"))) {
+            if (!(window.location.href === window.location.origin + '/' || is_page("login")))
+                config("set", "proview_last_set_url",  window.location.href);
+            
+            if (!isEmpty($("body:has(app-before-login)")) && !isEmpty(config("get", "proview_stay_logged_in_details"))) {
+                $.ajax({
+                    url: api("/cmd"),
+                    method: "POST",
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify({"request": {
+                        cmd: "login3",
+                        expireseconds: "-999",
+                        newsession: true,
+                        password: JSON.parse(config("get", "proview_stay_logged_in_details"))[1],
+                        username: `${window.location.href.split("//")[1].split(".")[0]}/${JSON.parse(config("get", "proview_stay_logged_in_details"))[0]}`,
+                    }}),
+                    success: function (json) {
+                        console.log(json)
+                        if (json.response.code == "OK") {
+                            let token = json.response.user.token;
+                            json.response.token = token;
+                            json.response.user.id = json.response.user.userid;
+                            
+                            delete json.response.user.token;
+                            delete json.response.code;
+                            delete json.response.user.userid;
+                            
+                            config("set", "session", JSON.stringify(json.response));
+                            window.location.href = config("get", "proview_last_set_url");
+                        } 
+                    }
+                })
+                debug_logger("Automatically logging in", 4);
+            }
+        
+            // Get details (if they don't exist)
+            if ((window.location.href === window.location.origin + '/' || is_page("login")) && isEmpty(config("get", "proview_stay_logged_in_details"))) {
+                $("mat-toolbar button[type=\"submit\"]").on("mousedown", function () {
+                    let details = [];
+                    $.each($(".login-fields mat-form-field input"), function () {
+                        if ($(this).val() != "" && details.length != 2)
+                            details.push($(this).val());
+                    })
+
+                    // Check if valid
                     $.ajax({
                         url: api("/cmd"),
                         method: "POST",
@@ -246,64 +285,26 @@
                         contentType: "application/json; charset=utf-8",
                         data: JSON.stringify({"request": {
                             cmd: "login3",
-                            expireseconds: "-1",
-                            password: JSON.parse(config("get", "proview_stay_logged_in_details"))[1],
-                            username: `${window.location.href.split("//")[1].split(".")[0]}/${JSON.parse(config("get", "proview_stay_logged_in_details"))[0]}`,
+                            password: details[1],
+                            username: `${window.location.href.split("//")[1].split(".")[0]}/${details[0]}`,
                         }}),
-                        success: function (json) {
-                            if (json.response.code == "OK") {
-                                let token = json.response.user.token;
-
-                                json.response.token = token;
-                                json.response.user.id = json.response.user.userid;
+                        success: (json) => {
+                            if (json.response.code == "OK" && details.length == 2 && isEmpty(config("get", "proview_stay_logged_in_details"))) {
+                                config("set", "proview_stay_logged_in_details", JSON.stringify(details));
+                                debug_logger("Saved login details", 1);
                                 
-                                delete json.response.user.token;
-                                delete json.response.code;
-                                delete json.response.user.userid;
-                        
-                                config("set", "session", JSON.stringify(json.response));
-
-                                window.location.href = "/student/home/courses";
-                            } 
+                                // Reload so we don't need them to logout/login twice
+                                window.location.reload();
+                                window.location.href = "/login";
+                            }
                         }
                     })
-
-                    debug_logger("Automatically logging in", 4);
-                }
-            
-                // Get details (if they don't exist)
-                if (is_page("login") && isEmpty(config("get", "proview_stay_logged_in_details"))) {
-                    $("mat-toolbar button[type=\"submit\"]").on("mousedown", function () {
-                        let details = [];
-                        $.each($(".login-fields mat-form-field input"), function () {
-                            if ($(this).val() != "" && details.length != 2)
-                                details.push($(this).val());
-                        })
-
-                        // Check if valid
-                        $.ajax({
-                            url: api("/cmd"),
-                            method: "POST",
-                            dataType: "json",
-                            contentType: "application/json; charset=utf-8",
-                            data: JSON.stringify({"request": {
-                                cmd: "login3",
-                                expireseconds: "-1",
-                                password: details[1],
-                                username: `${window.location.href.split("//")[1].split(".")[0]}/${details[0]}`,
-                            }}),
-                            success: (json) => {
-                                if (json.response.code == "OK" && details.length == 2 && isEmpty(config("get", "proview_stay_logged_in_details"))) {
-                                    config("set", "proview_stay_logged_in_details", JSON.stringify(details));
-                                    debug_logger("Saved login details", 1);
-                                }
-                            }
-                        })
-                    });
-                }
+                });
             }
-        })}).observe($("body app-root")[0], { childList: true });
+
+            $(".cdk-overlay-container:has(.cdk-overlay-pane app-session-lost)").empty();
+        })}).observe($("body")[0], { childList: true, subtree: true });
     } 
     else
-        config("remove", "proview_stay_logged_in");
+        config("remove", "proview_stay_logged_in_details");
 })();
