@@ -343,7 +343,7 @@ mat-card {
 }
 
 .mdc-snackbar__surface .mdc-snackbar__label {
-    color: var(--opposite-text-color) !important;
+    color: var(--text-color) !important;
 }
 
 .cdk-overlay-pane .mat-mdc-menu-panel,
