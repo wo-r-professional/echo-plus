@@ -141,12 +141,17 @@
     if (!isEmpty(JSON.parse(config("get", "proview_hide_courses"))[0])) {
         new MutationObserver(function (mutations) {mutations.forEach(function () {
             $.each(JSON.parse(config("get", "proview_hide_courses")), function () {
+                // Idk how I let this slip.
+                if (this == "")
+                    return;
+
                 $(`app-student-home-tabs app-student-courses .grid-ct mat-card:has(h2:contains(${this}))`).remove();
                 $(`app-gradebook-home mat-row:has(mat-cell a:contains("${this}"))`).remove();
                 $(`.cdk-overlay-container .cdk-overlay-pane mat-dialog-content .enrollment-list li:has(.course-title:contains(${this}))`).remove();
                 $(`app-order-courses .cdk-drag:has(h3:contains(${this}))`).remove();
                 $(`app-student-nav .course-menu .mat-mdc-list-item:has(.course-title:contains(${this}))`).remove();
                 $(`body:has(lib-activity-stream) .cdk-overlay-container .cdk-overlay-pane mat-option:has(span:contains(${this}))`).remove();
+                $(`app-gradebook-home mat-tab-body mat-table mat-row mat-cell:has(a) a:contains(${this})`).remove()
                 $(`app-calendar .calendar-ct mat-selection-list mat-list-option:has(.mat-mdc-list-item-title:contains(${this}))`).remove();
             })
         })}).observe($("body")[0], { childList: true, subtree: true });
