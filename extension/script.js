@@ -1,5 +1,5 @@
 /**
- * Proview for Echo by Wo-r
+ * Echo+ by Wo-r
  * A simple yet helpful extension that changes many features and adds new ones to make
  * your experience using Echo the best it could possibly be.
  *
@@ -10,8 +10,8 @@
  * the code as long as they provide attribution back to the author and don’t hold the author liable. This encourages 
  * use and reuse in both commercial and open-source software.
  *
- * Repository: https://github.com/wo-r-professional/proview-for-echo
- * Documentation: https://github.com/wo-r-professional/proview-for-echo/wiki
+ * Repository: https://github.com/wo-r-professional/echo-plus
+ * Documentation: https://github.com/wo-r-professional/echo-plus/wiki
  * 
  * Dependencies: jQuery (v3.7.1), helper.js, settings.js
  */
@@ -58,7 +58,7 @@
     // in debug mode or public mode.
     if (is_true_by_string(config("get", "proview_stylesheets"))) {
         $.ajax({
-            url: debugging ? browser.extension.getURL("resource/stylesheet/main.css") : "https://raw.githubusercontent.com/wo-r-professional/proview-for-echo/main/extension/resource/stylesheet/main.css",
+            url: debugging ? browser.extension.getURL("resource/stylesheet/main.css") : "https://raw.githubusercontent.com/wo-r-professional/echo-plus/main/extension/resource/stylesheet/main.css",
             method: "get",
             dataType: "text",
             success: async function(text) {
@@ -69,7 +69,7 @@
 
                 await $.each(text.match(/@import\s+(?!url\(\s*['"]?https:\/\/[^'"\)]+['"]?\)\s*;)\s*(?:url\()?\s*['"]?([^'"\)]+)['"]?\)?[^;]*;/g), (index, object) => {
                     $.ajax({
-                        url: debugging ? browser.extension.getURL(`resource/stylesheet/${object.match(/@import\s+url\("([^"]+)"\);/, "")[1]}`) : `https://raw.githubusercontent.com/wo-r-professional/proview-for-echo/main/extension/resource/stylesheet/${object.match(/@import\s+url\("([^"]+)"\);/, "")[1]}`,
+                        url: debugging ? browser.extension.getURL(`resource/stylesheet/${object.match(/@import\s+url\("([^"]+)"\);/, "")[1]}`) : `https://raw.githubusercontent.com/wo-r-professional/echo-plus/main/extension/resource/stylesheet/${object.match(/@import\s+url\("([^"]+)"\);/, "")[1]}`,
                         method: 'get',
                         dataType: 'text',
                         success: (rooted_text) => {

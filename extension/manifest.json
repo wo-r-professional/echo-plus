@@ -1,8 +1,8 @@
 {
     "manifest_version": 2,
-    "version": "0.3.5",
+    "version": "0.3.6",
     "author": "wo-r",
-    "name": "proview for echo",
+    "name": "Echo+",
     "description": "An extension for Echo that implements fixes, features, and redesigns, all aimed at enhancing the overall experience of using Echo.",
 
     "icons": {
@@ -13,7 +13,7 @@
 
     "browser_specific_settings": {
         "gecko": {
-            "id": "proview@echo-ntn.org",
+            "id": "echo-plus@echo-ntn.org",
             "strict_min_version": "48.0"
         }
     },

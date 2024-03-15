@@ -1,5 +1,5 @@
 /**
- * Proview for Echo by Wo-r
+ * Echo+ by Wo-r
  * A simple yet helpful extension that changes many features and adds new ones to make
  * your experience using Echo the best it could possibly be.
  *
@@ -10,8 +10,8 @@
  * the code as long as they provide attribution back to the author and don’t hold the author liable. This encourages 
  * use and reuse in both commercial and open-source software.
  *
- * Repository: https://github.com/wo-r-professional/proview-for-echo/
- * Documentation: https://github.com/wo-r-professional/proview-for-echo/wiki
+ * Repository: https://github.com/wo-r-professional/echo-plus/
+ * Documentation: https://github.com/wo-r-professional/echo-plus/wiki
  * 
  * Dependencies: jQuery (v3.7.1), helper.js
  */
@@ -86,7 +86,7 @@
                     </p>
                     <mat-card-subtitle class="mat-mdc-card-subtitle">
                         <div style="display: flex; justify-content: space-between;">
-                            <span>Proview settings</span>
+                            <span>Echo+ settings</span>
                             <span>v${browser.runtime.getManifest().version}</span>
                         </div>
                     </mat-card-subtitle>
@@ -228,9 +228,9 @@
                         <span>Links</span>
                     </mat-card-subtitle>
                     <p>
-                        <button onclick="window.open('https://github.com/wo-r-professional/proview-for-echo/', '_blank')" color="accent" class="mdc-button mdc-button--raised mat-mdc-raised-button mat-accent mat-mdc-button-base">
+                        <button onclick="window.open('https://github.com/wo-r-professional/echo-plus/', '_blank')" color="accent" class="mdc-button mdc-button--raised mat-mdc-raised-button mat-accent mat-mdc-button-base">
                             <span class="mat-mdc-button-persistent-ripple mdc-button__ripple"></span>
-                            <span class="mdc-button__label">Proview</span>
+                            <span class="mdc-button__label">Echo+</span>
                             <span class="mat-mdc-focus-indicator"></span>
                             <span class="mat-mdc-button-touch-target"></span>
                             <span class="mat-ripple mat-mdc-button-ripple"></span
@@ -242,14 +242,14 @@
                             <span class="mat-mdc-button-touch-target"></span>
                             <span class="mat-ripple mat-mdc-button-ripple"></span
                         </button>
-                        <button onclick="window.open('https://github.com/wo-r-professional/proview-for-echo/wiki', '_blank')" color="accent" class="mdc-button mdc-button--raised mat-mdc-raised-button mat-accent mat-mdc-button-base">
+                        <button onclick="window.open('https://github.com/wo-r-professional/echo-plus/wiki', '_blank')" color="accent" class="mdc-button mdc-button--raised mat-mdc-raised-button mat-accent mat-mdc-button-base">
                             <span class="mat-mdc-button-persistent-ripple mdc-button__ripple"></span>
                             <span class="mdc-button__label">Documentation</span>
                             <span class="mat-mdc-focus-indicator"></span>
                             <span class="mat-mdc-button-touch-target"></span>
                             <span class="mat-ripple mat-mdc-button-ripple"></span
                         </button>
-                        <button onclick="window.open('https://github.com/wo-r-professional/proview-for-echo/issues', '_blank')" color="accent" class="mdc-button mdc-button--raised mat-mdc-raised-button mat-accent mat-mdc-button-base">
+                        <button onclick="window.open('https://github.com/wo-r-professional/echo-plus/issues', '_blank')" color="accent" class="mdc-button mdc-button--raised mat-mdc-raised-button mat-accent mat-mdc-button-base">
                             <span class="mat-mdc-button-persistent-ripple mdc-button__ripple"></span>
                             <span class="mdc-button__label">Report an issue</span>
                             <span class="mat-mdc-focus-indicator"></span>
