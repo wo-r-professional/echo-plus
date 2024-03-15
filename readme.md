@@ -2,15 +2,15 @@
 > This branch is optimized for chrome by google, make sure you are using the right branch before installing this!
 <br>
 
-# Proview for Echo
+# Echo+
 Welcome to the best extension for Echo! It offers a range of fixes, features, and redesigns, all focused on significantly enhancing the user experience. This tool is especially valuable for improving the interface of what is often seen as a poorly designed website. The site's limitations were my main motivation for developing this extension.
 
 ## Installing
 If you have experience with manually installing extensions, you'll find the process straightforward. However, for first-time users, it might seem a bit challenging. To assist, I've created a comprehensive documentation section with all the necessary information.
-* [Proview Documentation](https://github.com/wo-r/proview-for-echo/wiki)
+* [Echo+ Documentation](https://github.com/wo-r-professional/echo-plus/wiki)
 
 ## Found a bug?
-If you've found a bug or issue that needs fixing, please submit an [issue](https://github.com/wo-r/proview-for-echo/issues) with appropriate tags and context describing the problem. I will usually respond in a reasonable amount of time, so don't worry about not getting a reply.
+If you've found a bug or issue that needs fixing, please submit an [issue](https://github.com/wo-r-professional/echo-plus/issues) with appropriate tags and context describing the problem. I will usually respond in a reasonable amount of time, so don't worry about not getting a reply.
 
 <br>
 

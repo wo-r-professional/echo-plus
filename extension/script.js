@@ -1,5 +1,5 @@
 /**
- * Proview for Echo by Wo-r
+ * Echo+ by Wo-r
  * A simple yet helpful extension that changes many features and adds new ones to make
  * your experience using Echo the best it could possibly be.
  *
@@ -10,8 +10,8 @@
  * the code as long as they provide attribution back to the author and don’t hold the author liable. This encourages 
  * use and reuse in both commercial and open-source software.
  *
- * Repository: https://github.com/wo-r-professional/proview-for-echo
- * Documentation: https://github.com/wo-r-professional/proview-for-echo/wiki
+ * Repository: https://github.com/wo-r-professional/echo-plus
+ * Documentation: https://github.com/wo-r-professional/echo-plus/wiki
  * 
  * Dependencies: jQuery (v3.7.1), helper.js, settings.js
  */
@@ -19,58 +19,58 @@
     // Enforces stricter parsing and error handling in JavaScript, preventing common mistakes like using undeclared variables.
     "use strict";
 
-    // If the config key "proview_extension_first_use" does not exist,
+    // If the config key "echo-plus_extension_first_use" does not exist,
     // then we show our welcome message, set the key to false, and then set our defaults.
-    if (isEmpty(config("get", "proview_extension_first_use"))) {
+    if (isEmpty(config("get", "echo-plus_extension_first_use"))) {
         let check_session = setInterval(function () {
             if (get_details.token != undefined) {
                 clearInterval(check_session);
-                config("set", "proview_extension_first_use", true);
+                config("set", "echo-plus_extension_first_use", true);
 
                 // Get the users existing profile picture.
                 imageValid(api(`/cmd/getprofilepicture?_token=${get_details.token}&entityid=${get_details.id}`), function (avatar_exists, url) {
                     if (avatar_exists) {
                         urlRedirects(url, function (newUrl) {
-                            config("set", "proview_custom_profile_picture", newUrl);
+                            config("set", "echo-plus_custom_profile_picture", newUrl);
                             debug_logger(`Set profile picture to ${newUrl}`, 1);
                         })
                     } else {
-                        config("set", "proview_custom_profile_picture", "");
+                        config("set", "echo-plus_custom_profile_picture", "");
                         debug_logger("Could not find a profile picture!", 2);
                     }
                 });
 
                 // Set the rest to the default settings.
-                config("set", "proview_allow_extension_updates", true);
-                config("set", "proview_stay_logged_in", false);
-                config("set", "proview_stylesheets", false);
-                config("set", "proview_remove_thumbnails", false);
-                config("set", "proview_replace_standards", true);
-                config("set", "proview_quality_features", true);
-                config("set", "proview_custom_background", "");
-                config("set", "proview_hide_courses", JSON.stringify([""]));
+                config("set", "echo-plus_allow_extension_updates", true);
+                config("set", "echo-plus_stay_logged_in", false);
+                config("set", "echo-plus_stylesheets", false);
+                config("set", "echo-plus_remove_thumbnails", false);
+                config("set", "echo-plus_replace_standards", true);
+                config("set", "echo-plus_quality_features", true);
+                config("set", "echo-plus_custom_background", "");
+                config("set", "echo-plus_hide_courses", JSON.stringify([""]));
 
-                window.alert("Hey, thanks for using Proview.\n\nThis extension brings a lot of changes to Echo. We recommend that you view the documentation for this extension, the link is available on the settings page of Echo.");
+                window.alert("Hey, thanks for using Echo+.\n\nThis extension brings a lot of changes to Echo. We recommend that you view the documentation for this extension, the link is available on the settings page of Echo.");
             }
         });
     }
 
     // Reads the stylesheets either by href or by local, depending on the extensions state being
     // in debug mode or public mode.
-    if (is_true_by_string(config("get", "proview_stylesheets"))) {
+    if (is_true_by_string(config("get", "echo-plus_stylesheets"))) {
         $.ajax({
-            url: "https://raw.githubusercontent.com/wo-r-professional/proview-for-echo/main/extension/resource/stylesheet/main.css",
+            url: "https://raw.githubusercontent.com/wo-r-professional/echo-plus/main/extension/resource/stylesheet/main.css",
             method: "get",
             dataType: "text",
             success: async function(text) {
-                if (!$("body #proview-css").length)
-                    await $("body").prepend("<style id=\"proview-css\"></style>");
+                if (!$("body #echo-plus-css").length)
+                    await $("body").prepend("<style id=\"echo-plus-css\"></style>");
                 else
                     return;
 
                 await $.each(text.match(/@import\s+(?!url\(\s*['"]?https:\/\/[^'"\)]+['"]?\)\s*;)\s*(?:url\()?\s*['"]?([^'"\)]+)['"]?\)?[^;]*;/g), (index, object) => {
                     $.ajax({
-                        url: `https://raw.githubusercontent.com/wo-r-professional/proview-for-echo/main/extension/resource/stylesheet/${object.match(/@import\s+url\("([^"]+)"\);/, "")[1]}`,
+                        url: `https://raw.githubusercontent.com/wo-r-professional/echo-plus/main/extension/resource/stylesheet/${object.match(/@import\s+url\("([^"]+)"\);/, "")[1]}`,
                         method: 'get',
                         dataType: 'text',
                         success: (rooted_text) => {
@@ -80,27 +80,27 @@
                             rooted_text = rooted_text.replace(/\/\*[\s\S]*?\*\/|\/\*\*[\s\S]*?\*\//g, "");
                             text = `${text.trim()} ${rooted_text.trim()}`;
 
-                            if (text == $("body #proview-css").text())
+                            if (text == $("body #echo-plus-css").text())
                                 return;
 
-                            $("body #proview-css").text(text);
+                            $("body #echo-plus-css").text(text);
                         }
                     });
                 });
 
-                debug_logger(`Wrote stylesheet content to \"#proview-css\"`, 1)
+                debug_logger(`Wrote stylesheet content to \"#echo-plus-css\"`, 1)
             }
         });
 
-        if (config("get", "proview_custom_background") != "")
-            $("body").css("--custom-background", `url("${config("get", "proview_custom_background")}")`);
+        if (config("get", "echo-plus_custom_background") != "")
+            $("body").css("--custom-background", `url("${config("get", "echo-plus_custom_background")}")`);
 
-        if (is_true_by_string(config("get", "proview_remove_thumbnails")))
+        if (is_true_by_string(config("get", "echo-plus_remove_thumbnails")))
             $("body").css("--remove-thumbnails", "none");
     }
 
     // Add custom background if stylesheets is not on
-    if (!is_true_by_string(config("get", "proview_stylesheets")) && config("get", "proview_custom_background") != "") {
+    if (!is_true_by_string(config("get", "echo-plus_stylesheets")) && config("get", "echo-plus_custom_background") != "") {
         $("head").append(`
             <style>
                 :is(
@@ -115,7 +115,7 @@
                     app-student-grades .main,
                     app-badges
                 ){                
-                    background-image: url("${config("get", "proview_custom_background")}") !important;
+                    background-image: url("${config("get", "echo-plus_custom_background")}") !important;
                     background-size: 100% 100% !important;
                     background-repeat: no-repeat !important;
                 }
@@ -124,7 +124,7 @@
     }
     
     // Remove thumbnails if stylesheets is not on
-    if (!is_true_by_string(config("get", "proview_stylesheets")) && is_true_by_string(config("get", "proview_remove_thumbnails"))) {
+    if (!is_true_by_string(config("get", "echo-plus_stylesheets")) && is_true_by_string(config("get", "echo-plus_remove_thumbnails"))) {
         $("head").append(`
             <style>
                 app-student-courses mat-card .course-card-image {
@@ -139,9 +139,9 @@
     }
     
     // Hides courses from the course page if the value from config matches it
-    if (!isEmpty(JSON.parse(config("get", "proview_hide_courses"))[0])) {
+    if (!isEmpty(JSON.parse(config("get", "echo-plus_hide_courses"))[0])) {
         new MutationObserver(function (mutations) {mutations.forEach(function () {
-            $.each(JSON.parse(config("get", "proview_hide_courses")), function () {
+            $.each(JSON.parse(config("get", "echo-plus_hide_courses")), function () {
                 $(`app-student-home-tabs app-student-courses .grid-ct mat-card:has(h2:contains(${this}))`).remove();
                 $(`app-gradebook-home mat-row:has(mat-cell a:contains("${this}"))`).remove();
                 $(`.cdk-overlay-container .cdk-overlay-pane mat-dialog-content .enrollment-list li:has(.course-title:contains(${this}))`).remove();
@@ -154,14 +154,14 @@
     }
 
     // Features that I don't think need its own options for.
-    if (is_true_by_string(config("get", "proview_quality_features"))) {
+    if (is_true_by_string(config("get", "echo-plus_quality_features"))) {
         // Change <base> to have href="/" and target="_blank" to open links in new tabs.
         $(window).on("click keydown mousedown", function () {
-            if ($("head #proview-base-change").length)
+            if ($("head #echo-plus-base-change").length)
                 return;
 
             $("head base").remove();
-            $("head").append(`<base id="proview-base-change" href="/" target="_blank">`);
+            $("head").append(`<base id="echo-plus-base-change" href="/" target="_blank">`);
         })
 
         // Re-enable all disabled buttons, inputs, and checkboxes.
@@ -175,7 +175,7 @@
     }
 
     // Finds any instance of scores and replaces them.
-    if (is_true_by_string(config("get", "proview_replace_standards"))) {
+    if (is_true_by_string(config("get", "echo-plus_replace_standards"))) {
         new MutationObserver((mutations) => {mutations.forEach(() => {
             $.ajax({
                 url: api(`/cmd/listuserenrollments?_token=${get_details.token}&userid=${get_details.id}&privileges=1&select=data,course,course.data,course.teachers,metrics`),
@@ -231,12 +231,12 @@
     }
 
     // Checks for login details, then it uses those details to create a login session that last forever.
-    if (is_true_by_string(config("get", "proview_stay_logged_in"))) {
+    if (is_true_by_string(config("get", "echo-plus_stay_logged_in"))) {
         new MutationObserver((mutations) => {mutations.forEach(() => {
             if (!(window.location.href === window.location.origin + '/' || is_page("login")))
-                config("set", "proview_last_set_url",  window.location.href);
+                config("set", "echo-plus_last_set_url",  window.location.href);
             
-            if (!isEmpty($("body:has(app-before-login)")) && !isEmpty(config("get", "proview_stay_logged_in_details"))) {
+            if (!isEmpty($("body:has(app-before-login)")) && !isEmpty(config("get", "echo-plus_stay_logged_in_details"))) {
                 $.ajax({
                     url: api("/cmd"),
                     method: "POST",
@@ -246,8 +246,8 @@
                         cmd: "login3",
                         expireseconds: "-999",
                         newsession: true,
-                        password: JSON.parse(config("get", "proview_stay_logged_in_details"))[1],
-                        username: `${window.location.href.split("//")[1].split(".")[0]}/${JSON.parse(config("get", "proview_stay_logged_in_details"))[0]}`,
+                        password: JSON.parse(config("get", "echo-plus_stay_logged_in_details"))[1],
+                        username: `${window.location.href.split("//")[1].split(".")[0]}/${JSON.parse(config("get", "echo-plus_stay_logged_in_details"))[0]}`,
                     }}),
                     success: function (json) {
                         console.log(json)
@@ -261,7 +261,7 @@
                             delete json.response.user.userid;
                             
                             config("set", "session", JSON.stringify(json.response));
-                            window.location.href = config("get", "proview_last_set_url");
+                            window.location.href = config("get", "echo-plus_last_set_url");
                         } 
                     }
                 })
@@ -269,7 +269,7 @@
             }
         
             // Get details (if they don't exist)
-            if ((window.location.href === window.location.origin + '/' || is_page("login")) && isEmpty(config("get", "proview_stay_logged_in_details"))) {
+            if ((window.location.href === window.location.origin + '/' || is_page("login")) && isEmpty(config("get", "echo-plus_stay_logged_in_details"))) {
                 $("mat-toolbar button[type=\"submit\"]").on("mousedown", function () {
                     let details = [];
                     $.each($(".login-fields mat-form-field input"), function () {
@@ -289,8 +289,8 @@
                             username: `${window.location.href.split("//")[1].split(".")[0]}/${details[0]}`,
                         }}),
                         success: (json) => {
-                            if (json.response.code == "OK" && details.length == 2 && isEmpty(config("get", "proview_stay_logged_in_details"))) {
-                                config("set", "proview_stay_logged_in_details", JSON.stringify(details));
+                            if (json.response.code == "OK" && details.length == 2 && isEmpty(config("get", "echo-plus_stay_logged_in_details"))) {
+                                config("set", "echo-plus_stay_logged_in_details", JSON.stringify(details));
                                 debug_logger("Saved login details", 1);
                                 
                                 // Reload so we don't need them to logout/login twice
@@ -306,5 +306,5 @@
         })}).observe($("body")[0], { childList: true, subtree: true });
     } 
     else
-        config("remove", "proview_stay_logged_in_details");
+        config("remove", "echo-plus_stay_logged_in_details");
 })();
