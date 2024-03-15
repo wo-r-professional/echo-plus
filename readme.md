@@ -7,7 +7,7 @@ Welcome to the best extension for Echo! It offers a range of fixes, features, an
 
 ## Installing
 If you have experience with manually installing extensions, you'll find the process straightforward. However, for first-time users, it might seem a bit challenging. To assist, I've created a comprehensive documentation section with all the necessary information.
-* [Proview Documentation](https://github.com/wo-r-professional/echo-plus/wiki)
+* [Echo+ Documentation](https://github.com/wo-r-professional/echo-plus/wiki)
 
 ## Found a bug?
 If you've found a bug or issue that needs fixing, please submit an [issue](https://github.com/wo-r-professional/echo-plus/issues) with appropriate tags and context describing the problem. I will usually respond in a reasonable amount of time, so don't worry about not getting a reply.

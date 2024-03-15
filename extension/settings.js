@@ -20,7 +20,7 @@
     "use strict";
 
     new MutationObserver((mutations) => {mutations.forEach(async () => {
-        if (!is_page("setting") || !isEmpty($("#proview-settings")))
+        if (!is_page("setting") || !isEmpty($("#echo-plus-settings")))
             return;
 
         // Change the ids of the inputs that exist in the first card.
@@ -38,9 +38,9 @@
             // XXX: This is a scary part of the extension, which is why I am warning that I'm not at fault for
             //      someone elses foolish mistakes of using this incorrectly.
             $("#firstname, #lastname, #username, #email").on("keydown input", function () {
-                if (isEmpty(config("get", "proview_has_warned_for_self"))) {
+                if (isEmpty(config("get", "echo-plus_has_warned_for_self"))) {
                     window.alert("I see you want to edit your account details. I must warn you that changing these details can get you in trouble, depending on what you change them to.\n\nFor example, changing your name to lowercase or altering your email may be okay. However, if you change your username or make your name unrecognizable to others, you may get in trouble.\n\nPlease take these options seriously. I mean it.");
-                    config("set", "proview_has_warned_for_self", true);
+                    config("set", "echo-plus_has_warned_for_self", true);
                 }
             })
         }
@@ -78,9 +78,9 @@
         }
 
         // Append the rest of the settings to the last card.
-        if (!isEmpty($("app-settings form .outer .grid .mdc-card:last-child()")) && isEmpty($("#proview-settings"))) {
+        if (!isEmpty($("app-settings form .outer .grid .mdc-card:last-child()")) && isEmpty($("#echo-plus-settings"))) {
             await $("app-settings form .outer .grid .mdc-card:last-child() mat-card-content").append(`
-                <div id="proview-settings">
+                <div id="echo-plus-settings">
                     <p>
                         <mat-divider class="mat-divider subsection-divider mat-divider-horizontal"></mat-divider>
                     </p>
@@ -266,28 +266,28 @@
                     </p>
                 </div>
                 <style>
-                    #proview-settings {
+                    #echo-plus-settings {
                         display: flex;
                         flex-direction: column;
                     }
 
-                    #proview-settings mat-form-field:has(#custom_background) {
+                    #echo-plus-settings mat-form-field:has(#custom_background) {
                         padding: 0 0 1rem !important;
                     }
 
-                    #proview-settings p:has(mat-divider) {
+                    #echo-plus-settings p:has(mat-divider) {
                         margin: unset !important;
                     }
 
-                    #proview-settings p mat-divider {
+                    #echo-plus-settings p mat-divider {
                         margin: 20px -16px;
                     }
 
-                    #proview-settings mat-form-field {
+                    #echo-plus-settings mat-form-field {
                         width: 100%;
                     }
 
-                    #proview-settings span:has(b) {
+                    #echo-plus-settings span:has(b) {
                         padding: 1rem 0 0 !important;
                     }
 
@@ -296,14 +296,14 @@
                         pointer-events: none;
                     }
 
-                    #proview-settings #custom_background {
+                    #echo-plus-settings #custom_background {
                         width: 100%;
                         display: flex;
                         gap: .5rem .5rem;
                         flex-wrap: wrap;
                     }
 
-                    #proview-settings p:last-child {
+                    #echo-plus-settings p:last-child {
                         display: flex;
                         gap: .5rem;
                         flex-wrap: wrap;
@@ -315,15 +315,15 @@
                   
             // Prop the settings, so they match what has been set in config.
             try {
-                $("#stay_logged_in").prop("checked", config("get", "proview_stay_logged_in") === "true");
-                $("#custom_pfp").prop("value", config("get", "proview_custom_profile_picture"));
-                $("#custom_styles").prop("checked", config("get", "proview_stylesheets") === "true");
-                $("#remove_thumbnails").prop("checked", config("get", "proview_remove_thumbnails") === "true");
-                $("#replace_standards").prop("checked", config("get", "proview_replace_standards") === "true");
-                $("#quality_features").prop("checked", config("get", "proview_quality_features") === "true");
-                $("#custom_background").prop("value", config("get", "proview_custom_background"));
-                if (!isEmpty(config("get", "proview_hide_courses")))
-                    $("#hide_courses").prop("value", JSON.parse(config("get", "proview_hide_courses")).join(", "));
+                $("#stay_logged_in").prop("checked", config("get", "echo-plus_stay_logged_in") === "true");
+                $("#custom_pfp").prop("value", config("get", "echo-plus_custom_profile_picture"));
+                $("#custom_styles").prop("checked", config("get", "echo-plus_stylesheets") === "true");
+                $("#remove_thumbnails").prop("checked", config("get", "echo-plus_remove_thumbnails") === "true");
+                $("#replace_standards").prop("checked", config("get", "echo-plus_replace_standards") === "true");
+                $("#quality_features").prop("checked", config("get", "echo-plus_quality_features") === "true");
+                $("#custom_background").prop("value", config("get", "echo-plus_custom_background"));
+                if (!isEmpty(config("get", "echo-plus_hide_courses")))
+                    $("#hide_courses").prop("value", JSON.parse(config("get", "echo-plus_hide_courses")).join(", "));
             } catch (e) {
                 console.error(e);
             }
@@ -333,13 +333,13 @@
             // Once "Save" is clicked, save all changes done to settings.
             $("app-settings mat-toolbar button:last-child").on("mousedown mouseup", async function (event) {
                 try {
-                    config("set", "proview_stay_logged_in", $("#stay_logged_in").prop("checked"));
-                    config("set", "proview_stylesheets", $("#custom_styles").prop("checked"));
-                    config("set", "proview_remove_thumbnails", $("#remove_thumbnails").prop("checked"));
-                    config("set", "proview_replace_standards", $("#replace_standards").prop("checked"));
-                    config("set", "proview_quality_features", $("#quality_features").prop("checked"));
-                    config("set", "proview_custom_background", $("#custom_background").val());
-                    config("set", "proview_hide_courses", JSON.stringify($("#hide_courses").val().split(",").map(item => item.trim())));
+                    config("set", "echo-plus_stay_logged_in", $("#stay_logged_in").prop("checked"));
+                    config("set", "echo-plus_stylesheets", $("#custom_styles").prop("checked"));
+                    config("set", "echo-plus_remove_thumbnails", $("#remove_thumbnails").prop("checked"));
+                    config("set", "echo-plus_replace_standards", $("#replace_standards").prop("checked"));
+                    config("set", "echo-plus_quality_features", $("#quality_features").prop("checked"));
+                    config("set", "echo-plus_custom_background", $("#custom_background").val());
+                    config("set", "echo-plus_hide_courses", JSON.stringify($("#hide_courses").val().split(",").map(item => item.trim())));
                 } catch (e) {
                     console.error(e)
                 }
@@ -350,9 +350,9 @@
                 }
 
                 if (!isEmpty($("#custom_pfp").val())) {
-                    if (config("get", "proview_custom_profile_picture") != $("#custom_pfp").val()) {
+                    if (config("get", "echo-plus_custom_profile_picture") != $("#custom_pfp").val()) {
                         self.data.profilepicture = {"$value": $("#custom_pfp").val()};
-                        config("set", "proview_custom_profile_picture", $("#custom_pfp").val());
+                        config("set", "echo-plus_custom_profile_picture", $("#custom_pfp").val());
                     }
                 }
 

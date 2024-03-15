@@ -16,11 +16,11 @@ It needs to have the following included:
 
 Example:
 
-Issue title: Help! Proview can't access github.com
+Issue title: Help! Echo+ can't access github.com
 Contents:
 Version: `v0.2.9`
 
-For some reason Proview cannot access github? The stylesheets won't work because of it. It seems to only happen when on this part of echo `https://example.com`.
+For some reason Echo+ cannot access github? The stylesheets won't work because of it. It seems to only happen when on this part of echo `https://example.com`.
 
 Console (these do not relate to the example, they are just placeholder): 
 ```text

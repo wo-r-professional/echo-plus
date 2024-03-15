@@ -8,7 +8,7 @@ let debugging = false;
  */
 function debug_logger(message, type, using = "") {
     if (debugging) {
-        const prefix = '%c[PROVIEW]';
+        const prefix = '%c[ECHO+]';
 
         switch(type) {
             case 2:
